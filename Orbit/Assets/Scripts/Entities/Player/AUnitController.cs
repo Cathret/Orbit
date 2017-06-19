@@ -9,6 +9,7 @@ namespace Orbit.Entity
         {
             get { return _price; }
         }
+
         [SerializeField]
         private uint _price;
         #endregion
