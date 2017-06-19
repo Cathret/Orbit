@@ -10,8 +10,8 @@ public class CameraController : MonoBehaviour
     private GameGrid _grid;
 
     [SerializeField]
-    private float _speed;
-    public uint Padding;
+    private float _speed = 20.0f;
+    public uint Padding = 2;
 
     private Vector3 _targetPosition;
     private float _targetOrthographicSize;
@@ -54,15 +54,12 @@ public class CameraController : MonoBehaviour
 
         float largeSide = (_grid.EfficientSide + Padding) * cellSize;
 
-        float max = -1;
+        float ratioWidth = largeSide / width;
+        float ratioHeight = largeSide / height;
 
-        float ratioLeft = largeSide / width;
-        max = ratioLeft > max ? ratioLeft : max;
-
-        float ratioRight = largeSide / height;
-        max = ratioRight > max ? ratioRight : max;
+        float ratio = ratioWidth > ratioHeight ? ratioWidth : ratioHeight;
 
         _targetPosition = new Vector3(_grid.CenterX * cellSize, _grid.CenterY * cellSize, _fixedZ);
-        _targetOrthographicSize = _mainCamera.orthographicSize * max;
+        _targetOrthographicSize = _mainCamera.orthographicSize * ratio;
     }
 }

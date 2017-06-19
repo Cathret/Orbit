@@ -36,28 +36,36 @@ public class GameGrid : MonoBehaviour
 
     private GameCell[,] _grid;
 
+    void Awake()
+    {
+        transform.position = new Vector3(0, 0, 0);
+    }
+
     // Use this for initialization
     void Start ()
     {
         _grid = new GameCell[Side, Side];
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public void SetCellPosition(GameCell cell, uint x, uint y)
+    {
+        _grid[x, y] = cell;
+        if (!cell)
+            return;
+
+        cell.SetPosition(this, x, y);
+        cell.Connected = true;
+    }
 
     //TODO: Check if cell is a prefab
-    public void AddCase ( uint x, uint y, GameCell cell )
+    public void AddCase (GameCell cell, uint x, uint y )
     {
+        if (!cell)
+            return;
+
         if (IsConnected(x, y))
         {
-            _grid[x, y] = cell;
-            Vector3 position = new Vector3(x * CellSize, y * CellSize);
-            cell.transform.position = position;
-            cell.X = x;
-            cell.Y = y;
-            cell.connected = true;
+            SetCellPosition(cell, x, y);
 
             if (OnLayoutChanged != null)
                 OnLayoutChanged();
@@ -68,6 +76,9 @@ public class GameGrid : MonoBehaviour
 
     public bool IsConnected(uint x, uint y)
     {
+        if (!_grid[x, y])
+            return false;
+
         bool result = false;
 
         if ( x < Side - 1)
@@ -112,7 +123,7 @@ public class GameGrid : MonoBehaviour
                 topRightX = x > topRightX ? x : topRightX;
                 topRightY = y > topRightY ? y : topRightY;
 
-                _grid[x, y].connected = IsConnected(x, y);
+                _grid[x, y].Connected = IsConnected(x, y);
             }
         }
 
@@ -127,5 +138,41 @@ public class GameGrid : MonoBehaviour
 
         EfficientSide = efficientSide;
 
+    }
+
+    public void RotateClockwise()
+    {
+        uint u = EfficientSide / 2;
+
+        for (uint x = 0; x < u; ++x)
+        {
+            for (uint y = 0; y < u; ++y)
+            {
+                GameCell tmpCell = _grid[x + CenterX, y + CenterY];
+
+                SetCellPosition(_grid[CenterX - x, y + CenterY], x + CenterX, y + CenterY);
+                SetCellPosition(_grid[CenterX - x, CenterY - y], CenterX - x, CenterY + y);
+                SetCellPosition(_grid[x + CenterX, CenterY - y], CenterX - x, CenterY - y);
+                SetCellPosition(tmpCell, x + CenterX, CenterY - y);
+            }
+        }
+    }
+
+    public void RotateReverseClockwise()
+    {
+        uint u = EfficientSide / 2;
+
+        for (uint x = 0; x < u; ++x)
+        {
+            for (uint y = 0; y < u; ++y)
+            {
+                GameCell tmpCell = _grid[x + CenterX, y + CenterY];
+
+                SetCellPosition(_grid[x + CenterX, CenterY - y], CenterX + x, CenterY + y);
+                SetCellPosition(_grid[CenterX - x, CenterY - y], CenterX + x, CenterY - y);
+                SetCellPosition(_grid[CenterX - x, y + CenterY], CenterX - x, CenterY - y);
+                SetCellPosition(tmpCell, CenterX - x, CenterY + y);
+            }
+        }
     }
 }
