@@ -10,77 +10,56 @@ public class CameraController : MonoBehaviour
     private GameGrid _grid;
 
     [SerializeField]
-    private float _speed;
-    public uint Padding;
+    private float _speed = 20.0f;
+    public uint Padding = 2;
 
+    private Vector3 _targetPosition;
     private float _targetOrthographicSize;
+    private float _fixedZ;
 
     void Awake()
     {
         _mainCamera = GetComponent<Camera>();
         _targetOrthographicSize = _mainCamera.orthographicSize;
+        _targetPosition = transform.position;
+        _fixedZ = transform.position.z;
     }
+
 	// Use this for initialization
 	void Start ()
 	{
-	    Vector3 position = _grid.gameObject.transform.position;
-	    float z = _mainCamera.transform.position.z;
-	    position.z = z;
-
-	    transform.position = position;
+	    if (_grid)
+	        _grid.OnLayoutChanged += UpdateTarget;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-	    if (!Mathf.Approximately(_mainCamera.orthographicSize, _targetOrthographicSize))
-	        Mathf.Lerp(_mainCamera.orthographicSize, _targetOrthographicSize, Time.deltaTime * _speed);
+        _mainCamera.orthographicSize = Mathf.Lerp(_mainCamera.orthographicSize, _targetOrthographicSize, Time.deltaTime * _speed);
+	    transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * _speed);
 	}
 
-    void UpdateTargetOrthoSize()
+    void UpdateTarget()
     {
-        float f = -_mainCamera.transform.position.z;
-        Vector3 center = _mainCamera.ViewportToWorldPoint(new Vector3(0.5F, 0.5F, f));
-        Vector3 bottomLeft = _mainCamera.ViewportToWorldPoint(new Vector3(0.0F, 0.0F, f));
-        Vector3 topRight = _mainCamera.ViewportToWorldPoint(new Vector3(1.0f, 1.0F, f));
+        if (!_grid)
+            return;
 
-        float left = bottomLeft.x - center.x;
-        float right = topRight.x - center.x;
-        float top = topRight.y - center.y;
-        float bottom = bottomLeft.y - center.y;
+        Vector3 bottomLeft = _mainCamera.ViewportToWorldPoint(new Vector3(0.0F, 0.0F, -_fixedZ));
+        Vector3 topRight = _mainCamera.ViewportToWorldPoint(new Vector3(1.0f, 1.0F, -_fixedZ));
 
+        float width = topRight.x - bottomLeft.x;
+        float height = topRight.y - bottomLeft.y;
 
-        uint gridEfficientPosX = _grid.EfficientPosX;
-        uint gridEfficientPosY = _grid.EfficientPosY;
-        float gridCellSize = _grid.CellSize;
+        float cellSize = _grid.CellSize;
 
-        Vector2 targetBottomLeft;
-        targetBottomLeft.x = (gridEfficientPosX - Padding) * gridCellSize;
-        targetBottomLeft.y = (gridEfficientPosY - Padding) * gridCellSize;
+        float largeSide = (_grid.EfficientSide + Padding) * cellSize;
 
-        Vector2 targetTopRight;
-        targetTopRight.x = (gridEfficientPosX + _grid.EfficientWidth + Padding) * gridCellSize;
-        targetTopRight.y = (gridEfficientPosY + _grid.EfficientHeight + Padding) * gridCellSize;
+        float ratioWidth = largeSide / width;
+        float ratioHeight = largeSide / height;
 
-        float targetLeft = targetBottomLeft.x - center.x;
-        float targetRight = targetTopRight.x - center.x;
-        float targetTop = targetTopRight.y - center.y;
-        float targetBottom = targetBottomLeft.y - center.y;
+        float ratio = ratioWidth > ratioHeight ? ratioWidth : ratioHeight;
 
-        float max = -1;
-
-        float ratioLeft = targetLeft / left;
-        max = ratioLeft > max ? ratioLeft : max;
-
-        float ratioRight = targetRight / right;
-        max = ratioRight > max ? ratioRight : max;
-
-        float ratioTop = targetTop / top;
-        max = ratioTop > max ? ratioTop : max;
-
-        float ratioBottom = targetBottom / bottom;
-        max = ratioBottom > max ? ratioBottom : max;
-
-        _targetOrthographicSize = _mainCamera.orthographicSize * max;
+        _targetPosition = new Vector3(_grid.CenterX * cellSize, _grid.CenterY * cellSize, _fixedZ);
+        _targetOrthographicSize = _mainCamera.orthographicSize * ratio;
     }
 }
