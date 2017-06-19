@@ -5,7 +5,6 @@ namespace Orbit.Entity
     public class ABaseEntity : MonoBehaviour
     {
         #region Protected functions
-
         protected virtual void Awake()
         {
             // Awake
@@ -20,7 +19,6 @@ namespace Orbit.Entity
         {
             // Update
         }
-
         #endregion
     }
 }
