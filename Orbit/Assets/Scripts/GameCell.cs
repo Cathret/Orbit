@@ -14,6 +14,7 @@ public class GameCell : MonoBehaviour
     private Vector3 _targetPosition;
 
     private bool connected = false;
+    private bool selected = false;
 
     public bool Connected
     {
@@ -42,7 +43,7 @@ public class GameCell : MonoBehaviour
 
         _targetPosition.x = x * _grid.CellSize;
         _targetPosition.y = y * _grid.CellSize;
-        _targetPosition.z = transform.position.z;
+        _targetPosition.z = _grid.FixedX;
     }
 
     void SetConnected(bool value)
@@ -51,4 +52,5 @@ public class GameCell : MonoBehaviour
             return;
         connected = value;
     }
+
 }

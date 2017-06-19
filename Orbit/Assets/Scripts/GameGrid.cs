@@ -36,9 +36,12 @@ public class GameGrid : MonoBehaviour
 
     private GameCell[,] _grid;
 
+    public float FixedX { get; private set; }
+
     void Awake()
     {
-        transform.position = new Vector3(0, 0, 0);
+        FixedX = transform.position.x;
+        transform.position = new Vector3(0, 0, FixedX);
     }
 
     // Use this for initialization
@@ -174,5 +177,27 @@ public class GameGrid : MonoBehaviour
                 SetCellPosition(tmpCell, CenterX - x, CenterY + y);
             }
         }
+    }
+
+    public bool Select(Vector2 mousePos)
+    {
+        Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, FixedX));
+
+        int posX = (int)(pos.x / CellSize);
+        int posY = (int)(pos.y / CellSize);
+
+        if (posX > 0 && posX < Side)
+        {
+            if (posY > 0 && posY < Side)
+            {
+                if (_grid[posX, posY])
+                {
+                    /*_selectedCell = _grid[posX, posY];
+                    _selectedPos = new Vector2(posX, posY);*/
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
