@@ -7,8 +7,6 @@ public class GameCell : MonoBehaviour
     private uint X;
     private uint Y;
 
-    [SerializeField]
-    private float _speed = 20.0f;
     public GameGrid _grid;
 
     private Vector3 _targetPosition;
@@ -26,13 +24,12 @@ public class GameCell : MonoBehaviour
     {
         _targetPosition = transform.position;
     }
-	// Use this for initialization
-	void Start () {
-	}
 	
 	// Update is called once per frame
-	void Update () {
-        transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * _speed);
+	void Update ()
+    {
+        if (_grid)
+            transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * _grid.RotationSpeed);
     }
 
     public void SetPosition(GameGrid grid, uint x, uint y)

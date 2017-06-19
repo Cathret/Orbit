@@ -23,6 +23,14 @@ public class GameGrid : MonoBehaviour
         private set { _cellSize = value; }
     }
 
+    [SerializeField]
+    private float _rotationSpeed = 20.0f;
+    public float RotationSpeed
+    {
+        get { return _rotationSpeed; }
+        private set { _rotationSpeed = value; }
+    }
+
     public uint EfficientSide { get; private set; }
 
     public uint CenterX { get; private set; }
