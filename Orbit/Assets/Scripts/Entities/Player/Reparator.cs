@@ -82,8 +82,6 @@ namespace Orbit.Entity.Unit
 
                 yield return new WaitForSeconds( RepairSpeed );
             }
-
-            yield break;
         }
     }
 }

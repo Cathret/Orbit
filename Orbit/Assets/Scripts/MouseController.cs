@@ -23,7 +23,7 @@ public class MouseController : MonoBehaviour
         None
     }
 
-    private MouseMode _mode = MouseMode.None;
+    private MouseMode _mode = MouseMode.Selection;
 
     public MouseMode Mode
     {

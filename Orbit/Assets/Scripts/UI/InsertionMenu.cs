@@ -24,7 +24,7 @@ public class InsertionMenu : MonoBehaviour
         {
             GameObject item = Instantiate( _itemPrefab, transform, false );
             Image image = item.GetComponent<Image>();
-            image.sprite = _prefabCells[i].GetComponent<Sprite>();
+            image.sprite = _prefabCells[i].GetComponent<SpriteRenderer>().sprite;
             int y = i;
             Button button = item.GetComponent<Button>();
             button.onClick.AddListener( () => { AddCell( y ); } );
@@ -42,6 +42,6 @@ public class InsertionMenu : MonoBehaviour
 
     void Quit()
     {
-        Destroy(this);
+        Destroy( gameObject );
     }
 }

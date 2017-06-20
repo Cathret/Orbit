@@ -110,11 +110,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f5deaa737f39b439d39283bdf89e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabCells: []
+  _prefabCells:
+  - {fileID: 114870026283712040, guid: 7964e19dd9b589c459d62f8821296d70, type: 2}
+  - {fileID: 114204384417606468, guid: fac847d2124b2cf46a5de76fbc0beaef, type: 2}
+  - {fileID: 114812890560671290, guid: d7de2620235205544b8311ceaa3b3966, type: 2}
+  - {fileID: 114247278513375248, guid: 8f6e54fd16051444085424954d6c5905, type: 2}
+  - {fileID: 114226747854461056, guid: 1c9b0e3fe8b9ad8448b27f2459f4bd3e, type: 2}
   _itemPrefab: {fileID: 1730731527213304, guid: 0627e2a25e61f974cbc2c7ff7a831436,
     type: 2}
   _quitButton: {fileID: 114507951752761804}
-  Grid: {fileID: 0}
   X: 0
   Y: 0
 --- !u!114 &114491790789970578
