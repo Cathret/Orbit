@@ -34,12 +34,17 @@ namespace Orbit.Entity
         #endregion
 
         #region Protected functions
+        protected override void Start()
+        {
+            Destroy( gameObject, 5.0f );
+        }
+
         protected override void Update()
         {
             base.Update();
 
             Vector3 position = transform.localPosition;
-            position = Vector3.Lerp( position, position + transform.forward, Time.deltaTime * Speed );
+            position = Vector3.Lerp( position, position + transform.up, Time.deltaTime * Speed );
             transform.localPosition = position;
         }
         #endregion

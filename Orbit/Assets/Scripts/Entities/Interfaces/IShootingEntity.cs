@@ -1,7 +1,9 @@
-﻿namespace Orbit.Entity
+﻿using UnityEngine;
+
+namespace Orbit.Entity
 {
     public interface IShootingEntity
     {
-        void Shoot();
+        void Shoot( Vector3 direction );
     }
 }

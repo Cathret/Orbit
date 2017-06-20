@@ -7,13 +7,15 @@ namespace Orbit.Entity.Opponent
     {
         #region Members
         [SerializeField]
-        private readonly AProjectile _projectileType = null;
+        private AProjectile _projectileType = null;
         #endregion
 
         #region Public functions
-        public void Shoot()
+        public void Shoot( Vector3 direction )
         {
+            direction.Normalize();
             AProjectile bullet = Instantiate( _projectileType, transform );
+            bullet.transform.up = direction;
             bullet.Power = Power;
             bullet.IsFriend = false;
         }
