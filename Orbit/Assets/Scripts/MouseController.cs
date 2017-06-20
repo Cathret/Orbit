@@ -122,11 +122,14 @@ public class MouseController : MonoBehaviour
             
     }
 
-    private void OnRightClick(Vector2 mousePosition)
+    private void OnRightClick(Vector2 mousePos)
     {
         GameCell cell = GameCell.SelectedCell;
         if ( cell )
-            cell.LaunchAction();
+        {
+            Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
+            cell.LaunchAction(pos);
+        }
     }
 
     void SelectionModeCallback()

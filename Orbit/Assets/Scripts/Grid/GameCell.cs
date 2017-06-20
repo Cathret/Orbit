@@ -48,7 +48,7 @@ public class GameCell : MonoBehaviour
         set { SetConnected(value); }
     }
 
-    public UnityEvent OnActionLaunched;
+    public UnityEvent<Vector3> OnActionLaunched;
 
     private AUnitController _unit;
     public AUnitController Unit
@@ -138,9 +138,9 @@ public class GameCell : MonoBehaviour
         return false;
     }
 
-    public void LaunchAction()
+    public void LaunchAction( Vector3 target )
     {
         if (OnActionLaunched != null)
-            OnActionLaunched.Invoke();
+            OnActionLaunched.Invoke(target);
     }
 }
