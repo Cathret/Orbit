@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Orbit.Entity;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -42,6 +43,17 @@ public class GameCell : MonoBehaviour
     {
         get { return _connected; }
         set { SetConnected(value); }
+    }
+
+    private AUnitController _unit;
+    public AUnitController Unit
+    {
+        get
+        {
+            if ( _unit == null )
+                _unit = GetComponent<AUnitController>();
+            return _unit;
+        }
     }
 
     void Awake()
