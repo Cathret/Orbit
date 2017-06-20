@@ -44,12 +44,12 @@ public class GameGrid : MonoBehaviour
 
     private GameCell[,] _grid;
 
-    public float FixedX { get; private set; }
+    public float FixedZ { get; private set; }
 
     void Awake()
     {
-        FixedX = transform.position.x;
-        transform.position = new Vector3(0, 0, FixedX);
+        FixedZ = transform.position.z;
+        transform.position = new Vector3(0, 0, FixedZ);
         _grid = new GameCell[Side, Side];
     }
 
@@ -186,9 +186,24 @@ public class GameGrid : MonoBehaviour
         CheckGrid();
     }
 
+    public GameCell GetCellFromWorldPoint( Vector3 point )
+    {
+        int posX = (int)(point.x / CellSize);
+        int posY = (int)(point.y / CellSize);
+
+        if ( point.z != FixedZ )
+            Debug.Log( "Z does not correspond" );
+        if (posX > 0 && posX < Side)
+            if (posY > 0 && posY < Side)
+                if (_grid[posX, posY])
+                    return _grid[posX, posY];
+
+        return null;
+    }
+
     public bool Select(Vector2 mousePos)
     {
-        Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, FixedX));
+        Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, FixedZ));
 
         int posX = (int)(pos.x / CellSize);
         int posY = (int)(pos.y / CellSize);
