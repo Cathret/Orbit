@@ -2,7 +2,7 @@
 
 namespace Orbit.Entity
 {
-    public class AProjectile : ABaseEntity,
+    public class Projectile : ABaseEntity,
                                IMovingEntity
     {
         #region Members
