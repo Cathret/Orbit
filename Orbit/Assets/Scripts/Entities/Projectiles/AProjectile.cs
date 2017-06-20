@@ -2,10 +2,10 @@
 
 namespace Orbit.Entity
 {
-    public class AProjectile : ABaseEntity, IMovingEntity
+    public class AProjectile : ABaseEntity,
+                               IMovingEntity
     {
         #region Members
-
         public uint Power
         {
             get { return _power; }
@@ -31,11 +31,9 @@ namespace Orbit.Entity
         }
 
         private bool _bFriend;
-
         #endregion
 
         #region Protected functions
-
         protected override void Update()
         {
             base.Update();
@@ -44,7 +42,6 @@ namespace Orbit.Entity
             position = Vector3.Lerp( position, position + transform.forward, Time.deltaTime * Speed );
             transform.localPosition = position;
         }
-
         #endregion
     }
 }
