@@ -17,6 +17,9 @@ public class InsertionMenu : MonoBehaviour
     public uint X;
     public uint Y;
 
+    public delegate void DestroyDelegate();
+    public event DestroyDelegate DestroyCallback;
+
     // Use this for initialization
     void Start ()
     {
@@ -43,5 +46,11 @@ public class InsertionMenu : MonoBehaviour
     void Quit()
     {
         Destroy( gameObject );
+    }
+
+    void OnDestoy()
+    {
+        if (DestroyCallback != null)
+            DestroyCallback.Invoke();
     }
 }

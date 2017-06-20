@@ -51,15 +51,12 @@ public class MouseController : MonoBehaviour
     [SerializeField]
     private InsertionMenu _insertionMenu;
 
+    private InsertionMenu _currentInsertionMenu;
+
     [SerializeField]
     private float _longClickLength = 0.5f;
 
     private float _clickLength = 0.0f;
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update ()
@@ -111,9 +108,10 @@ public class MouseController : MonoBehaviour
         GameCell cell = GameGrid.Instance.GetCellFromWorldPoint( pos );
         if ( cell )
             cell.Selected = true;
-        else if ( GameManager.Instance.CanBuild && _clickLength > _longClickLength )
+        else if ( GameManager.Instance.CanBuild && _clickLength > _longClickLength && _currentInsertionMenu == null)
         {
-            Instantiate( _insertionMenu, FindObjectOfType<Canvas>().transform, false );
+            _currentInsertionMenu = Instantiate( _insertionMenu, FindObjectOfType<Canvas>().transform, false );
+            _currentInsertionMenu.DestroyCallback += () => { _currentInsertionMenu = null; };
         }
             
     }
