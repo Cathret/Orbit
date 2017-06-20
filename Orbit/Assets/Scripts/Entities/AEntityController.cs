@@ -17,7 +17,6 @@ namespace Orbit.Entity
         #endregion
 
         #region Members
-
         public int Hp
         {
             get { return _healthPoints; }
@@ -75,11 +74,9 @@ namespace Orbit.Entity
 
         [SerializeField]
         private uint _power;
-
         #endregion
 
         #region Protected functions
-
         protected override void Awake()
         {
             TriggerDeath += OnDeath;
@@ -90,7 +87,6 @@ namespace Orbit.Entity
             // Entity is dead
             Destroy( gameObject );
         }
-
         #endregion
     }
 }
