@@ -83,9 +83,21 @@ public class GameGrid : MonoBehaviour
         }
 
         Gizmos.color = new Color(1, 0, 0, 0.5F);
-        Vector3 position = new Vector3( PosX * CellSize, PosY * CellSize, FixedZ);
-        Vector3 size = new Vector3(EfficientSide * CellSize, EfficientSide * CellSize, 1.0f);
+        Vector3 position = new Vector3( CenterX * CellSize, CenterY * CellSize, FixedZ );
+        Vector3 size = new Vector3(EfficientSide * CellSize, EfficientSide * CellSize, 1);
         Gizmos.DrawCube(position, size);
+
+        //Draw CenterX, CenterY
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(position, 1.0f);
+
+        //Draw PosX and PosY
+        Gizmos.color = Color.magenta;
+        position.x = PosX * CellSize;
+        position.y = PosY * CellSize;
+        Gizmos.DrawSphere(position, 1.0f);
+
+        
     }
 
 
@@ -109,10 +121,12 @@ public class GameGrid : MonoBehaviour
             GameCell createdCell = Instantiate( cell );
             SetCellPosition(createdCell, x, y);
 
+            CheckGrid();
+
             if (OnLayoutChanged != null)
                 OnLayoutChanged.Invoke();
 
-            CheckGrid();
+            
         }
     }
 
@@ -142,10 +156,11 @@ public class GameGrid : MonoBehaviour
             Destroy(_grid[x, y]);
             _grid[x, y] = null;
 
+            CheckGrid();
+
             if (OnLayoutChanged != null)
                 OnLayoutChanged.Invoke();
 
-            CheckGrid();
         }
     }
 
@@ -162,11 +177,11 @@ public class GameGrid : MonoBehaviour
                 bottomLeftX = x < bottomLeftX ? x : bottomLeftX;
                 bottomLeftY = y < bottomLeftY ? y : bottomLeftY;
 
-                topRightX = x > topRightX ? x : topRightX;
-                topRightY = y > topRightY ? y : topRightY;
+                topRightX = x + 1 > topRightX ? x + 1 : topRightX;
+                topRightY = y + 1 > topRightY ? y + 1 : topRightY;
 
                 _grid[x, y].Connected = IsConnected(x, y);
-
+            
                 areValuesCorrect = true;
             }
         }

@@ -36,6 +36,12 @@ public class CameraController : MonoBehaviour
 	    transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * _speed);
 	}
 
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(_targetPosition, 1.0f);
+    }
+
     void UpdateTarget()
     {
         Vector3 bottomLeft = _mainCamera.ViewportToWorldPoint(new Vector3(0.0F, 0.0F, -_fixedZ));
