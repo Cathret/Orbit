@@ -6,6 +6,18 @@ using UnityEngine.Events;
 
 public class GameGrid : MonoBehaviour
 {
+
+    private static GameGrid _instance;
+    public static GameGrid Instance
+    {
+        get
+        {
+            if ( _instance == null )
+                _instance = FindObjectOfType<GameGrid>();
+            return _instance;
+        }
+    }
+
     [SerializeField]
     private uint _side;
 
@@ -60,7 +72,7 @@ public class GameGrid : MonoBehaviour
         if (!cell)
             return;
 
-        cell.SetPosition(this, x, y);
+        cell.SetPosition( x, y);
         cell.Connected = true;
     }
 
@@ -199,27 +211,5 @@ public class GameGrid : MonoBehaviour
                     return _grid[posX, posY];
 
         return null;
-    }
-
-    public bool Select(Vector2 mousePos)
-    {
-        Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, FixedZ));
-
-        int posX = (int)(pos.x / CellSize);
-        int posY = (int)(pos.y / CellSize);
-
-        if (posX > 0 && posX < Side)
-        {
-            if (posY > 0 && posY < Side)
-            {
-                if (_grid[posX, posY])
-                {
-                    /*_selectedCell = _grid[posX, posY];
-                    _selectedPos = new Vector2(posX, posY);*/
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }

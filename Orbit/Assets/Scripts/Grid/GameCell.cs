@@ -9,10 +9,13 @@ public class GameCell : MonoBehaviour
 {
     private static GameCell _lastSelected;
 
+    public static GameCell SelectedCell
+    {
+        get {  return _lastSelected; }
+    }
+
     public uint X { get; private set; }
     public uint Y { get; private set; }
-
-    public GameGrid Grid;
 
     private Vector3 _targetPosition;
 
@@ -27,10 +30,10 @@ public class GameCell : MonoBehaviour
             switch ( value )
             {
                 case true: 
-                    Select();
+                    SelectCallback();
                     break;
                 case false:
-                    Unselect();
+                    UnselectCallback();
                     break;
             }
             _selected = value;
@@ -44,6 +47,8 @@ public class GameCell : MonoBehaviour
         get { return _connected; }
         set { SetConnected(value); }
     }
+
+    public UnityEvent OnActionLaunched;
 
     private AUnitController _unit;
     public AUnitController Unit
@@ -64,19 +69,18 @@ public class GameCell : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (Grid)
-            transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * Grid.RotationSpeed);
+        transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * GameGrid.Instance.RotationSpeed);
     }
 
-    public void SetPosition(GameGrid grid, uint x, uint y)
+    public void SetPosition( uint x, uint y )
     {
-        Grid = grid;
         X = x;
         Y = y;
 
-        _targetPosition.x = (X + 0.5f) * Grid.CellSize;
-        _targetPosition.y = (Y + 0.5f) * Grid.CellSize;
-        _targetPosition.z = Grid.FixedZ;
+        GameGrid gameGrid = GameGrid.Instance;
+        _targetPosition.x = (X + 0.5f) * gameGrid.CellSize;
+        _targetPosition.y = (Y + 0.5f) * gameGrid.CellSize;
+        _targetPosition.z = gameGrid.FixedZ;
     }
 
     void SetConnected(bool value)
@@ -86,22 +90,35 @@ public class GameCell : MonoBehaviour
         _connected = value;
     }
 
-    void Select()
+    void SelectCallback()
     {
-        if (_lastSelected)
-            _lastSelected.Unselect();
+        if ( _selected )
+            return;
+
         _selected = true;
+        if ( _lastSelected )
+            _lastSelected.Selected = false;
+
         _lastSelected = this;
         if ( OnSelection != null)
             OnSelection.Invoke(true);
     }
 
-    void Unselect()
+    void UnselectCallback()
     {
+        if ( !_selected )
+            return;
+
         _selected = false;
         _lastSelected = null;
+
         if (OnSelection != null)
             OnSelection.Invoke(false);
+    }
+
+    public static void Unselect()
+    {
+        _lastSelected.Selected = false;
     }
 
     public bool IsConnectedTo( GameCell cell )
@@ -119,5 +136,11 @@ public class GameCell : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    public void LaunchAction()
+    {
+        if (OnActionLaunched != null)
+            OnActionLaunched.Invoke();
     }
 }

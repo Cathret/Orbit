@@ -25,11 +25,9 @@ public class GameManager : MonoBehaviour
         GAME_OVER
     }
 
-    [SerializeField]
-    private bool _canPlay = false;
+    public bool CanPlay = true;
 
-    [SerializeField]
-    private bool _canBuild = false;
+    public bool CanBuild = true;
 
     public UnityEvent OnPlay;
     public UnityEvent OnPause;
