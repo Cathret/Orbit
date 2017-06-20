@@ -38,7 +38,7 @@ public class MouseController : MonoBehaviour
         float cellSize = _grid.CellSize;
         float side = _grid.Side;
 
-        Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, _grid.FixedX));
+        Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, _grid.FixedZ));
 
         int posX = (int)(pos.x / cellSize);
         int posY = (int)(pos.y / cellSize);

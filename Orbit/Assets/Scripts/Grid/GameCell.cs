@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,8 +8,8 @@ public class GameCell : MonoBehaviour
 {
     private static GameCell _lastSelected;
 
-    private uint _x;
-    private uint _y;
+    public uint X { get; private set; }
+    public uint Y { get; private set; }
 
     public GameGrid Grid;
 
@@ -58,12 +59,12 @@ public class GameCell : MonoBehaviour
     public void SetPosition(GameGrid grid, uint x, uint y)
     {
         Grid = grid;
-        _x = x;
-        _y = y;
+        X = x;
+        Y = y;
 
-        _targetPosition.x = (_x + 0.5f) * Grid.CellSize;
-        _targetPosition.y = (_y + 0.5f) * Grid.CellSize;
-        _targetPosition.z = Grid.FixedX;
+        _targetPosition.x = (X + 0.5f) * Grid.CellSize;
+        _targetPosition.y = (Y + 0.5f) * Grid.CellSize;
+        _targetPosition.z = Grid.FixedZ;
     }
 
     void SetConnected(bool value)
@@ -89,5 +90,22 @@ public class GameCell : MonoBehaviour
         _lastSelected = null;
         if (OnSelection != null)
             OnSelection.Invoke(false);
+    }
+
+    public bool IsConnectedTo( GameCell cell )
+    {
+        if ( cell == this )
+            return false;
+        if ( X == cell.X )
+        {
+            if ( Math.Abs( Y - cell.Y ) == 1 )
+                return true;
+        }
+        else if ( Y == cell.Y)
+        {
+            if (Math.Abs(X - cell.X) == 1)
+                return true;
+        }
+        return false;
     }
 }
