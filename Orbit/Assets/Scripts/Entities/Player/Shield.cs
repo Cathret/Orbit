@@ -4,7 +4,7 @@ namespace Orbit.Entity.Unit
 {
     public class Shield : AUnitController
     {
-        protected override void ExecuteOnClick( Vector3 target )
+        public override void ExecuteOnClick( Vector3 target )
         {
             // Shield?
         }

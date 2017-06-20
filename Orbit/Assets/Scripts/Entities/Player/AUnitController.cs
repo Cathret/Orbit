@@ -39,7 +39,7 @@ namespace Orbit.Entity
         #endregion
 
         #region Public functions
-        protected abstract void ExecuteOnClick( Vector3 target );
+        public abstract void ExecuteOnClick( Vector3 target );
         #endregion
 
         #region Protected functions
@@ -49,32 +49,17 @@ namespace Orbit.Entity
             if ( Cell == null )
                 Debug.LogError( "AUnitController.Awake() - Cell is null, there's no GameCell component in object", this );
 
-            //Cell.OnSelection.AddListener( ModifySelected );
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-
-            if ( !Cell.Connected )
-                return;
-
-            if ( IsSelected )
-            {
-                if ( Input.GetKeyDown( KeyCode.Mouse0 ) )
-                {
-                    ExecuteOnClick( Camera.main.ScreenToWorldPoint(
-                        new Vector3( Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z ) // TODO: fix hack for z-axis
-                        )
-                    );
-                }
-            }
+            Cell.OnSelection +=  ModifySelected;
+            Cell.OnActionLaunched += ExecuteOnClick;
         }
 
         protected virtual void OnDestroy()
         {
-            //if ( Cell )
-            //    Cell.OnSelection.RemoveListener( ModifySelected );
+            if ( Cell )
+            {
+                Cell.OnSelection -= ModifySelected;
+                Cell.OnActionLaunched -= ExecuteOnClick;
+            }
         }
         #endregion
 

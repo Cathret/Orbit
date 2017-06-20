@@ -19,7 +19,15 @@ public class GameCell : MonoBehaviour
 
     private Vector3 _targetPosition;
 
+    public delegate void DelegateBool( bool value );
+    public event DelegateBool OnSelection;
+
+    public delegate void DelegateVector3( Vector3 value );
+    public DelegateVector3 OnActionLaunched;
+
+    [SerializeField]
     private bool _connected = false;
+    [SerializeField]
     private bool _selected = false;
 
     public bool Selected
@@ -40,15 +48,11 @@ public class GameCell : MonoBehaviour
         }    
     }
 
-    public UnityEvent<bool> OnSelection;
-
     public bool Connected
     {
         get { return _connected; }
         set { SetConnected(value); }
     }
-
-    public UnityEvent<Vector3> OnActionLaunched;
 
     private AUnitController _unit;
     public AUnitController Unit
@@ -125,14 +129,21 @@ public class GameCell : MonoBehaviour
     {
         if ( cell == this )
             return false;
+
+        int x1 = (int)X;
+        int x2 = (int)cell.X;
+
+        int y1 = (int)Y;
+        int y2 = (int)cell.Y;
+
         if ( X == cell.X )
         {
-            if ( Math.Abs( Y - cell.Y ) == 1 )
+            if ( Math.Abs( y1 - y2 ) == 1 )
                 return true;
         }
-        else if ( Y == cell.Y)
+        else if ( Y == cell.Y )
         {
-            if (Math.Abs(X - cell.X) == 1)
+            if (Math.Abs( x1 - x2 ) == 1)
                 return true;
         }
         return false;
