@@ -57,7 +57,7 @@ namespace Orbit.Entity.Unit
 
         protected override void ExecuteOnClick( Vector3 target )
         {
-            GameCell targetCell = Cell.Grid.GetCellFromWorldPoint( target );
+            GameCell targetCell = GameGrid.Instance.GetCellFromWorldPoint( target );
 
             if ( Cell.IsConnectedTo( targetCell ) )
             {
