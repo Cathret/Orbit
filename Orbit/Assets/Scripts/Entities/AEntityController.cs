@@ -43,8 +43,6 @@ namespace Orbit.Entity
                     HpChanged( ( uint )_healthPoints );
             }
         }
-
-        [SerializeField]
         private int _healthPoints;
 
         public uint MaxHP

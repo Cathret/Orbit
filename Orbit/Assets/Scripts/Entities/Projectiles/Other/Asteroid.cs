@@ -14,6 +14,13 @@ namespace Orbit.Entity.Projectile
         #endregion
 
         #region Protected functions
+        protected override void Awake()
+        {
+            base.Awake();
+
+            IsFriend = false;
+        }
+
         protected void OnDestroy()
         {
             DropResources();

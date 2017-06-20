@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameGrid : MonoBehaviour
 {
@@ -23,6 +24,14 @@ public class GameGrid : MonoBehaviour
         private set { _cellSize = value; }
     }
 
+    [SerializeField]
+    private float _rotationSpeed = 20.0f;
+    public float RotationSpeed
+    {
+        get { return _rotationSpeed; }
+        private set { _rotationSpeed = value; }
+    }
+
     public uint EfficientSide { get; private set; }
 
     public uint CenterX { get; private set; }
@@ -31,23 +40,21 @@ public class GameGrid : MonoBehaviour
     public uint PosX { get; private set; }
     public uint PosY { get; private set; }
 
-    public delegate void SimpleDelegate();
-    public event SimpleDelegate OnLayoutChanged;
+    public UnityEvent OnLayoutChanged;
 
     private GameCell[,] _grid;
 
+    public float FixedZ { get; private set; }
+
     void Awake()
     {
-        transform.position = new Vector3(0, 0, 0);
+        FixedZ = transform.position.z;
+        transform.position = new Vector3(0, 0, FixedZ);
+        _grid = new GameCell[Side, Side];
     }
 
-    // Use this for initialization
-    void Start ()
-    {
-        _grid = new GameCell[Side, Side];
-	}
 
-    public void SetCellPosition(GameCell cell, uint x, uint y)
+    void SetCellPosition(GameCell cell, uint x, uint y)
     {
         _grid[x, y] = cell;
         if (!cell)
@@ -57,7 +64,6 @@ public class GameGrid : MonoBehaviour
         cell.Connected = true;
     }
 
-    //TODO: Check if cell is a prefab
     public void AddCase (GameCell cell, uint x, uint y )
     {
         if (!cell)
@@ -65,10 +71,11 @@ public class GameGrid : MonoBehaviour
 
         if (IsConnected(x, y))
         {
-            SetCellPosition(cell, x, y);
+            GameCell createdCell = Instantiate( cell );
+            SetCellPosition(createdCell, x, y);
 
             if (OnLayoutChanged != null)
-                OnLayoutChanged();
+                OnLayoutChanged.Invoke();
 
             CheckGrid();
         }
@@ -101,7 +108,7 @@ public class GameGrid : MonoBehaviour
             _grid[x, y] = null;
 
             if (OnLayoutChanged != null)
-                OnLayoutChanged();
+                OnLayoutChanged.Invoke();
 
             CheckGrid();
         }
@@ -156,6 +163,8 @@ public class GameGrid : MonoBehaviour
                 SetCellPosition(tmpCell, x + CenterX, CenterY - y);
             }
         }
+
+        CheckGrid();
     }
 
     public void RotateReverseClockwise()
@@ -174,5 +183,43 @@ public class GameGrid : MonoBehaviour
                 SetCellPosition(tmpCell, CenterX - x, CenterY + y);
             }
         }
+        CheckGrid();
+    }
+
+    public GameCell GetCellFromWorldPoint( Vector3 point )
+    {
+        int posX = (int)(point.x / CellSize);
+        int posY = (int)(point.y / CellSize);
+
+        if ( point.z != FixedZ )
+            Debug.Log( "Z does not correspond" );
+        if (posX > 0 && posX < Side)
+            if (posY > 0 && posY < Side)
+                if (_grid[posX, posY])
+                    return _grid[posX, posY];
+
+        return null;
+    }
+
+    public bool Select(Vector2 mousePos)
+    {
+        Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, FixedZ));
+
+        int posX = (int)(pos.x / CellSize);
+        int posY = (int)(pos.y / CellSize);
+
+        if (posX > 0 && posX < Side)
+        {
+            if (posY > 0 && posY < Side)
+            {
+                if (_grid[posX, posY])
+                {
+                    /*_selectedCell = _grid[posX, posY];
+                    _selectedPos = new Vector2(posX, posY);*/
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

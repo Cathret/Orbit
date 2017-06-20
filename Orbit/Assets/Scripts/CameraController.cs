@@ -29,7 +29,7 @@ public class CameraController : MonoBehaviour
 	void Start ()
 	{
 	    if (_grid)
-	        _grid.OnLayoutChanged += UpdateTarget;
+	        _grid.OnLayoutChanged.AddListener(UpdateTarget);
 	}
 	
 	// Update is called once per frame
