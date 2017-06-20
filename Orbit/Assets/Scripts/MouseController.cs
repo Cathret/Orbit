@@ -110,8 +110,14 @@ public class MouseController : MonoBehaviour
             cell.Selected = true;
         else if ( GameManager.Instance.CanBuild && _clickLength > _longClickLength && _currentInsertionMenu == null)
         {
-            _currentInsertionMenu = Instantiate( _insertionMenu, FindObjectOfType<Canvas>().transform, false );
-            _currentInsertionMenu.DestroyCallback += () => { _currentInsertionMenu = null; };
+            int x, y;
+            if ( GameGrid.Instance.GetPositionFromWorldPoint( pos, out x, out y ) )
+            {
+                _currentInsertionMenu = Instantiate( _insertionMenu, FindObjectOfType<Canvas>().transform, false );
+                _currentInsertionMenu.X = ( uint )x;
+                _currentInsertionMenu.Y = (uint)y;
+                _currentInsertionMenu.DestroyCallback += () => { _currentInsertionMenu = null; };
+            }
         }
             
     }

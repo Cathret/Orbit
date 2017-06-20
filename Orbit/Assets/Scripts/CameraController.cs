@@ -26,6 +26,7 @@ public class CameraController : MonoBehaviour
 	void Start ()
 	{
 	    GameGrid.Instance.OnLayoutChanged.AddListener(UpdateTarget);
+	    UpdateTarget();
 	}
 	
 	// Update is called once per frame

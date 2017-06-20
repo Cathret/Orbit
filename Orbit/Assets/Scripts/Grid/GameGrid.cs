@@ -63,6 +63,7 @@ public class GameGrid : MonoBehaviour
         FixedZ = transform.position.z;
         transform.position = new Vector3(0, 0, FixedZ);
         _grid = new GameCell[Side, Side];
+        CheckGrid();
     }
 
     void OnDrawGizmos()
@@ -103,7 +104,7 @@ public class GameGrid : MonoBehaviour
         if (!cell)
             return;
 
-        if (IsConnected(x, y))
+        //if (IsConnected(x, y))
         {
             GameCell createdCell = Instantiate( cell );
             SetCellPosition(createdCell, x, y);
@@ -151,7 +152,7 @@ public class GameGrid : MonoBehaviour
     public void CheckGrid()
     {
         uint bottomLeftX = Side, bottomLeftY = Side, topRightX = 0, topRightY = 0;
-
+        bool areValuesCorrect = false;
         for (uint x = 0; x < Side; ++x)
         {
             for (uint y = 0; y < Side; ++y)
@@ -165,19 +166,33 @@ public class GameGrid : MonoBehaviour
                 topRightY = y > topRightY ? y : topRightY;
 
                 _grid[x, y].Connected = IsConnected(x, y);
+
+                areValuesCorrect = true;
             }
         }
 
-        CenterX = (topRightX + bottomLeftX) / 2;
-        CenterY = (topRightY + bottomLeftY) / 2;
+        if ( areValuesCorrect )
+        {
+            CenterX = ( topRightX + bottomLeftX ) / 2;
+            CenterY = ( topRightY + bottomLeftY ) / 2;
 
-        PosX = bottomLeftX;
-        PosY = bottomLeftY;
+            PosX = bottomLeftX;
+            PosY = bottomLeftY;
 
-        uint efficientSide = topRightX - bottomLeftX;
-        efficientSide = topRightY - bottomLeftY > efficientSide ? topRightY - bottomLeftY : efficientSide;
+            uint efficientSide = topRightX - bottomLeftX;
+            efficientSide = topRightY - bottomLeftY > efficientSide ? topRightY - bottomLeftY : efficientSide;
 
-        EfficientSide = efficientSide;
+            EfficientSide = efficientSide;
+        }
+        else
+        {
+            CenterX = Side / 2;
+            CenterY = CenterX;
+            PosX = CenterX;
+            PosY = CenterY;
+
+            EfficientSide = 0;
+        }
 
     }
 
@@ -233,5 +248,27 @@ public class GameGrid : MonoBehaviour
                     return _grid[posX, posY];
 
         return null;
+    }
+
+    public bool GetPositionFromWorldPoint(Vector3 point, out int x, out int y)
+    {
+        int posX = (int)(point.x / CellSize);
+        int posY = (int)(point.y / CellSize);
+
+        if (point.z != FixedZ)
+            Debug.Log("Z does not correspond");
+
+        x = -1;
+        y = -1;
+
+        if (posX > 0 && posX < Side)
+            if ( posY > 0 && posY < Side )
+            {
+                x = posX;
+                y = posY;
+                return true;
+            }
+
+        return false;
     }
 }
