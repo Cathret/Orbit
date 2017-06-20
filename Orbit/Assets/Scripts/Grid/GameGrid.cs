@@ -64,7 +64,6 @@ public class GameGrid : MonoBehaviour
         cell.Connected = true;
     }
 
-    //TODO: Check if cell is a prefab
     public void AddCase (GameCell cell, uint x, uint y )
     {
         if (!cell)
@@ -72,7 +71,8 @@ public class GameGrid : MonoBehaviour
 
         if (IsConnected(x, y))
         {
-            SetCellPosition(cell, x, y);
+            GameCell createdCell = Instantiate( cell );
+            SetCellPosition(createdCell, x, y);
 
             if (OnLayoutChanged != null)
                 OnLayoutChanged.Invoke();
@@ -163,6 +163,8 @@ public class GameGrid : MonoBehaviour
                 SetCellPosition(tmpCell, x + CenterX, CenterY - y);
             }
         }
+
+        CheckGrid();
     }
 
     public void RotateReverseClockwise()
@@ -181,6 +183,7 @@ public class GameGrid : MonoBehaviour
                 SetCellPosition(tmpCell, CenterX - x, CenterY + y);
             }
         }
+        CheckGrid();
     }
 
     public bool Select(Vector2 mousePos)

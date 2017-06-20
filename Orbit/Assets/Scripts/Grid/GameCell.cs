@@ -7,8 +7,8 @@ public class GameCell : MonoBehaviour
 {
     private static GameCell _lastSelected;
 
-    private uint X;
-    private uint Y;
+    private uint _x;
+    private uint _y;
 
     public GameGrid Grid;
 
@@ -35,8 +35,7 @@ public class GameCell : MonoBehaviour
         }    
     }
 
-    public UnityEvent OnSelection;
-    public UnityEvent OnUnselection;
+    public UnityEvent<bool> OnSelection;
 
     public bool Connected
     {
@@ -59,11 +58,11 @@ public class GameCell : MonoBehaviour
     public void SetPosition(GameGrid grid, uint x, uint y)
     {
         Grid = grid;
-        X = x;
-        Y = y;
+        _x = x;
+        _y = y;
 
-        _targetPosition.x = (x + 0.5f) * Grid.CellSize;
-        _targetPosition.y = (y + 0.5f) * Grid.CellSize;
+        _targetPosition.x = (_x + 0.5f) * Grid.CellSize;
+        _targetPosition.y = (_y + 0.5f) * Grid.CellSize;
         _targetPosition.z = Grid.FixedX;
     }
 
@@ -81,14 +80,14 @@ public class GameCell : MonoBehaviour
         _selected = true;
         _lastSelected = this;
         if ( OnSelection != null)
-            OnSelection.Invoke();
+            OnSelection.Invoke(true);
     }
 
     void Unselect()
     {
         _selected = false;
         _lastSelected = null;
-        if (OnUnselection != null)
-            OnUnselection.Invoke();
+        if (OnSelection != null)
+            OnSelection.Invoke(false);
     }
 }

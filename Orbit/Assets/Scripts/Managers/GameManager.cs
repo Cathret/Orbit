@@ -6,9 +6,9 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
-    private GameManager _instance;
+    private static GameManager _instance;
 
-    public GameManager Instance
+    public static GameManager Instance
     {
         get
         {
