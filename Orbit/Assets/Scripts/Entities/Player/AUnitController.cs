@@ -29,6 +29,13 @@ namespace Orbit.Entity
         }
         [SerializeField] // TODO remove
         private bool _bIsSelected = false;
+
+        public GameCell Cell
+        {
+            get { return _gameCell; }
+            protected set { _gameCell = value; }
+        }
+        private GameCell _gameCell = null;
         #endregion
 
         #region Public functions
@@ -36,9 +43,21 @@ namespace Orbit.Entity
         #endregion
 
         #region Protected functions
+        protected override void Start()
+        {
+            Cell = GetComponent<GameCell>();
+            if ( Cell == null )
+                Debug.LogError( "AUnitController.Awake() - Cell is null, there's no GameCell component in object", this );
+
+            //Cell.OnSelection.AddListener( ModifySelected );
+        }
+
         protected override void Update()
         {
             base.Update();
+
+            if ( !Cell.Connected )
+                return;
 
             if ( IsSelected )
             {
@@ -50,6 +69,19 @@ namespace Orbit.Entity
                     );
                 }
             }
+        }
+
+        protected virtual void OnDestroy()
+        {
+            //if ( Cell )
+            //    Cell.OnSelection.RemoveListener( ModifySelected );
+        }
+        #endregion
+
+        #region Private functions
+        public void ModifySelected( bool selected )
+        {
+            IsSelected = selected;
         }
         #endregion
     }
