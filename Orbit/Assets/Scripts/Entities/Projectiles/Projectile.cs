@@ -12,7 +12,7 @@ namespace Orbit.Entity
             set { _power = value; }
         }
         [SerializeField]
-        private uint _power;
+        private uint _power = 1;
 
         public uint Speed
         {
@@ -20,7 +20,7 @@ namespace Orbit.Entity
             protected set { _speed = value; }
         }
         [SerializeField]
-        private uint _speed;
+        private uint _speed = 2;
 
         public bool IsFriend
         {

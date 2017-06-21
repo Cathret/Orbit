@@ -25,9 +25,20 @@ public class GameManager : MonoBehaviour
         GAME_OVER
     }
 
-    public bool CanPlay = true;
+    [SerializeField]
+    private bool _canPlay = true;
+    [SerializeField]
+    private bool _canBuild = true;
 
-    public bool CanBuild = true;
+    public bool CanPlay
+    {
+        get { return _canPlay && CurrentState == State.PLAYING; }
+    }
+
+    public bool CanBuild
+    {
+        get { return _canBuild && CurrentState == State.PLAYING; }
+    }
 
     public UnityEvent OnPlay = new UnityEvent();
     public UnityEvent OnPause = new UnityEvent();

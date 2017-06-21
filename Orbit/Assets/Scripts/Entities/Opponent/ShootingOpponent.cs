@@ -10,7 +10,21 @@ namespace Orbit.Entity.Opponent
         [SerializeField]
         protected float ShootCooldown = 0.7f;
 
-        protected float CooldownTimer = 0.0f;
+        private float _cooldownTimer = 0.0f;
+
+        public float CooldownTimer
+        {
+            get { return _cooldownTimer; }
+            private set
+            {
+                _cooldownTimer = value;
+                if ( _cooldownTimer > ShootCooldown )
+                {
+                    _cooldownTimer = 0.0f;
+                    Shoot(transform.up);
+                }
+            }
+        }
 
         [SerializeField]
         private Projectile _projectileType = null;
@@ -53,11 +67,6 @@ namespace Orbit.Entity.Opponent
             if ( GameManager.Instance.CurrentState == GameManager.State.PLAYING )
             {
                 CooldownTimer += Time.deltaTime;
-                if ( CooldownTimer > ShootCooldown )
-                {
-                    CooldownTimer = 0.0f;
-                    Shoot( transform.up );
-                }
             }
         }
         #endregion

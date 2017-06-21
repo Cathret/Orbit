@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Orbit.Entity.Unit
 {
@@ -6,7 +7,28 @@ namespace Orbit.Entity.Unit
     {
         #region Members
         [SerializeField]
+        private float _shootCooldown = 0.5f;
+
+        private float _shootTimer = 0.0f;
+
+        public float ShootTimer
+        {
+            get { return _shootTimer; }
+            private set
+            {
+                _shootTimer = value;
+                if ( _shootTimer > _shootCooldown )
+                {
+                    _canShoot = true;
+                    _shootTimer = 0.0f;
+                }
+            }
+        }
+
+        [SerializeField]
         private Projectile _projectileType = null;
+
+        private bool _canShoot = true;
         #endregion
 
         #region Protected functions
@@ -21,11 +43,23 @@ namespace Orbit.Entity.Unit
 
         public void Shoot( Vector3 direction )
         {
+            if ( !_canShoot )
+                return;
+
             direction.Normalize();
             Projectile bullet = Instantiate( _projectileType, transform.position, transform.rotation );
             bullet.transform.up = direction;
             bullet.Power = Power;
             bullet.IsFriend = true;
+
+            _canShoot = false;
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            ShootTimer += Time.deltaTime;
         }
     }
 }
