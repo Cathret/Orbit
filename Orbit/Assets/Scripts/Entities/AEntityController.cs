@@ -90,7 +90,7 @@ namespace Orbit.Entity
         }
         private uint _boostPower = 0;
 
-        private List<KeyValuePair<IBoostingEntity, uint>> _listBoosters;
+        private List<KeyValuePair<IBoostingEntity, uint>> _listBoosters = new List<KeyValuePair<IBoostingEntity, uint>>();
         #endregion
 
         #region Public functions
