@@ -6,18 +6,12 @@ namespace Orbit.Entity.Opponent
                                     IShootingEntity
     {
 
-        protected override void Start()
-        {
-            base.Start();
-
-            Vector3 center = GameGrid.Instance.RealCenter;
-            Vector3 distance = ( transform.position - center ).normalized
-                               * GameGrid.Instance.RealEfficientSide;
-            WayPoints.Add(center + distance);
-            WayPoints.Add( transform.position );
-        }
-
         #region Members
+        [SerializeField]
+        protected float ShootCooldown = 0.7f;
+
+        protected float CooldownTimer = 0.0f;
+
         [SerializeField]
         private Projectile _projectileType = null;
         #endregion
@@ -40,6 +34,31 @@ namespace Orbit.Entity.Opponent
 
             if ( _projectileType == null )
                 Debug.LogError( "ShootingOpponent.Awake() - Projectile Type is null, need to be set in Editor", this );
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+
+            Vector3 center = GameGrid.Instance.RealCenter;
+            Vector3 distance = (transform.position - center).normalized
+                               * GameGrid.Instance.RealEfficientSide;
+            WayPoints.Add(center + distance);
+            WayPoints.Add(transform.position);
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if ( GameManager.Instance.CurrentState == GameManager.State.PLAYING )
+            {
+                CooldownTimer += Time.deltaTime;
+                if ( CooldownTimer > ShootCooldown )
+                {
+                    CooldownTimer = 0.0f;
+                    Shoot( transform.up );
+                }
+            }
         }
         #endregion
     }
