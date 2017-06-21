@@ -67,7 +67,10 @@ public class MouseController : MonoBehaviour
 
 	// Update is called once per frame
 	void Update ()
-    {
+	{
+	    if ( !GameManager.Instance.CanPlay )
+	        return;
+
 	    if ( _mode == MouseMode.Selection)
 	    {
 	        Vector2 mousePosition = Input.mousePosition;

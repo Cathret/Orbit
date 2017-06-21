@@ -171,7 +171,7 @@ MonoBehaviour:
   _speed: 1
   _rotateSpeed: 20
   ShootCooldown: 0.7
-  _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,
+  _projectileType: {fileID: 114907198518630400, guid: 86fab22d6140724438145025fc3a42c6,
     type: 2}
 --- !u!212 &212296661220896562
 SpriteRenderer:
