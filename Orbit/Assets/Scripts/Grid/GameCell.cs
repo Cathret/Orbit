@@ -127,7 +127,7 @@ public class GameCell : MonoBehaviour
 
     public bool IsConnectedTo( GameCell cell )
     {
-        if ( cell == this )
+        if ( cell == null || cell == this )
             return false;
 
         int x1 = (int)X;
