@@ -95,7 +95,6 @@ public class WaveManager : MonoBehaviour
     {
         while ( true )
         {
-            Debug.Log( "CACA" );
             if ( GameManager.Instance.CurrentState == GameManager.State.PLAYING )
                 SpawnEnemy();
             yield return new WaitForSeconds(1.0f / _enemyPerSec);
