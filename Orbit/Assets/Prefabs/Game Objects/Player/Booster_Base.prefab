@@ -53,7 +53,7 @@ Transform:
   m_GameObject: {fileID: 1686831937641696}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4965805246561768}
   m_Father: {fileID: 0}
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealthPoints: 3
-  _power: 1
+  _basePower: 0
   _head: {fileID: 1336772690440488}
   _level: 1
   _bIsSelected: 0
