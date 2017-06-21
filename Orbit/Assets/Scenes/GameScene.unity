@@ -262,7 +262,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.02854671, g: 0.06319684, b: 0.11764705, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -313,8 +313,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f77ae368e9859db49950c4197eef07da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 20
-  Padding: 2
+  _resizeSpeed: 15
+  _translationSpeed: 5
+  Padding: 10
 --- !u!1001 &940170031
 Prefab:
   m_ObjectHideFlags: 0
@@ -353,6 +354,11 @@ Prefab:
     - target: {fileID: 4151720691902128, guid: 8a7484536cda13042861dafb5c8b6ccf, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114751748409112838, guid: 8a7484536cda13042861dafb5c8b6ccf,
+        type: 2}
+      propertyPath: _cellSize
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a7484536cda13042861dafb5c8b6ccf, type: 2}

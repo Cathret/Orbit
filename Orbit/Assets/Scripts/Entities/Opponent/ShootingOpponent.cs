@@ -5,6 +5,18 @@ namespace Orbit.Entity.Opponent
     public class ShootingOpponent : AOpponentController,
                                     IShootingEntity
     {
+        
+        protected override void Start()
+        {
+            base.Start();
+
+            Vector3 center = GameGrid.Instance.RealCenter;
+            Vector3 distance = ( center - transform.position ).normalized
+                               * GameGrid.Instance.RealEfficientSide;
+            WayPoints.Add(center + distance);
+            WayPoints.Add( transform.position );
+        }
+
         #region Members
         [SerializeField]
         private Projectile _projectileType = null;

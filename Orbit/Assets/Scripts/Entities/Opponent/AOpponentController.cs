@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Orbit.Entity
 {
     public abstract class AOpponentController : AEntityController,
                                                 IMovingEntity
     {
+        protected List<Vector3> WayPoints;
+
+        private int currentWayPoint = 0;
+
         #region Members
         public uint Speed
         {
@@ -13,7 +18,16 @@ namespace Orbit.Entity
         }
 
         [SerializeField]
-        private uint _speed;
+        protected uint _speed = 2;
+
+        public uint RotateSpeed
+        {
+            get { return _rotateSpeed; }
+            protected set { _rotateSpeed = value; }
+        }
+
+        [SerializeField]
+        protected uint _rotateSpeed = 20;
         #endregion
 
         #region Protected functions
@@ -21,7 +35,31 @@ namespace Orbit.Entity
         {
             base.Update();
 
-            // TODO: create a path and follow it
+            if ( currentWayPoint < WayPoints.Count )
+            {
+                Vector3 target = WayPoints[currentWayPoint];
+                Vector3 moveDirection = target - transform.position;
+                //move towards waypoint
+                if ( moveDirection.magnitude < 1 )
+                {
+                    currentWayPoint++;
+                }
+                else
+                {
+                    Vector3 delta = target - transform.position;
+                    delta.Normalize();
+                    float moveSpeed = _speed * Time.deltaTime;
+                    transform.position = transform.position + ( delta * moveSpeed );
+                    //Rotate Towards
+                    Quaternion rot = Quaternion.LookRotation( target - transform.position, Vector3.up );
+                    transform.rotation = Quaternion.Slerp( transform.rotation, rot, Time.deltaTime * _rotateSpeed);
+
+                }
+            }
+            else
+            {
+                Destroy( gameObject );
+            }
         }
         #endregion
     }
