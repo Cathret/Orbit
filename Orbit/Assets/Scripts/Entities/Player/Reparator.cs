@@ -27,6 +27,13 @@ namespace Orbit.Entity.Unit
         }
         private AUnitController _repairedUnit;
 
+        protected ParticleSystem ReparatorParticles
+        {
+            get { return _reparatorParticles; }
+            set { _reparatorParticles = value; }
+        }
+        private ParticleSystem _reparatorParticles;
+
         public float RepairSpeed
         {
             get { return _repairSpeed; }
@@ -47,6 +54,10 @@ namespace Orbit.Entity.Unit
                 RepairedUnit.TriggerDeath -= OnRepairedUnitDeath;
                 RepairedUnit = null;
             };
+
+            ReparatorParticles = GetComponentInChildren<ParticleSystem>();
+            if ( ReparatorParticles == null )
+                Debug.LogWarning( "Reparator.Awake() - could not find ParticleSystem in children" );
         }
 
         protected override void OnDestroy()
@@ -83,7 +94,11 @@ namespace Orbit.Entity.Unit
             while ( true )
             {
                 if ( RepairedUnit != null )
+                {
                     RepairedUnit.ReceiveHeal( (int)Power );
+                    if ( ReparatorParticles != null )
+                        ReparatorParticles.Play();
+                }
 
                 yield return new WaitForSeconds( RepairSpeed );
             }
