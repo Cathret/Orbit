@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
         GAME_OVER
     }
 
+    public delegate void BoolDelegate( bool value );
+    public event BoolDelegate OnBuildSetEnabled;
+
     [SerializeField]
     private bool _canPlay = true;
     [SerializeField]
@@ -38,6 +41,12 @@ public class GameManager : MonoBehaviour
     public bool CanBuild
     {
         get { return _canBuild && CurrentState == State.PLAYING; }
+        set
+        {
+            _canBuild = value; 
+            if (OnBuildSetEnabled != null)
+                OnBuildSetEnabled.Invoke( _canBuild );
+        }
     }
 
     public UnityEvent OnPlay = new UnityEvent();
@@ -71,6 +80,22 @@ public class GameManager : MonoBehaviour
     }
 
     public float CurrentTime { get; private set; }
+
+    private uint _resourcesCount = 0;
+
+    public delegate void CountDelegate( uint count );
+    public event CountDelegate OnResourcesChange;
+
+    public uint ResourcesCount
+    {
+        get { return _resourcesCount; }
+        set
+        {
+            _resourcesCount = value;
+            if ( OnResourcesChange != null )
+                OnResourcesChange.Invoke(_resourcesCount);
+        }
+    }
 
     // Use this for initialization
     void Start ()

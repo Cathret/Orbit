@@ -5,6 +5,19 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+
+    private static WaveManager _instance;
+
+    public static WaveManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = FindObjectOfType<WaveManager>();
+            return _instance;
+        }
+    }
+
     [SerializeField]
     private AOpponentController[] _enemies;
 
