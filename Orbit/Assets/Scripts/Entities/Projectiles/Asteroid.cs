@@ -6,10 +6,21 @@ namespace Orbit.Entity
     public class Asteroid : Projectile,
                             IDropResources
     {
+        #region Members
+        public uint ResourcesToDrop
+        {
+            get { return _resourcesToDrop; }
+            protected set { _resourcesToDrop = value; }
+        }
+        [SerializeField]
+        private uint _resourcesToDrop;
+        #endregion
+
         #region Public functions
         public void DropResources()
         {
-            throw new NotImplementedException();
+            // TODO: Drop ressources
+            // ResourcesToDrop;
         }
         #endregion
 
