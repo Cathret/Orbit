@@ -4,7 +4,8 @@ using UnityEngine;
 namespace Orbit.Entity
 {
     public abstract class AOpponentController : AEntityController,
-                                                IMovingEntity
+                                                IMovingEntity,
+                                                IDropResources
     {
         protected List<Vector3> WayPoints = new List<Vector3>();
 
@@ -16,7 +17,6 @@ namespace Orbit.Entity
             get { return _speed; }
             protected set { _speed = value; }
         }
-
         [SerializeField]
         protected uint _speed = 2;
 
@@ -25,9 +25,16 @@ namespace Orbit.Entity
             get { return _rotateSpeed; }
             protected set { _rotateSpeed = value; }
         }
-
         [SerializeField]
         protected uint _rotateSpeed = 20;
+
+        public uint ResourcesToDrop
+        {
+            get { return _resourcesToDrop; }
+            protected set { _resourcesToDrop = value; }
+        }
+        [SerializeField]
+        private uint _resourcesToDrop;
         #endregion
 
         #region Protected functions
@@ -61,6 +68,19 @@ namespace Orbit.Entity
                 Destroy( gameObject );
             }
         }
+
+        protected override void OnDeath()
+        {
+            DropResources();
+
+            base.OnDeath();
+        }
         #endregion
+
+        public void DropResources()
+        {
+            // TODO: Drop ressources
+            // ResourcesToDrop;
+        }
     }
 }
