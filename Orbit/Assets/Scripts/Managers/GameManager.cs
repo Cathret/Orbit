@@ -6,9 +6,9 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
-    private GameManager _instance;
+    private static GameManager _instance;
 
-    public GameManager Instance
+    public static GameManager Instance
     {
         get
         {
@@ -25,15 +25,13 @@ public class GameManager : MonoBehaviour
         GAME_OVER
     }
 
-    [SerializeField]
-    private bool _canPlay = false;
+    public bool CanPlay = true;
 
-    [SerializeField]
-    private bool _canBuild = false;
+    public bool CanBuild = true;
 
-    public UnityEvent OnPlay;
-    public UnityEvent OnPause;
-    public UnityEvent OnGameOver;
+    public UnityEvent OnPlay = new UnityEvent();
+    public UnityEvent OnPause = new UnityEvent();
+    public UnityEvent OnGameOver = new UnityEvent();
 
     private State _currentState = State.PLAYING;
     public State CurrentState {
