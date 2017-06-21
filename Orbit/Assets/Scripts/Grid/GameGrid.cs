@@ -27,6 +27,8 @@ public class GameGrid : MonoBehaviour
         private set { _side = value; }
     }
 
+    public float RealSide { get { return Side * CellSize; } }
+
     [SerializeField]
     private float _cellSize;
 
@@ -45,12 +47,23 @@ public class GameGrid : MonoBehaviour
     }
 
     public uint EfficientSide { get; private set; }
+    public float RealEfficientSide {  get { return EfficientSide * CellSize; } }
 
     public uint CenterX { get; private set; }
     public uint CenterY { get; private set; }
 
+    public Vector3 RealCenter
+    {
+        get { return new Vector3(CenterX * CellSize, CenterY * CellSize, FixedZ); }
+    }
+
     public uint PosX { get; private set; }
     public uint PosY { get; private set; }
+
+    public Vector3 RealPosition
+    {
+        get { return new Vector3(PosX * CellSize, PosY * CellSize, FixedZ); }
+    }
 
     public UnityEvent OnLayoutChanged =  new UnityEvent();
 
@@ -72,19 +85,19 @@ public class GameGrid : MonoBehaviour
         for ( int x = 0; x < Side; ++x )
         {
             Vector3 p1 = new Vector3(x * CellSize, 0, FixedZ);
-            Vector3 p2 = new Vector3(x * CellSize, Side * CellSize, FixedZ);
+            Vector3 p2 = new Vector3(x * CellSize, RealSide, FixedZ);
             Gizmos.DrawLine(p1, p2);
         }
         for (int y = 0; y < Side; ++y)
         {
             Vector3 p1 = new Vector3(0, y * CellSize, FixedZ);
-            Vector3 p2 = new Vector3(Side * CellSize, y * CellSize, FixedZ);
+            Vector3 p2 = new Vector3(RealSide, y * CellSize, FixedZ);
             Gizmos.DrawLine(p1, p2);
         }
 
         Gizmos.color = new Color(1, 0, 0, 0.5F);
-        Vector3 position = new Vector3( CenterX * CellSize, CenterY * CellSize, FixedZ );
-        Vector3 size = new Vector3(EfficientSide * CellSize, EfficientSide * CellSize, 1);
+        Vector3 position = RealCenter;
+        Vector3 size = new Vector3(RealEfficientSide, RealEfficientSide, 1);
         Gizmos.DrawCube(position, size);
 
         //Draw CenterX, CenterY
@@ -93,8 +106,7 @@ public class GameGrid : MonoBehaviour
 
         //Draw PosX and PosY
         Gizmos.color = Color.magenta;
-        position.x = PosX * CellSize;
-        position.y = PosY * CellSize;
+        position = RealPosition;
         Gizmos.DrawSphere(position, 1.0f);
 
     }

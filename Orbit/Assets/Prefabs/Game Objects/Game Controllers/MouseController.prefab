@@ -51,7 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126ff7254e622be4786d263cb6e5b98c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _highlightParticleSystem: {fileID: 0}
+  _highlightPrefab: {fileID: 1046971276192324, guid: 006de9e2e3ae7f34f9403cdba2b37c4c,
+    type: 2}
   _insertionMenu: {fileID: 114373743939309820, guid: 64ebda4a3fa36ed42985fac13a74da5f,
     type: 2}
   _longClickLength: 0.5

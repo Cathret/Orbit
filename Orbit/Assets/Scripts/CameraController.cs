@@ -65,7 +65,9 @@ public class CameraController : MonoBehaviour
 
         float ratio = ratioWidth > ratioHeight ? ratioWidth : ratioHeight;
 
-        _targetPosition = new Vector3(grid.CenterX * cellSize, grid.CenterY * cellSize, _fixedZ);
+        _targetPosition = GameGrid.Instance.RealCenter;
+        _targetPosition.z = _fixedZ;
+
         _targetOrthographicSize = _mainCamera.orthographicSize * ratio;
     }
 }
