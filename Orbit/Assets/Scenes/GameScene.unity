@@ -426,7 +426,7 @@ Prefab:
     - target: {fileID: 114751748409112838, guid: 8a7484536cda13042861dafb5c8b6ccf,
         type: 2}
       propertyPath: _cellSize
-      value: 1
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a7484536cda13042861dafb5c8b6ccf, type: 2}
