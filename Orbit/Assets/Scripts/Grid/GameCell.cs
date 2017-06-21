@@ -72,11 +72,33 @@ public class GameCell : MonoBehaviour
         _targetPosition = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
+    void Start()
+    {
+        if (spriteRenderer)
+            spriteRenderer.color = _connected ? Color.white : Color.grey;
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
         transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * GameGrid.Instance.RotationSpeed);
+    }
+
+    public void InitPosition( uint x, uint y )
+    {
+        X = x;
+        Y = y;
+
+        GameGrid gameGrid = GameGrid.Instance;
+        Vector3 position = new Vector3
+            {
+                x = ( X + 0.5f ) * gameGrid.CellSize,
+                y = ( Y + 0.5f ) * gameGrid.CellSize,
+                z = gameGrid.FixedZ
+            };
+        transform.position = position;
+        _targetPosition = position;
     }
 
     public void SetPosition( uint x, uint y )

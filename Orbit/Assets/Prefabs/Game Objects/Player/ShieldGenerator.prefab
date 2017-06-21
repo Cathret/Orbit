@@ -114,10 +114,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealthPoints: 5
+  _deathParticleSystem: {fileID: 0}
   _basePower: 5
   _head: {fileID: 0}
   _level: 1
   _bIsSelected: 0
+  _awakeParticleSystem: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
+    type: 2}
   _rechargeSpeed: 3
   _shieldPrefab: {fileID: 114869119522767672, guid: e300e7a5468305b47af6cb26320297ac,
     type: 2}

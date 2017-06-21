@@ -57,7 +57,7 @@ public class WaveManager : MonoBehaviour
     public delegate void WaveDelegate( uint value );
     public event WaveDelegate OnWaveChanged;
 
-    protected Coroutine _spawnerEnemies;
+    private Coroutine _spawnerEnemies;
 
     // Use this for initialization
     void Start ()

@@ -39,6 +39,9 @@ namespace Orbit.Entity
             protected set { _gameCell = value; }
         }
         private GameCell _gameCell = null;
+
+        [SerializeField]
+        private ParticleSystem _awakeParSysPrefab;
         #endregion
 
         #region Public functions
@@ -51,6 +54,12 @@ namespace Orbit.Entity
             Cell = GetComponent<GameCell>();
             if ( Cell == null )
                 Debug.LogError( "AUnitController.Awake() - Cell is null, there's no GameCell component in object", this );
+
+            if ( _awakeParSysPrefab )
+            {
+                ParticleSystem particle = Instantiate( _awakeParSysPrefab, transform );
+                particle.Play();
+            }
 
             Cell.OnSelection +=  ModifySelected;
             Cell.OnActionLaunched += ExecuteOnClick;

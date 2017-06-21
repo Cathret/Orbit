@@ -54,6 +54,9 @@ namespace Orbit.Entity
         }
         [SerializeField]
         private uint _maxHealthPoints = 1;
+
+        [SerializeField]
+        private ParticleSystem _deathParSysPrefab;
         #endregion
 
         #region Public functions
@@ -81,7 +84,14 @@ namespace Orbit.Entity
         protected virtual void OnDeath()
         {
             // Entity is dead
-            Destroy( gameObject );
+            float timer = 0.0f;
+            if ( _deathParSysPrefab )
+            {
+                ParticleSystem particle = Instantiate(_deathParSysPrefab, transform);
+                timer = particle.main.duration;
+                particle.Play();
+            }
+            Destroy( gameObject, timer);
         }
         #endregion
     }
