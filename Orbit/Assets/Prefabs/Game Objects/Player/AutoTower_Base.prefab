@@ -85,11 +85,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _connected: 0
   _selected: 0
-  OnActionLaunched:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!114 &114411803141743710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealthPoints: 5
   _power: 1
+  _head: {fileID: 1027661704479118}
   _level: 1
   _bIsSelected: 0
   _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,

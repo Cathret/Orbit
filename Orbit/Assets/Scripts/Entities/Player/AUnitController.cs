@@ -14,6 +14,9 @@ namespace Orbit.Entity
         //private uint _price;
         //
 
+        [SerializeField]
+        private GameObject _head;
+
         public uint Level
         {
             get { return _level; }
@@ -59,6 +62,17 @@ namespace Orbit.Entity
             {
                 Cell.OnSelection -= ModifySelected;
                 Cell.OnActionLaunched -= ExecuteOnClick;
+            }
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (IsSelected && _head)
+            {
+                Vector3 target = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+                _head.transform.right = (target - transform.position).normalized;
             }
         }
         #endregion

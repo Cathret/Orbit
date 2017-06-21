@@ -83,7 +83,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544a5ce5adcc5b24289534428212d046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Grid: {fileID: 0}
+  _connected: 0
+  _selected: 0
 --- !u!114 &114738208870311602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealthPoints: 3
   _power: 1
+  _head: {fileID: 1336772690440488}
   _level: 1
   _bIsSelected: 0
 --- !u!212 &212206647798409604

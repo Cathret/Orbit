@@ -115,6 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealthPoints: 2
   _power: 1
+  _head: {fileID: 1294366599802244}
   _level: 1
   _bIsSelected: 0
   _repairSpeed: 2
@@ -131,11 +132,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _connected: 0
   _selected: 0
-  OnActionLaunched:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!212 &212619360770287104
 SpriteRenderer:
   m_ObjectHideFlags: 1

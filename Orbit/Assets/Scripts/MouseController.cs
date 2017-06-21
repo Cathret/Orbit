@@ -107,15 +107,21 @@ public class MouseController : MonoBehaviour
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
         GameCell cell = GameGrid.Instance.GetCellFromWorldPoint( pos );
         if ( cell )
-            cell.Selected = true;
+            //TODO: Activate only in game mode
+     //       if (cell.Connected)
+                cell.Selected = true;
         else if ( GameManager.Instance.CanBuild && _clickLength > _longClickLength && _currentInsertionMenu == null)
         {
             int x, y;
             if ( GameGrid.Instance.GetPositionFromWorldPoint( pos, out x, out y ) )
             {
+                uint ux = ( uint )x;
+                uint uy = ( uint )y;
+                /*if ( !GameGrid.Instance.IsConnected(ux, uy) )
+                    return;*/
                 _currentInsertionMenu = Instantiate( _insertionMenu, FindObjectOfType<Canvas>().transform, false );
-                _currentInsertionMenu.X = ( uint )x;
-                _currentInsertionMenu.Y = (uint)y;
+                _currentInsertionMenu.X = ux;
+                _currentInsertionMenu.Y = uy;
                 _currentInsertionMenu.DestroyCallback += () => { _currentInsertionMenu = null; };
             }
         }
