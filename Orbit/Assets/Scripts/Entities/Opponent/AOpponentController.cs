@@ -79,8 +79,7 @@ namespace Orbit.Entity
 
         public void DropResources()
         {
-            // TODO: Drop ressources
-            // ResourcesToDrop;
+            GameManager.Instance.ResourcesCount += ResourcesToDrop;
         }
     }
 }
