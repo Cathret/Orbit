@@ -66,8 +66,11 @@ public class GameGrid : MonoBehaviour
     }
 
     public UnityEvent OnLayoutChanged =  new UnityEvent();
+    public UnityEvent OnGridEmpty = new UnityEvent();
 
     private GameCell[,] _grid;
+
+    private uint _cellCount = 0;
 
     public float FixedZ { get; private set; }
 
@@ -182,8 +185,8 @@ public class GameGrid : MonoBehaviour
 
     public void CheckGrid()
     {
+        _cellCount = 0;
         uint bottomLeftX = Side, bottomLeftY = Side, topRightX = 0, topRightY = 0;
-        bool areValuesCorrect = false;
         for (uint x = 0; x < Side; ++x)
         {
             for (uint y = 0; y < Side; ++y)
@@ -196,13 +199,13 @@ public class GameGrid : MonoBehaviour
                 topRightX = x + 1 > topRightX ? x + 1 : topRightX;
                 topRightY = y + 1 > topRightY ? y + 1 : topRightY;
 
-                _grid[x, y].Connected = IsConnected(x, y);
-            
-                areValuesCorrect = true;
+                _grid[x, y].Connected = IsConnected(x, y);   
+
+                ++_cellCount;
             }
         }
 
-        if ( areValuesCorrect )
+        if ( _cellCount > 0 )
         {
             CenterX = ( topRightX + bottomLeftX ) / 2;
             CenterY = ( topRightY + bottomLeftY ) / 2;
@@ -217,6 +220,8 @@ public class GameGrid : MonoBehaviour
         }
         else
         {
+            OnGridEmpty.Invoke();
+
             CenterX = Side / 2;
             CenterY = CenterX;
             PosX = CenterX;
