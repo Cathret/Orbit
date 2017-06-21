@@ -89,6 +89,7 @@ MonoBehaviour:
   _bIsSelected: 0
   _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,
     type: 2}
+  _head: {fileID: 1946849131756548}
 --- !u!114 &114870026283712040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102,11 +103,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _connected: 0
   _selected: 0
-  OnActionLaunched:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!212 &212170534364612016
 SpriteRenderer:
   m_ObjectHideFlags: 1

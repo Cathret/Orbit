@@ -29,9 +29,9 @@ public class GameManager : MonoBehaviour
 
     public bool CanBuild = true;
 
-    public UnityEvent OnPlay;
-    public UnityEvent OnPause;
-    public UnityEvent OnGameOver;
+    public UnityEvent OnPlay = new UnityEvent();
+    public UnityEvent OnPause = new UnityEvent();
+    public UnityEvent OnGameOver = new UnityEvent();
 
     private State _currentState = State.PLAYING;
     public State CurrentState {

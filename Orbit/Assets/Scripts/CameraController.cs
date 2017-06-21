@@ -7,8 +7,12 @@ public class CameraController : MonoBehaviour
     private Camera _mainCamera;
 
     [SerializeField]
-    private float _speed = 20.0f;
-    public uint Padding = 2;
+    private float _resizeSpeed = 15.0f;
+
+    [SerializeField]
+    private float _translationSpeed = 5.0f;
+
+    public uint Padding = 10;
 
     private Vector3 _targetPosition;
     private float _targetOrthographicSize;
@@ -32,8 +36,8 @@ public class CameraController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-        _mainCamera.orthographicSize = Mathf.Lerp(_mainCamera.orthographicSize, _targetOrthographicSize, Time.deltaTime * _speed);
-	    transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * _speed);
+        _mainCamera.orthographicSize = Mathf.Lerp(_mainCamera.orthographicSize, _targetOrthographicSize, Time.deltaTime * _resizeSpeed);
+	    transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * _translationSpeed);
 	}
 
     void OnDrawGizmos()

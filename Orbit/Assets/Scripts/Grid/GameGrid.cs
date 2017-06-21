@@ -52,7 +52,7 @@ public class GameGrid : MonoBehaviour
     public uint PosX { get; private set; }
     public uint PosY { get; private set; }
 
-    public UnityEvent OnLayoutChanged;
+    public UnityEvent OnLayoutChanged =  new UnityEvent();
 
     private GameCell[,] _grid;
 
@@ -97,7 +97,6 @@ public class GameGrid : MonoBehaviour
         position.y = PosY * CellSize;
         Gizmos.DrawSphere(position, 1.0f);
 
-        
     }
 
 
