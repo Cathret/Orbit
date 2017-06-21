@@ -59,18 +59,17 @@ public class GameCell : MonoBehaviour
     private AUnitController _unit;
     public AUnitController Unit
     {
-        get
-        {
-            if ( _unit == null )
-                _unit = GetComponent<AUnitController>();
-            return _unit;
-        }
+        get { return _unit; }
     }
 
     void Awake()
     {
         _targetPosition = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        _unit = GetComponent<AUnitController>();
+        if ( _unit != null )
+            _unit.TriggerDeath += Delete;
     }
 
     void Start()
@@ -181,5 +180,10 @@ public class GameCell : MonoBehaviour
     {
         if (OnActionLaunched != null)
             OnActionLaunched.Invoke(target);
+    }
+
+    void Delete()
+    {
+        GameGrid.Instance.RemoveCase( X, Y );
     }
 }

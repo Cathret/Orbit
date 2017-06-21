@@ -44,7 +44,7 @@ public class WaveManager : MonoBehaviour
     }
 
     [SerializeField]
-    private uint _paddingFromCenter = 8;
+    private uint _paddingFromScreen = 8;
 
     [SerializeField]
     private uint _baseEnemyPerSec = 10;
@@ -57,13 +57,16 @@ public class WaveManager : MonoBehaviour
     public delegate void WaveDelegate( uint value );
     public event WaveDelegate OnWaveChanged;
 
+    private CameraController _cameraController;
+
     private Coroutine _spawnerEnemies;
 
     // Use this for initialization
     void Start ()
     {
         _spawnerEnemies = StartCoroutine(EnemyCoroutine());
-	}
+        _cameraController = FindObjectOfType<CameraController>();
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -97,7 +100,12 @@ public class WaveManager : MonoBehaviour
         AOpponentController prefab = _enemies[Random.Range( 0, enemiesLength )];
 
         Vector3 distance = Random.insideUnitCircle.normalized;
-        distance *= GameGrid.Instance.CellSize * ( GameGrid.Instance.EfficientSide + _paddingFromCenter );
+        uint padding = GameGrid.Instance.EfficientSide;
+
+        if ( _cameraController )
+            padding = _cameraController.Padding;
+
+        distance *= GameGrid.Instance.CellSize * ( padding + _paddingFromScreen );
 
         Vector3 position = GameGrid.Instance.RealCenter + distance;
 
