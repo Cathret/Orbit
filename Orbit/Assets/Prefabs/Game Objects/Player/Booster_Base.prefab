@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4965805246561768}
   - component: {fileID: 212579096506466500}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Booster_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114738208870311602}
   - component: {fileID: 114247278513375248}
   - component: {fileID: 61367741034429364}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Booster_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}

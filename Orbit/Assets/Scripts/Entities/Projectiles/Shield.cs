@@ -34,11 +34,6 @@ namespace Orbit.Entity
             TriggerShieldDestroyed = _selfGenerator.OnShieldDestroyed;
         }
 
-        protected override void Update()
-        {
-            base.Update();
-        }
-
         protected override void OnDeath()
         {
             if ( TriggerShieldDestroyed != null )

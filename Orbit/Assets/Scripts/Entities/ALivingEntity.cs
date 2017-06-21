@@ -2,7 +2,7 @@
 
 namespace Orbit.Entity
 {
-    public class ALivingEntity : ABaseEntity
+    public abstract class ALivingEntity : ABaseEntity
     {
         #region Events
         public delegate void DelegateTrigger();

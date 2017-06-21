@@ -59,7 +59,6 @@ namespace Orbit.Entity.Unit
 
         public override void ExecuteOnClick( Vector3 target )
         {
-            CreateShield();
             // Automatic, so do nothing
         }
 

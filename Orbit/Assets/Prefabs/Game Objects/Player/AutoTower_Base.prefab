@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4103947706483424}
   - component: {fileID: 212221572387274854}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AutoTower_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114411803141743710}
   - component: {fileID: 114204384417606468}
   - component: {fileID: 61728584504065060}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AutoTower_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}

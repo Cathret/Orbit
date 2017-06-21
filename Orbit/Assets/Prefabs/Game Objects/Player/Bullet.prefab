@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4958731795745430}
   - component: {fileID: 96813913072687656}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TrailManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,9 +36,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4555991084569462}
   - component: {fileID: 212159583503672890}
-  - component: {fileID: 114382628231532226}
   - component: {fileID: 61422858660213792}
-  m_Layer: 0
+  - component: {fileID: 114382628231532226}
+  m_Layer: 8
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
