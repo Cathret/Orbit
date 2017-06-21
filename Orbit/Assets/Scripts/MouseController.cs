@@ -46,7 +46,9 @@ public class MouseController : MonoBehaviour
     }
 
     [SerializeField]
-    private ParticleSystem _highlightParticleSystem;
+    private GameObject _highlightPrefab;
+
+    private GameObject _highlight;
 
     [SerializeField]
     private InsertionMenu _insertionMenu;
@@ -57,7 +59,12 @@ public class MouseController : MonoBehaviour
     private float _longClickLength = 0.5f;
 
     private float _clickLength = 0.0f;
-	
+
+    void Start()
+    {
+        _highlight = Instantiate( _highlightPrefab );
+    }
+
 	// Update is called once per frame
 	void Update ()
     {
@@ -78,26 +85,22 @@ public class MouseController : MonoBehaviour
 
     void Highlight(Vector2 mousePos)
     {
+        if ( !_highlight )
+            return;
+
         GameGrid gameGrid = GameGrid.Instance;
 
         float cellSize = gameGrid.CellSize;
         float side = gameGrid.Side;
 
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
+        int posX, posY;
+        GameGrid.Instance.GetPositionFromWorldPoint( pos, out posX, out posY );
+        
 
-        int posX = (int)(pos.x / cellSize);
-        int posY = (int)(pos.y / cellSize);
-
-        if (posX > 0 && posX < side)
-        {
-            if (posY > 0 && posY < side)
-            {
-                if (_highlightParticleSystem)
-                    _highlightParticleSystem.transform.position = new Vector3( (posX + 0.5f ) * cellSize, 
-                        (posY + 0.5f) * cellSize,
-                        gameGrid.FixedZ);
-            }
-        }
+        _highlight.transform.position = new Vector3( (posX + 0.5f ) * cellSize, 
+            (posY + 0.5f) * cellSize,
+            gameGrid.FixedZ);
     }
 
     void OnLeftClick( Vector2 mousePos, float deltaTime )
@@ -140,14 +143,14 @@ public class MouseController : MonoBehaviour
 
     void SelectionModeCallback()
     {
-        if (_highlightParticleSystem)
-            _highlightParticleSystem.gameObject.SetActive( true );
+        if (_highlight)
+            _highlight.gameObject.SetActive( true );
     }
 
     void NoneModeCallback()
     {
-        if (_highlightParticleSystem)
-            _highlightParticleSystem.gameObject.SetActive(false);
+        if (_highlight)
+            _highlight.gameObject.SetActive(false);
     }
 
 }
