@@ -37,7 +37,7 @@ namespace Orbit.Entity.Unit
             base.Awake();
 
             if ( _projectileType == null )
-                Debug.LogError( "ManualTower.Awake() - Projectile Type is null, need to be set in Editor", this );
+                Debug.LogError( "ATower.Awake() - Projectile Type is null, need to be set in Editor", this );
         }
         #endregion
 

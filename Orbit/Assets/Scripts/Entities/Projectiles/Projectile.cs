@@ -3,7 +3,7 @@
 namespace Orbit.Entity
 {
     public class Projectile : ABaseEntity,
-                               IMovingEntity
+                              IMovingEntity
     {
         #region Members
         public uint Power
@@ -11,7 +11,6 @@ namespace Orbit.Entity
             get { return _power; }
             set { _power = value; }
         }
-
         [SerializeField]
         private uint _power = 1;
 
@@ -20,22 +19,26 @@ namespace Orbit.Entity
             get { return _speed; }
             protected set { _speed = value; }
         }
-
         [SerializeField]
         private uint _speed = 2;
 
         public bool IsFriend
         {
             get { return _bFriend; }
-            set { _bFriend = value; }
+            set
+            {
+                _bFriend = value;
+                gameObject.layer = LayerMask.NameToLayer( _bFriend ? "Player" : "Opponent" );
+            }
         }
-
         private bool _bFriend;
         #endregion
 
         #region Protected functions
         protected override void Start()
         {
+            base.Start();
+
             Destroy( gameObject, 5.0f );
         }
 
@@ -48,5 +51,17 @@ namespace Orbit.Entity
             transform.localPosition = position;
         }
         #endregion
+
+        private void OnTriggerEnter2D( Collider2D other )
+        {
+            ALivingEntity livingEntity = other.gameObject.GetComponent<ALivingEntity>();
+
+            if ( livingEntity == null )
+                return;
+
+            livingEntity.ReceiveDamages( (int)Power );
+
+            Destroy( gameObject );
+        }
     }
 }
