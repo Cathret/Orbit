@@ -224,7 +224,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.5
+  m_Time: 0.8
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 0.1
@@ -308,7 +308,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.5
+  m_Time: 1
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 0.2
@@ -392,7 +392,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.5
+  m_Time: 0.8
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 0.1
@@ -476,7 +476,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.5
+  m_Time: 0.8
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 0.1
@@ -560,7 +560,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.5
+  m_Time: 0.8
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 0.1
@@ -624,8 +624,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealthPoints: 5
   _basePower: 2
-  _speed: 2
+  _speed: 1
   _rotateSpeed: 20
+  ShootCooldown: 0.7
   _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,
     type: 2}
 --- !u!212 &212014360270409844
