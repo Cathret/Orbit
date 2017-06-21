@@ -313,7 +313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f77ae368e9859db49950c4197eef07da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 20
+  _resizeSpeed: 15
+  _translationSpeed: 5
   Padding: 2
 --- !u!1001 &940170031
 Prefab:
@@ -353,6 +354,11 @@ Prefab:
     - target: {fileID: 4151720691902128, guid: 8a7484536cda13042861dafb5c8b6ccf, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114751748409112838, guid: 8a7484536cda13042861dafb5c8b6ccf,
+        type: 2}
+      propertyPath: _cellSize
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a7484536cda13042861dafb5c8b6ccf, type: 2}
@@ -488,6 +494,11 @@ Prefab:
     - target: {fileID: 4283395646070154, guid: eacbdde0f9ae58c498f595db611e70d4, type: 2}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114725986090029690, guid: eacbdde0f9ae58c498f595db611e70d4,
+        type: 2}
+      propertyPath: _highlightParticleSystem
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eacbdde0f9ae58c498f595db611e70d4, type: 2}
