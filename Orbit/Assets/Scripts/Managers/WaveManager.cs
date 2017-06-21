@@ -44,10 +44,12 @@ public class WaveManager : MonoBehaviour
     public delegate void WaveDelegate( uint value );
     public event WaveDelegate OnWaveChanged;
 
+    protected Coroutine _spawnerEnemies;
+
     // Use this for initialization
     void Start ()
     {
-		Invoke("EnemyCoroutine", 0.0f);
+        _spawnerEnemies = StartCoroutine(EnemyCoroutine());
 	}
 	
 	// Update is called once per frame
@@ -58,6 +60,12 @@ public class WaveManager : MonoBehaviour
             TimeLeft += Time.deltaTime;
         }
 	}
+
+    void OnDestroy()
+    {
+        if (_spawnerEnemies != null)
+            StopCoroutine(_spawnerEnemies);
+    }
 
     void NextWave()
     {
@@ -87,6 +95,7 @@ public class WaveManager : MonoBehaviour
     {
         while ( true )
         {
+            Debug.Log( "CACA" );
             if ( GameManager.Instance.CurrentState == GameManager.State.PLAYING )
                 SpawnEnemy();
             yield return new WaitForSeconds(1.0f / _enemyPerSec);

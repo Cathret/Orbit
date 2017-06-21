@@ -6,7 +6,7 @@ namespace Orbit.Entity
     public abstract class AOpponentController : AEntityController,
                                                 IMovingEntity
     {
-        protected List<Vector3> WayPoints;
+        protected List<Vector3> WayPoints = new List<Vector3>();
 
         private int currentWayPoint = 0;
 
@@ -51,8 +51,8 @@ namespace Orbit.Entity
                     float moveSpeed = _speed * Time.deltaTime;
                     transform.position = transform.position + ( delta * moveSpeed );
                     //Rotate Towards
-                    Quaternion rot = Quaternion.LookRotation( target - transform.position, Vector3.up );
-                    transform.rotation = Quaternion.Slerp( transform.rotation, rot, Time.deltaTime * _rotateSpeed);
+                    Vector3 direction = (target - transform.position).normalized;
+                    transform.up = Vector3.Slerp(transform.up, direction, Time.deltaTime * _rotateSpeed);
 
                 }
             }
