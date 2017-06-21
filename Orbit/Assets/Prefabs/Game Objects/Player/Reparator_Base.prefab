@@ -115,8 +115,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealthPoints: 2
   _power: 1
+  _head: {fileID: 1294366599802244}
   _level: 1
   _bIsSelected: 0
+  _repairSpeed: 2
 --- !u!114 &114812890560671290
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -128,7 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544a5ce5adcc5b24289534428212d046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Grid: {fileID: 0}
+  _connected: 0
+  _selected: 0
 --- !u!212 &212619360770287104
 SpriteRenderer:
   m_ObjectHideFlags: 1

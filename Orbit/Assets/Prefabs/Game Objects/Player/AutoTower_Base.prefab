@@ -83,7 +83,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544a5ce5adcc5b24289534428212d046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Grid: {fileID: 0}
+  _connected: 0
+  _selected: 0
 --- !u!114 &114411803141743710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97,8 +98,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealthPoints: 5
   _power: 1
+  _head: {fileID: 1027661704479118}
   _level: 1
   _bIsSelected: 0
+  _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,
+    type: 2}
+  _shootingSpeed: 3
 --- !u!212 &212177372000628630
 SpriteRenderer:
   m_ObjectHideFlags: 1

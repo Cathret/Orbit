@@ -90,6 +90,8 @@ namespace Orbit.Entity
         protected override void Awake()
         {
             TriggerDeath += OnDeath;
+
+            Hp = (int)MaxHP;
         }
 
         protected virtual void OnDeath()

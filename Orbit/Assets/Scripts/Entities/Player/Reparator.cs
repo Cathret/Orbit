@@ -39,6 +39,8 @@ namespace Orbit.Entity.Unit
         #region Protected functions
         protected override void Awake()
         {
+            base.Awake();
+
             RepairCoroutine = StartCoroutine( Repair() );
             OnRepairedUnitDeath = () =>
             {
@@ -54,10 +56,11 @@ namespace Orbit.Entity.Unit
 
             base.OnDestroy();
         }
+        #endregion
 
-        protected override void ExecuteOnClick( Vector3 target )
+        public override void ExecuteOnClick( Vector3 target )
         {
-            GameCell targetCell = Cell.Grid.GetCellFromWorldPoint( target );
+            GameCell targetCell = GameGrid.Instance.GetCellFromWorldPoint( target );
 
             if ( Cell.IsConnectedTo( targetCell ) )
             {
@@ -71,7 +74,6 @@ namespace Orbit.Entity.Unit
                 RepairedUnit.TriggerDeath += OnRepairedUnitDeath;
             }
         }
-        #endregion
 
         public IEnumerator Repair()
         {
@@ -82,8 +84,6 @@ namespace Orbit.Entity.Unit
 
                 yield return new WaitForSeconds( RepairSpeed );
             }
-
-            yield break;
         }
     }
 }

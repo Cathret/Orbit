@@ -37,12 +37,12 @@ namespace Orbit.Entity.Unit
 
             base.OnDestroy();
         }
+        #endregion
 
-        protected override void ExecuteOnClick( Vector3 target )
+        public override void ExecuteOnClick( Vector3 target )
         {
             // Automatic, so do nothing
         }
-        #endregion
 
         public IEnumerator AutoShoot()
         {

@@ -6,6 +6,18 @@ using UnityEngine.Events;
 
 public class GameGrid : MonoBehaviour
 {
+
+    private static GameGrid _instance;
+    public static GameGrid Instance
+    {
+        get
+        {
+            if ( _instance == null )
+                _instance = FindObjectOfType<GameGrid>();
+            return _instance;
+        }
+    }
+
     [SerializeField]
     private uint _side;
 
@@ -40,7 +52,7 @@ public class GameGrid : MonoBehaviour
     public uint PosX { get; private set; }
     public uint PosY { get; private set; }
 
-    public UnityEvent OnLayoutChanged;
+    public UnityEvent OnLayoutChanged =  new UnityEvent();
 
     private GameCell[,] _grid;
 
@@ -51,6 +63,40 @@ public class GameGrid : MonoBehaviour
         FixedZ = transform.position.z;
         transform.position = new Vector3(0, 0, FixedZ);
         _grid = new GameCell[Side, Side];
+        CheckGrid();
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+        for ( int x = 0; x < Side; ++x )
+        {
+            Vector3 p1 = new Vector3(x * CellSize, 0, FixedZ);
+            Vector3 p2 = new Vector3(x * CellSize, Side * CellSize, FixedZ);
+            Gizmos.DrawLine(p1, p2);
+        }
+        for (int y = 0; y < Side; ++y)
+        {
+            Vector3 p1 = new Vector3(0, y * CellSize, FixedZ);
+            Vector3 p2 = new Vector3(Side * CellSize, y * CellSize, FixedZ);
+            Gizmos.DrawLine(p1, p2);
+        }
+
+        Gizmos.color = new Color(1, 0, 0, 0.5F);
+        Vector3 position = new Vector3( CenterX * CellSize, CenterY * CellSize, FixedZ );
+        Vector3 size = new Vector3(EfficientSide * CellSize, EfficientSide * CellSize, 1);
+        Gizmos.DrawCube(position, size);
+
+        //Draw CenterX, CenterY
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(position, 1.0f);
+
+        //Draw PosX and PosY
+        Gizmos.color = Color.magenta;
+        position.x = PosX * CellSize;
+        position.y = PosY * CellSize;
+        Gizmos.DrawSphere(position, 1.0f);
+
     }
 
 
@@ -60,7 +106,7 @@ public class GameGrid : MonoBehaviour
         if (!cell)
             return;
 
-        cell.SetPosition(this, x, y);
+        cell.SetPosition( x, y);
         cell.Connected = true;
     }
 
@@ -69,15 +115,17 @@ public class GameGrid : MonoBehaviour
         if (!cell)
             return;
 
-        if (IsConnected(x, y))
+        //if (IsConnected(x, y))
         {
             GameCell createdCell = Instantiate( cell );
             SetCellPosition(createdCell, x, y);
 
+            CheckGrid();
+
             if (OnLayoutChanged != null)
                 OnLayoutChanged.Invoke();
 
-            CheckGrid();
+            
         }
     }
 
@@ -107,17 +155,18 @@ public class GameGrid : MonoBehaviour
             Destroy(_grid[x, y]);
             _grid[x, y] = null;
 
+            CheckGrid();
+
             if (OnLayoutChanged != null)
                 OnLayoutChanged.Invoke();
 
-            CheckGrid();
         }
     }
 
     public void CheckGrid()
     {
         uint bottomLeftX = Side, bottomLeftY = Side, topRightX = 0, topRightY = 0;
-
+        bool areValuesCorrect = false;
         for (uint x = 0; x < Side; ++x)
         {
             for (uint y = 0; y < Side; ++y)
@@ -127,23 +176,37 @@ public class GameGrid : MonoBehaviour
                 bottomLeftX = x < bottomLeftX ? x : bottomLeftX;
                 bottomLeftY = y < bottomLeftY ? y : bottomLeftY;
 
-                topRightX = x > topRightX ? x : topRightX;
-                topRightY = y > topRightY ? y : topRightY;
+                topRightX = x + 1 > topRightX ? x + 1 : topRightX;
+                topRightY = y + 1 > topRightY ? y + 1 : topRightY;
 
                 _grid[x, y].Connected = IsConnected(x, y);
+            
+                areValuesCorrect = true;
             }
         }
 
-        CenterX = (topRightX + bottomLeftX) / 2;
-        CenterY = (topRightY + bottomLeftY) / 2;
+        if ( areValuesCorrect )
+        {
+            CenterX = ( topRightX + bottomLeftX ) / 2;
+            CenterY = ( topRightY + bottomLeftY ) / 2;
 
-        PosX = bottomLeftX;
-        PosY = bottomLeftY;
+            PosX = bottomLeftX;
+            PosY = bottomLeftY;
 
-        uint efficientSide = topRightX - bottomLeftX;
-        efficientSide = topRightY - bottomLeftY > efficientSide ? topRightY - bottomLeftY : efficientSide;
+            uint efficientSide = topRightX - bottomLeftX;
+            efficientSide = topRightY - bottomLeftY > efficientSide ? topRightY - bottomLeftY : efficientSide;
 
-        EfficientSide = efficientSide;
+            EfficientSide = efficientSide;
+        }
+        else
+        {
+            CenterX = Side / 2;
+            CenterY = CenterX;
+            PosX = CenterX;
+            PosY = CenterY;
+
+            EfficientSide = 0;
+        }
 
     }
 
@@ -201,25 +264,25 @@ public class GameGrid : MonoBehaviour
         return null;
     }
 
-    public bool Select(Vector2 mousePos)
+    public bool GetPositionFromWorldPoint(Vector3 point, out int x, out int y)
     {
-        Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, FixedZ));
+        int posX = (int)(point.x / CellSize);
+        int posY = (int)(point.y / CellSize);
 
-        int posX = (int)(pos.x / CellSize);
-        int posY = (int)(pos.y / CellSize);
+        if (point.z != FixedZ)
+            Debug.Log("Z does not correspond");
+
+        x = -1;
+        y = -1;
 
         if (posX > 0 && posX < Side)
-        {
-            if (posY > 0 && posY < Side)
+            if ( posY > 0 && posY < Side )
             {
-                if (_grid[posX, posY])
-                {
-                    /*_selectedCell = _grid[posX, posY];
-                    _selectedPos = new Vector2(posX, posY);*/
-                    return true;
-                }
+                x = posX;
+                y = posY;
+                return true;
             }
-        }
+
         return false;
     }
 }
