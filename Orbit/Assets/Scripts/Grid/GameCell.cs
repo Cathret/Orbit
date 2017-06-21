@@ -30,6 +30,8 @@ public class GameCell : MonoBehaviour
     [SerializeField]
     private bool _selected = false;
 
+    private SpriteRenderer spriteRenderer;
+
     public bool Selected
     {
         get { return _selected; }
@@ -68,6 +70,7 @@ public class GameCell : MonoBehaviour
     void Awake()
     {
         _targetPosition = transform.position;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 	
 	// Update is called once per frame
@@ -92,6 +95,9 @@ public class GameCell : MonoBehaviour
         if (_connected == value)
             return;
         _connected = value;
+
+        if ( spriteRenderer )
+            spriteRenderer.color = _connected ? Color.white : Color.grey;
     }
 
     void SelectCallback()

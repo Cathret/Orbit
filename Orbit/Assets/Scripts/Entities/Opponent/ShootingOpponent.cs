@@ -53,11 +53,15 @@ namespace Orbit.Entity.Opponent
         protected override void Start()
         {
             base.Start();
-
+            ;
             Vector3 center = GameGrid.Instance.RealCenter;
-            Vector3 distance = (transform.position - center).normalized
-                               * GameGrid.Instance.RealEfficientSide;
-            WayPoints.Add(center + distance);
+            float distance = (transform.position - center).magnitude - GameGrid.Instance.RealEfficientSide;
+
+            Vector2 point = Random.insideUnitCircle * GameGrid.Instance.RealEfficientSide / 2;
+            Vector3 target = new Vector3(point.x, point.y);
+            target += center;
+            //WayPoints.Add(center + target);
+            WayPoints.Add((target - transform.position).normalized * distance + transform.position);
             WayPoints.Add(transform.position);
         }
 
