@@ -1,10 +1,14 @@
 fileFormatVersion: 2
 guid: fab1cdbcaad9b6941a36456373c66f1f
-timeCreated: 1497867729
+timeCreated: 1498055556
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _deathParSysPrefab: {instanceID: 0}
+  - _head: {instanceID: 0}
+  - _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

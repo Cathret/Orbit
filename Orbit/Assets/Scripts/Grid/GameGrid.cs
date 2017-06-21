@@ -111,6 +111,14 @@ public class GameGrid : MonoBehaviour
 
     }
 
+    void InitCellPosition( GameCell cell, uint x, uint y )
+    {
+        _grid[x, y] = cell;
+        if (!cell)
+            return;
+
+        cell.InitPosition(x, y);
+    }
 
     void SetCellPosition(GameCell cell, uint x, uint y)
     {
@@ -119,7 +127,6 @@ public class GameGrid : MonoBehaviour
             return;
 
         cell.SetPosition( x, y);
-        cell.Connected = true;
     }
 
     public void AddCase (GameCell cell, uint x, uint y )
@@ -130,14 +137,12 @@ public class GameGrid : MonoBehaviour
         //if (IsConnected(x, y))
         {
             GameCell createdCell = Instantiate( cell );
-            SetCellPosition(createdCell, x, y);
+            InitCellPosition(createdCell, x, y);
 
             CheckGrid();
 
             if (OnLayoutChanged != null)
                 OnLayoutChanged.Invoke();
-
-            
         }
     }
 
