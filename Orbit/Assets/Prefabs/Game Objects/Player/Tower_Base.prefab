@@ -88,6 +88,7 @@ MonoBehaviour:
   _head: {fileID: 1946849131756548}
   _level: 1
   _bIsSelected: 0
+  _shootCooldown: 0.5
   _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,
     type: 2}
 --- !u!114 &114870026283712040
