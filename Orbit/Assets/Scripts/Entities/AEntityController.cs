@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Orbit.Entity
 {
@@ -14,6 +15,7 @@ namespace Orbit.Entity
         public event DelegateUint HpChanged;
         public event DelegateUint MaxHpChanged;
         public event DelegateUint PowerChanged;
+        public event DelegateUint BoostPowerChanged;
         #endregion
 
         #region Members
@@ -43,7 +45,7 @@ namespace Orbit.Entity
                     HpChanged( ( uint )_healthPoints );
             }
         }
-        private int _healthPoints;
+        private int _healthPoints = 0;
 
         public uint MaxHP
         {
@@ -55,23 +57,40 @@ namespace Orbit.Entity
                     MaxHpChanged( _maxHealthPoints );
             }
         }
-
         [SerializeField]
         private uint _maxHealthPoints;
 
         public uint Power
         {
-            get { return _power; }
-            protected set
-            {
-                _power = value;
-                if ( PowerChanged != null )
-                    PowerChanged( _power );
-            }
+            get { return _basePower + _boostPower; }
         }
 
+        public uint BasePower
+        {
+            get { return _basePower; }
+            protected set
+            {
+                _basePower = value;
+                if ( PowerChanged != null )
+                    PowerChanged( _basePower );
+            }
+        }
         [SerializeField]
-        private uint _power;
+        private uint _basePower;
+
+        public uint BoostPower
+        {
+            get { return _boostPower; }
+            private set
+            {
+                _boostPower = value;
+                if ( BoostPowerChanged != null )
+                    BoostPowerChanged( _boostPower );
+            }
+        }
+        private uint _boostPower = 0;
+
+        private List<KeyValuePair<IBoostingEntity, uint>> _listBoosters;
         #endregion
 
         #region Public functions
@@ -83,6 +102,30 @@ namespace Orbit.Entity
         public void ReceiveDamages( int power )
         {
             Hp -= power;
+        }
+
+        public void ReceiveBoost( IBoostingEntity boostingEntity )
+        {
+            AUnitController unitController = boostingEntity as AUnitController;
+
+            if ( unitController != null && _listBoosters.Exists( x => x.Key == boostingEntity ) == false )
+            {
+                _listBoosters.Add( new KeyValuePair<IBoostingEntity, uint>(boostingEntity, unitController.Power ) );
+                BoostPower += unitController.Power;
+            }
+        }
+
+        public void CancelBoost( IBoostingEntity boostingEntity )
+        {
+            AUnitController unitController = boostingEntity as AUnitController;
+
+            if ( unitController != null && _listBoosters.Exists( x => x.Key == boostingEntity ) == true )
+            {
+                KeyValuePair<IBoostingEntity, uint> pair = _listBoosters.Find( x => x.Key == boostingEntity );
+
+                BoostPower -= pair.Value;
+                _listBoosters.Remove( pair );
+            }
         }
         #endregion
 
