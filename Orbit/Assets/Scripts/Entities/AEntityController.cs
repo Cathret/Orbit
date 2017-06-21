@@ -74,10 +74,24 @@ namespace Orbit.Entity
         private uint _power;
         #endregion
 
+        #region Public functions
+        public void ReceiveHeal( int power )
+        {
+            Hp += power;
+        }
+
+        public void ReceiveDamages( int power )
+        {
+            Hp -= power;
+        }
+        #endregion
+
         #region Protected functions
         protected override void Awake()
         {
             TriggerDeath += OnDeath;
+
+            Hp = (int)MaxHP;
         }
 
         protected virtual void OnDeath()

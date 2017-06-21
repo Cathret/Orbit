@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4364526647335070}
   - component: {fileID: 212170534364612016}
   - component: {fileID: 114859124475220470}
+  - component: {fileID: 114870026283712040}
   m_Layer: 0
   m_Name: Tower_Base
   m_TagString: Untagged
@@ -82,12 +83,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6b50f493ae9404ca2f58db4989eb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealthPoints: 2
+  _maxHealthPoints: 4
   _power: 2
   _level: 1
-  _bIsSelected: 1
+  _bIsSelected: 0
   _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,
     type: 2}
+  _head: {fileID: 1946849131756548}
+--- !u!114 &114870026283712040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1988273630062008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 544a5ce5adcc5b24289534428212d046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _connected: 0
+  _selected: 0
 --- !u!212 &212170534364612016
 SpriteRenderer:
   m_ObjectHideFlags: 1

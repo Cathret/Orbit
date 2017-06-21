@@ -36,6 +36,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4256456568332536}
   - component: {fileID: 212206647798409604}
+  - component: {fileID: 114738208870311602}
+  - component: {fileID: 114247278513375248}
   m_Layer: 0
   m_Name: Booster_Base
   m_TagString: Untagged
@@ -70,6 +72,35 @@ Transform:
   m_Father: {fileID: 4256456568332536}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114247278513375248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1686831937641696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 544a5ce5adcc5b24289534428212d046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _connected: 0
+  _selected: 0
+--- !u!114 &114738208870311602
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1686831937641696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fb086292757b5d4980e175db3a27e13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealthPoints: 3
+  _power: 1
+  _head: {fileID: 1336772690440488}
+  _level: 1
+  _bIsSelected: 0
 --- !u!212 &212206647798409604
 SpriteRenderer:
   m_ObjectHideFlags: 1

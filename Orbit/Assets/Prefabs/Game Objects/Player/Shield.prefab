@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4470952981331022}
   - component: {fileID: 212648866204891528}
+  - component: {fileID: 114909476553060966}
+  - component: {fileID: 114226747854461056}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Untagged
@@ -40,6 +42,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114226747854461056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1885482120117818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 544a5ce5adcc5b24289534428212d046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _connected: 0
+  _selected: 0
+  OnActionLaunched:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+--- !u!114 &114909476553060966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1885482120117818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65a3cbcd5bec08441863509bbabd5025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealthPoints: 5
+  _power: 3
+  _level: 1
+  _bIsSelected: 0
 --- !u!212 &212648866204891528
 SpriteRenderer:
   m_ObjectHideFlags: 1

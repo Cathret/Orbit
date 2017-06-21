@@ -2,11 +2,12 @@
 
 namespace Orbit.Entity.Unit
 {
-    public class Booster : AUnitController
+    public class ManualTower : ATower
     {
+
         public override void ExecuteOnClick( Vector3 target )
         {
-            // Boost?
+            Shoot( target - transform.position );
         }
     }
 }

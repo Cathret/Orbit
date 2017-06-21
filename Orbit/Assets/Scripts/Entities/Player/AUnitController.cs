@@ -14,6 +14,9 @@ namespace Orbit.Entity
         //private uint _price;
         //
 
+        [SerializeField]
+        private GameObject _head;
+
         public uint Level
         {
             get { return _level; }
@@ -29,27 +32,55 @@ namespace Orbit.Entity
         }
         [SerializeField] // TODO remove
         private bool _bIsSelected = false;
+
+        public GameCell Cell
+        {
+            get { return _gameCell; }
+            protected set { _gameCell = value; }
+        }
+        private GameCell _gameCell = null;
         #endregion
 
         #region Public functions
-        protected abstract void ExecuteOnClick( Vector3 target );
+        public abstract void ExecuteOnClick( Vector3 target );
         #endregion
 
         #region Protected functions
+        protected override void Start()
+        {
+            Cell = GetComponent<GameCell>();
+            if ( Cell == null )
+                Debug.LogError( "AUnitController.Awake() - Cell is null, there's no GameCell component in object", this );
+
+            Cell.OnSelection +=  ModifySelected;
+            Cell.OnActionLaunched += ExecuteOnClick;
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if ( Cell )
+            {
+                Cell.OnSelection -= ModifySelected;
+                Cell.OnActionLaunched -= ExecuteOnClick;
+            }
+        }
+
         protected override void Update()
         {
             base.Update();
 
-            if ( IsSelected )
+            if (IsSelected && _head)
             {
-                if ( Input.GetKeyDown( KeyCode.Mouse0 ) )
-                {
-                    ExecuteOnClick( Camera.main.ScreenToWorldPoint(
-                        new Vector3( Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z ) // TODO: fix hack for z-axis
-                        )
-                    );
-                }
+                Vector3 target = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+                _head.transform.right = (target - transform.position).normalized;
             }
+        }
+        #endregion
+
+        #region Private functions
+        public void ModifySelected( bool selected )
+        {
+            IsSelected = selected;
         }
         #endregion
     }

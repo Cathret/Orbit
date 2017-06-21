@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Orbit.Entity.Projectile
+namespace Orbit.Entity
 {
-    public class Asteroid : AProjectile,
+    public class Asteroid : Projectile,
                             IDropResources
     {
         #region Public functions
