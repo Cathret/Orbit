@@ -19,8 +19,7 @@ namespace Orbit.Entity
         #region Public functions
         public void DropResources()
         {
-            // TODO: Drop ressources
-            // ResourcesToDrop;
+            GameManager.Instance.ResourcesCount += ResourcesToDrop;
         }
         #endregion
 
