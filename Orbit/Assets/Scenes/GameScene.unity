@@ -495,11 +495,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114725986090029690, guid: eacbdde0f9ae58c498f595db611e70d4,
-        type: 2}
-      propertyPath: _highlightParticleSystem
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eacbdde0f9ae58c498f595db611e70d4, type: 2}
   m_IsPrefabParent: 0
