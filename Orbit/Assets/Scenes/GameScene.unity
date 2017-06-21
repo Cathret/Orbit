@@ -435,6 +435,11 @@ Prefab:
       propertyPath: _waveLength
       value: 273
       objectReference: {fileID: 0}
+    - target: {fileID: 114392569151129968, guid: ea3d7cfa2e06b3349838098e2a6b8956,
+        type: 2}
+      propertyPath: _paddingFromScreen
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ea3d7cfa2e06b3349838098e2a6b8956, type: 2}
   m_IsPrefabParent: 0

@@ -149,23 +149,44 @@ public class GameGrid : MonoBehaviour
         }
     }
 
-    public bool IsConnected(uint x, uint y)
+    public bool CanHighlight( uint x, uint y )
     {
-        if (!_grid[x, y])
-            return false;
-
         bool result = false;
 
-        if ( x < Side - 1)
+        if (x < Side - 1)
             result = _grid[x + 1, y] != null;
-        if ( x > 1 )
+        if (x > 1)
             result = _grid[x - 1, y] != null || result;
-        if ( y < Side - 1)
+        if (y < Side - 1)
+            result = _grid[x, y + 1] != null || result;
+        if (y > 1)
+            result = _grid[x, y - 1] != null || result;
+
+        return (result || _grid[x, y] != null);
+    }
+
+    public bool CanBeAdded( uint x, uint y )
+    {
+        bool result = false;
+
+        if (x < Side - 1)
+            result = _grid[x + 1, y] != null;
+        if (x > 1)
+            result = _grid[x - 1, y] != null || result;
+        if (y < Side - 1)
             result = _grid[x, y + 1] != null || result;
         if (y > 1)
             result = _grid[x, y - 1] != null || result;
 
         return result;
+    }
+
+    public bool IsConnected(uint x, uint y)
+    {
+        if (!_grid[x, y])
+            return false;
+
+        return CanBeAdded(x, y);
     }
 
     public void RemoveCase ( uint x, uint y )
@@ -269,6 +290,16 @@ public class GameGrid : MonoBehaviour
             }
         }
         CheckGrid();
+    }
+
+    public GameCell GetCell( uint x, uint y )
+    {
+        if (x > 0 && x < Side)
+            if (y > 0 && y < Side)
+                if (_grid[x, y])
+                    return _grid[x, y];
+
+        return null;
     }
 
     public GameCell GetCellFromWorldPoint( Vector3 point )

@@ -99,7 +99,11 @@ public class MouseController : MonoBehaviour
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
         int posX, posY;
         GameGrid.Instance.GetPositionFromWorldPoint( pos, out posX, out posY );
+
+        if (posX == -1 || posY == -1)
+            return;
         
+        _highlight.SetActive(GameGrid.Instance.CanHighlight((uint)posX, (uint)posY));
 
         _highlight.transform.position = new Vector3( (posX + 0.5f ) * cellSize, 
             (posY + 0.5f) * cellSize,
@@ -123,7 +127,7 @@ public class MouseController : MonoBehaviour
             {
                 uint ux = ( uint )x;
                 uint uy = ( uint )y;
-                /*if ( !GameGrid.Instance.IsConnected(ux, uy) )
+                /*if ( !GameGrid.Instance.CanBeAdded(ux, uy) )
                     return;*/
                 _currentInsertionMenu = Instantiate( _insertionMenu, FindObjectOfType<Canvas>().transform, false );
                 _currentInsertionMenu.X = ux;
