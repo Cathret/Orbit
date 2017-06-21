@@ -60,6 +60,8 @@ namespace Orbit.Entity
                 return;
 
             livingEntity.ReceiveDamages( (int)Power );
+
+            Destroy( gameObject );
         }
     }
 }

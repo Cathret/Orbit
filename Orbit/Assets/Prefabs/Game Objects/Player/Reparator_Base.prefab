@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4380086176003012}
   - component: {fileID: 212444308112697752}
   - component: {fileID: 95671522376932306}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reparator_Tools
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,8 @@ GameObject:
   - component: {fileID: 114677457375124628}
   - component: {fileID: 114253644808777630}
   - component: {fileID: 61827705185630358}
-  m_Layer: 0
+  - component: {fileID: 50657580074266392}
+  m_Layer: 8
   m_Name: Reparator_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +58,7 @@ GameObject:
   - component: {fileID: 4880343909881218}
   - component: {fileID: 198621428664929470}
   - component: {fileID: 199809964919560100}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ParticleManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4106174281975304}
   - component: {fileID: 212920539934574682}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reparator_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,6 +136,26 @@ Transform:
   m_Father: {fileID: 4106174281975304}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50657580074266392
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1563471348861512}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &61827705185630358
 BoxCollider2D:
   m_ObjectHideFlags: 1

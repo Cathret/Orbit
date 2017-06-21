@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 114411803141743710}
   - component: {fileID: 114204384417606468}
   - component: {fileID: 61728584504065060}
+  - component: {fileID: 50121950129293502}
   m_Layer: 8
   m_Name: AutoTower_Base
   m_TagString: Untagged
@@ -73,6 +74,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50121950129293502
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1819283257326886}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &61728584504065060
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -127,6 +148,7 @@ MonoBehaviour:
   _head: {fileID: 1027661704479118}
   _level: 1
   _bIsSelected: 0
+  _shootCooldown: 0.5
   _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,
     type: 2}
   _shootingSpeed: 3

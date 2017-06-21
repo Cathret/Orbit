@@ -21,7 +21,9 @@ GameObject:
   - component: {fileID: 4490685760874816}
   - component: {fileID: 212014360270409844}
   - component: {fileID: 114054817041036922}
-  m_Layer: 0
+  - component: {fileID: 70246574251019434}
+  - component: {fileID: 50589610048728336}
+  m_Layer: 9
   m_Name: Deceiver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +39,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4370265230694216}
   - component: {fileID: 96155620810247286}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TrailManager_MainReactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4866889107375370}
   - component: {fileID: 96478890201678364}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TrailManager_XLeftReactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4444882233789682}
   - component: {fileID: 96953461750738044}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TrailManager_RightReactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4020214605008242}
   - component: {fileID: 96418741450563020}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TrailManager_LeftReactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4748384985095626}
   - component: {fileID: 96121864499877776}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TrailManager_XRightReactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +156,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1190215461609216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.2113745, y: -0.89487946, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4370265230694216}
@@ -191,6 +193,41 @@ Transform:
   m_Father: {fileID: 4490685760874816}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50589610048728336
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1190215461609216}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!70 &70246574251019434
+CapsuleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1190215461609216}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.085}
+  m_Size: {x: 0.58, y: 0.85}
+  m_Direction: 0
 --- !u!96 &96121864499877776
 TrailRenderer:
   serializedVersion: 2
@@ -627,7 +664,7 @@ MonoBehaviour:
   _speed: 1
   _rotateSpeed: 20
   ShootCooldown: 0.7
-  _projectileType: {fileID: 114907198518630400, guid: 86fab22d6140724438145025fc3a42c6,
+  _projectileType: {fileID: 114138961153841684, guid: 86fab22d6140724438145025fc3a42c6,
     type: 2}
 --- !u!212 &212014360270409844
 SpriteRenderer:
