@@ -23,7 +23,7 @@ namespace Orbit.Entity
             protected set { _level = value; }
         }
         [SerializeField]
-        private uint _level;
+        private uint _level = 1;
 
         public bool IsSelected
         {
