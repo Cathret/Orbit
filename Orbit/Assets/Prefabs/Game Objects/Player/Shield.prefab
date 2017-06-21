@@ -55,11 +55,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _connected: 0
   _selected: 0
-  OnActionLaunched:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!114 &114909476553060966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -72,9 +67,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealthPoints: 5
-  _power: 3
+  _basePower: 0
+  _head: {fileID: 0}
   _level: 1
   _bIsSelected: 0
+  _rechargeSpeed: 0
 --- !u!212 &212648866204891528
 SpriteRenderer:
   m_ObjectHideFlags: 1

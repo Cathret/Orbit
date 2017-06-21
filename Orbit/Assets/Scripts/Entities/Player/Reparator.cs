@@ -54,6 +54,9 @@ namespace Orbit.Entity.Unit
             if ( RepairCoroutine != null )
                 StopCoroutine( RepairCoroutine );
 
+            if ( RepairedUnit )
+                OnRepairedUnitDeath.Invoke();
+
             base.OnDestroy();
         }
         #endregion
