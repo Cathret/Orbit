@@ -204,9 +204,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealthPoints: 5
+  _deathParSysPrefab: {fileID: 198505075655406578, guid: 2a917020f3975ce439251eb9319525de,
+    type: 2}
   _basePower: 2
   _speed: 1
   _rotateSpeed: 20
+  _resourcesToDrop: 0
   ShootCooldown: 0.7
   _projectileType: {fileID: 114138961153841684, guid: 86fab22d6140724438145025fc3a42c6,
     type: 2}
