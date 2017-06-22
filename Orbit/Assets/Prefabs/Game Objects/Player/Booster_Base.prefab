@@ -143,10 +143,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb086292757b5d4980e175db3a27e13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealthPoints: 3
+  _maxHealthPoints: 10
   _deathParSysPrefab: {fileID: 0}
   _basePower: 1
-  _head: {fileID: 1336772690440488}
+  Head: {fileID: 0}
   _level: 1
   _bIsSelected: 0
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,

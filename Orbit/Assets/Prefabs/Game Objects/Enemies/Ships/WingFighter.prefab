@@ -203,14 +203,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66ce62e24bc9fd64e8ec7de7912c2332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealthPoints: 5
+  _maxHealthPoints: 1
   _deathParSysPrefab: {fileID: 198792207422468714, guid: 0a1c03ece4a39bc47b46d0480d78b853,
     type: 2}
-  _basePower: 2
+  _basePower: 1
   _speed: 1
   _rotateSpeed: 20
   _resourcesToDrop: 0
-  ShootCooldown: 0.7
+  ShootCooldown: 4
   _projectileType: {fileID: 114138961153841684, guid: 86fab22d6140724438145025fc3a42c6,
     type: 2}
 --- !u!212 &212614665259321516
