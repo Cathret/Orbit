@@ -77,6 +77,20 @@ namespace Orbit.Entity.Unit
             }
         }
 
+        protected override void ModifySelected(bool selected)
+        {
+            base.ModifySelected(selected);
+
+            if (selected)
+                FollowMouse = true;
+            else if (BoostedUnit != null)
+            {
+                FollowMouse = false;
+                if (_head)
+                    _head.transform.right = (BoostedUnit.transform.position - transform.position).normalized;
+            }
+        }
+
         public void Boost()
         {
             BoostedUnit.ReceiveBoost( this );

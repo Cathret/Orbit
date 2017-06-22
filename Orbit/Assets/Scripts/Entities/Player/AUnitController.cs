@@ -15,9 +15,8 @@ namespace Orbit.Entity
         //
 
         [SerializeField]
-        protected GameObject _head;
+        protected GameObject Head;
 
-        [SerializeField]
         protected bool FollowMouse = true;
 
         public uint Level
@@ -81,16 +80,16 @@ namespace Orbit.Entity
         {
             base.Update();
 
-            if (IsSelected && FollowMouse && _head)
+            if (IsSelected && FollowMouse && Head)
             {
                 Vector3 target = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-                _head.transform.right = (target - transform.position).normalized;
+                Head.transform.right = (target - transform.position).normalized;
             }
         }
         #endregion
 
         #region Private functions
-        public void ModifySelected( bool selected )
+        protected virtual void ModifySelected( bool selected )
         {
             IsSelected = selected;
         }

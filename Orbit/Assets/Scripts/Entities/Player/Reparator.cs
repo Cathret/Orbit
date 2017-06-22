@@ -53,6 +53,7 @@ namespace Orbit.Entity.Unit
             {
                 RepairedUnit.TriggerDeath -= OnRepairedUnitDeath;
                 RepairedUnit = null;
+                FollowMouse = true;
             };
 
             ReparatorParticles = GetComponentInChildren<ParticleSystem>();
@@ -86,6 +87,20 @@ namespace Orbit.Entity.Unit
 
                 RepairedUnit = targetCell.Unit;
                 RepairedUnit.TriggerDeath += OnRepairedUnitDeath;
+            }
+        }
+
+        protected override void ModifySelected( bool selected )
+        {
+            base.ModifySelected( selected );
+
+            if ( selected )
+                FollowMouse = true;
+            else if ( RepairedUnit != null )
+            {
+                FollowMouse = false;
+                if (_head)
+                    _head.transform.right = (RepairedUnit.transform.position - transform.position).normalized;
             }
         }
 
