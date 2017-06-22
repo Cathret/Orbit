@@ -33,6 +33,8 @@ namespace Orbit.Entity.Unit
             get { return _reparatorParticles; }
             set { _reparatorParticles = value; }
         }
+
+        [SerializeField]
         private ParticleSystem _reparatorParticles;
 
         public float RepairSpeed
