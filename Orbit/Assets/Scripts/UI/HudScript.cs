@@ -22,14 +22,18 @@ public class HudScript : MonoBehaviour
 	{
 	    GameManager.Instance.OnResourcesChange += UpdateResourcesText;
 	    WaveManager.Instance.RoundChanged += UpdateRoundText;
-        _rotateClockWise.onClick.AddListener( GameGrid.Instance.RotateClockwise );
-        _rotateIInvClockWise.onClick.AddListener(GameGrid.Instance.RotateReverseClockwise);
+        if (_rotateClockWise)
+            _rotateClockWise.onClick.AddListener( GameGrid.Instance.RotateClockwise );
+        if (_rotateIInvClockWise )
+            _rotateIInvClockWise.onClick.AddListener(GameGrid.Instance.RotateReverseClockwise);
 
     }
 	
 	// Update is called once per frame
 	void Update ()
 	{
+	    if ( !_timerText )
+	        return;
 	    float currentTime = GameManager.Instance.CurrentTime;
 	    int seconds = (( int )currentTime) % 60;
         int minutes = ((int)currentTime) / 60;
@@ -39,11 +43,13 @@ public class HudScript : MonoBehaviour
 
     void UpdateResourcesText( uint count )
     {
+        if (_resourcesText )
         _resourcesText.text = count.ToString();
     }
 
     void UpdateRoundText( uint level )
     {
+        if (_zoneText)
         _zoneText.text = level.ToString();
     }
 }
