@@ -166,6 +166,7 @@ public class WaveManager : MonoBehaviour
             TimeSpentSinceLastWave = 0;
             OnUpdate = () => { };
             Debug.Log( "UpdateWaitEndRound()" );
+            GameManager.Instance.CurrentGameMode = GameManager.GameMode.Building;
         }
     }
 

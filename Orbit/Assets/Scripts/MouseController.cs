@@ -27,6 +27,11 @@ public class MouseController : MonoBehaviour
 
     private InsertionMenu _currentInsertionMenu;
 
+    void Awake()
+    {
+        GameManager.Instance.OnBuildMode.AddListener(SwitchToBuildMode);
+    }
+
     void Start()
     {
         _highlight = Instantiate( _highlightPrefab );
@@ -155,5 +160,10 @@ public class MouseController : MonoBehaviour
         _highlight.transform.position = new Vector3((posX + 0.5f) * cellSize,
             (posY + 0.5f) * cellSize,
             gameGrid.FixedZ);
+    }
+
+    void SwitchToBuildMode()
+    {
+        GameCell.Unselect();
     }
 }

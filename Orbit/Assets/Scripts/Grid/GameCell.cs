@@ -149,7 +149,8 @@ public class GameCell : MonoBehaviour
 
     public static void Unselect()
     {
-        _lastSelected.Selected = false;
+        if (_lastSelected)
+            _lastSelected.Selected = false;
     }
 
     public bool IsConnectedTo( GameCell cell )
