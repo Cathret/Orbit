@@ -125,8 +125,10 @@ public class WaveManager : MonoBehaviour
 
     private void OnStartNewRound()
     {
+        ++CurrentRound;
+
         if ( RoundChanged != null )
-            RoundChanged.Invoke( ++CurrentRound );
+            RoundChanged.Invoke( CurrentRound );
 
         OnUpdate = UpdateSendWave;
     }
