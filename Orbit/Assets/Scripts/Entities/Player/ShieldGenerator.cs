@@ -69,6 +69,7 @@ namespace Orbit.Entity.Unit
 
             ShieldInstance = Instantiate( _shieldPrefab, transform );
             ShieldInstance.ShieldPower = (int)Power;
+            ShieldInstance.gameObject.layer = gameObject.layer;
         }
 
         public void OnShieldDestroyed()

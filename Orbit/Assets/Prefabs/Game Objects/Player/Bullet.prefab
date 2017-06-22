@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _power: 0
-  _speed: 2
+  _speed: 5
 --- !u!212 &212159583503672890
 SpriteRenderer:
   m_ObjectHideFlags: 1
