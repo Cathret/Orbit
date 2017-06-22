@@ -122,7 +122,7 @@ public class WaveManager : MonoBehaviour
         if ( _cameraController == null )
             Debug.LogError( "WaveManager.Start() - could not find object of type CameraController" );
 
-        GameManager.Instance.OnPlay.AddListener( OnStartNewRound );
+        GameManager.Instance.OnAttackMode.AddListener( OnStartNewRound );
     }
 
     private void OnStartNewRound()
