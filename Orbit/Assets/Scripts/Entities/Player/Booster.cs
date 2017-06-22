@@ -74,6 +74,8 @@ namespace Orbit.Entity.Unit
                 BoostedUnit = targetCell.Unit;
                 BoostedUnit.TriggerDeath += OnBoostedUnitDeath;
                 Boost();
+
+                Cell.Selected = false;
             }
         }
 

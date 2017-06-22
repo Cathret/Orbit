@@ -87,6 +87,8 @@ namespace Orbit.Entity.Unit
 
                 RepairedUnit = targetCell.Unit;
                 RepairedUnit.TriggerDeath += OnRepairedUnitDeath;
+
+                Cell.Selected = false;
             }
         }
 
