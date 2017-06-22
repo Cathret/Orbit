@@ -30,7 +30,7 @@ public class GuiManager : MonoBehaviour
     private GameObject _gameOverUiObject;
 
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {
         GameManager.Instance.OnPause.AddListener(ShowPauseUi);
         GameManager.Instance.OnGameOver.AddListener(ShowGameOverUi);
@@ -70,21 +70,21 @@ public class GuiManager : MonoBehaviour
     void ShowHud()
     {
         CleanHuds();
-        if (_hudPrefab && _hudObject )
+        if (_hudPrefab && _hudObject == null)
             _hudObject = Instantiate( _hudPrefab, transform, false );
     }
 
     void ShowPauseUi()
     {
         CleanUi();
-        if (_pauseUiPrefab && _pauseUiObject )
+        if (_pauseUiPrefab && _pauseUiObject == null)
             _pauseUiObject = Instantiate(_pauseUiPrefab, transform, false);
     }
 
     void ShowGameOverUi()
     {
         CleanUi();
-        if (_gameOverUiPrefab && _gameOverUiObject)
+        if (_gameOverUiPrefab && _gameOverUiObject == null)
             _gameOverUiObject = Instantiate(_gameOverUiPrefab, transform, false);
     }
 

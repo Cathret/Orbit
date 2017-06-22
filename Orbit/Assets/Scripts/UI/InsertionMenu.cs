@@ -34,7 +34,6 @@ public class InsertionMenu : MonoBehaviour
         }
 
         _quitButton.onClick.AddListener(Quit);
-
     }
 
     void AddCell( int index )

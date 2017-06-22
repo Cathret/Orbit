@@ -18,6 +18,11 @@ public class BuildUiScript : MonoBehaviour
         GameManager.Instance.OnResourcesChange += OnResourceChange;
     }
 
+    void OnDestroy()
+    {
+        GameManager.Instance.OnResourcesChange -= OnResourceChange;
+    }
+
     void OnPlayClicked()
     {
         GameManager.Instance.CurrentGameMode = GameManager.GameMode.Attacking;
