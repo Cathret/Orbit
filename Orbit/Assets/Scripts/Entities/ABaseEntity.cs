@@ -17,6 +17,8 @@ namespace Orbit.Entity
 
         protected virtual void Update()
         {
+            if ( GameManager.Instance.CurrentGameState != GameManager.GameState.Play )
+                return;
             // Update
         }
         #endregion

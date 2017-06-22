@@ -126,6 +126,8 @@ public class GameManager : MonoBehaviour
         CurrentTime = Time.time;
         CurrentGameMode = GameMode.Building;
         CurrentGameState = GameState.Play;
+
+        GameGrid.Instance.OnGridEmpty.AddListener(GameOver);
     }
 
     // Update is called once per frame
@@ -143,5 +145,10 @@ public class GameManager : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex );
+    }
+
+    void GameOver()
+    {
+        CurrentGameState = GameState.GameOver;
     }
 }

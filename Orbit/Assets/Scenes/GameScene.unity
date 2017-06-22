@@ -348,7 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shakeDuration: 0.3
-  shakeAmount: 0.7
+  shakeAmount: 0.3
   decreaseFactor: 1
 --- !u!1001 &940170031
 Prefab:
