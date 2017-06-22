@@ -262,6 +262,7 @@ MonoBehaviour:
     type: 2}
   _spriteRenderer: {fileID: 0}
   _icon: {fileID: 21300000, guid: 5e9c0e12f7f441e47be87b5b8d845ff2, type: 3}
+  _reparatorParticles: {fileID: 198621428664929470}
   _repairSpeed: 2
 --- !u!198 &198621428664929470
 ParticleSystem:
@@ -318,7 +319,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 623957851
+  randomSeed: -378553546
   InitialModule:
     serializedVersion: 3
     enabled: 1

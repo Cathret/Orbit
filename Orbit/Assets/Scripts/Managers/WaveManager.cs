@@ -97,6 +97,11 @@ public class WaveManager : MonoBehaviour
     }
     private float _timeSpentSinceLastWave = 0;
 
+    public float TimeToNextWave
+    {
+        get { return TimeBetweenWaves -_timeSpentSinceLastWave; }
+    }
+
     public delegate void DelegateRound( uint value );
 
     public event DelegateRound RoundChanged;
@@ -125,8 +130,10 @@ public class WaveManager : MonoBehaviour
 
     private void OnStartNewRound()
     {
+        ++CurrentRound;
+
         if ( RoundChanged != null )
-            RoundChanged.Invoke( ++CurrentRound );
+            RoundChanged.Invoke( CurrentRound );
 
         OnUpdate = UpdateSendWave;
     }
