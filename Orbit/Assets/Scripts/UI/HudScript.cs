@@ -34,7 +34,7 @@ public class HudScript : MonoBehaviour
     {
         if ( !_timerText )
             return;
-        float currentTime = GameManager.Instance.CurrentTime;
+        float currentTime = WaveManager.Instance.TimeToNextWave;
         int seconds = ( (int)currentTime ) % 60;
         int minutes = ( (int)currentTime ) / 60;
         _timerText.text = String.Format( "{0:00}:{1:00}", minutes, seconds );
