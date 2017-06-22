@@ -9,6 +9,7 @@ namespace Orbit.Entity
 
         public event DelegateTrigger TriggerDeath;
         public event DelegateTrigger TriggerDestroy;
+        public event DelegateTrigger TriggerHit;
 
         public delegate void DelegateUint( uint value );
 
@@ -22,6 +23,8 @@ namespace Orbit.Entity
             get { return _healthPoints; }
             protected set
             {
+                bool damageTaken = _healthPoints > value;
+
                 _healthPoints = value;
 
                 if ( _healthPoints > MaxHP )
@@ -41,6 +44,9 @@ namespace Orbit.Entity
 
                 if ( HpChanged != null )
                     HpChanged( (uint)_healthPoints );
+
+                if ( damageTaken && TriggerHit != null )
+                    TriggerHit();
             }
         }
         private int _healthPoints = 0;

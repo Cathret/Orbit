@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Orbit.Entity;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour

@@ -1,9 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace Orbit.Entity
 {
     public abstract class AUnitController : AEntityController
     {
+        #region Static members
+
+        public static UnityEvent DmgTakenEvent = new UnityEvent();
+
+        #endregion
         #region Members
         // TODO: create a shop that will instanciate a prefab
         //public uint Price
@@ -80,6 +86,7 @@ namespace Orbit.Entity
             }
 
             HpChanged += ModifyGrey;
+            TriggerHit += DmgTakenEvent.Invoke;
             Cell.OnSelection += ModifySelected;
             Cell.OnActionLaunched += ExecuteOnClick;
         }
