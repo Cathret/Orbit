@@ -21,6 +21,7 @@ public class HudScript : MonoBehaviour
     void Start()
     {
         GameManager.Instance.OnResourcesChange += UpdateResourcesText;
+        UpdateResourcesText( GameManager.Instance.ResourcesCount );
         WaveManager.Instance.RoundChanged += UpdateRoundText;
         if ( _rotateClockWise )
             _rotateClockWise.onClick.AddListener( GameGrid.Instance.RotateClockwise );
