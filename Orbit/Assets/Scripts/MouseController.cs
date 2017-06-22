@@ -129,7 +129,7 @@ public class MouseController : MonoBehaviour
                 uint uy = ( uint )y;
                 /*if ( !GameGrid.Instance.CanBeAdded(ux, uy) )
                     return;*/
-                _currentInsertionMenu = Instantiate( _insertionMenu, FindObjectOfType<Canvas>().transform, false );
+                _currentInsertionMenu = Instantiate( _insertionMenu, GuiManager.Instance.transform, false );
                 _currentInsertionMenu.X = ux;
                 _currentInsertionMenu.Y = uy;
                 _currentInsertionMenu.DestroyCallback += () => { _currentInsertionMenu = null; };

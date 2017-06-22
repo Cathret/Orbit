@@ -454,8 +454,9 @@ GameObject:
   - component: {fileID: 1612499743}
   - component: {fileID: 1612499742}
   - component: {fileID: 1612499741}
+  - component: {fileID: 1612499745}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: GUI Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -536,6 +537,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1612499745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1612499740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02cb502c04addb49bca397a1e671c96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hudPrefab: {fileID: 1509041421721634, guid: 3a0f95a3884961a48b75676ee3262771, type: 2}
+  _buildUiPrefab: {fileID: 0}
+  _pauseUiPrefab: {fileID: 1886245450777322, guid: 64c509eb4c5f24c4ba540cf03daae7e1,
+    type: 2}
+  _gameOverUiPrefab: {fileID: 1020326827632742, guid: eb401d6ea0acc66418f447173854c681,
+    type: 2}
 --- !u!1001 &1922816789
 Prefab:
   m_ObjectHideFlags: 0

@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class GuiManager : MonoBehaviour
 {
+    private static GuiManager _instance;
+
+    public static GuiManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = FindObjectOfType<GuiManager>();
+            return _instance;
+        }
+    }
+
     [SerializeField]
     private GameObject _hudPrefab;
     private GameObject _hudObject;
@@ -17,11 +29,9 @@ public class GuiManager : MonoBehaviour
     private GameObject _gameOverUiPrefab;
     private GameObject _gameOverUiObject;
 
-    private Transform _canvas;
     // Use this for initialization
     void Start ()
     {
-        _canvas = GetComponent<Canvas>().transform;
 
         GameManager.Instance.OnPlay.AddListener(ShowHud);
         GameManager.Instance.OnPause.AddListener(ShowPauseUi);
@@ -52,21 +62,21 @@ public class GuiManager : MonoBehaviour
     {
         CleanCanvas();
         if (_hudPrefab && _hudObject )
-            _hudObject = Instantiate( _hudPrefab, _canvas, false );
+            _hudObject = Instantiate( _hudPrefab, transform, false );
     }
 
     void ShowPauseUi()
     {
         CleanCanvas();
         if (_pauseUiPrefab && _pauseUiObject )
-            _pauseUiObject = Instantiate(_pauseUiPrefab, _canvas, false);
+            _pauseUiObject = Instantiate(_pauseUiPrefab, transform, false);
     }
 
     void ShowGameOverUi()
     {
         CleanCanvas();
         if (_gameOverUiPrefab && _gameOverUiObject)
-            _gameOverUiObject = Instantiate(_gameOverUiPrefab, _canvas, false);
+            _gameOverUiObject = Instantiate(_gameOverUiPrefab, transform, false);
     }
 
     void ShowBuildUi( bool show )
@@ -74,7 +84,7 @@ public class GuiManager : MonoBehaviour
         if ( show )
         {
             if ( _buildUiPrefab && _buildUiObject == null )
-                _buildUiObject = Instantiate(_buildUiPrefab, _canvas, false );
+                _buildUiObject = Instantiate(_buildUiPrefab, transform, false );
         }
         else
         {

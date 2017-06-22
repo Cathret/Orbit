@@ -20,9 +20,9 @@ public class GameManager : MonoBehaviour
 
     public enum State
     {
-        PLAYING,
-        PAUSE,
-        GAME_OVER
+        Playing,
+        Pause,
+        GameOver
     }
 
     public delegate void BoolDelegate( bool value );
@@ -35,12 +35,12 @@ public class GameManager : MonoBehaviour
 
     public bool CanPlay
     {
-        get { return _canPlay && CurrentState == State.PLAYING; }
+        get { return _canPlay && CurrentState == State.Playing; }
     }
 
     public bool CanBuild
     {
-        get { return _canBuild && CurrentState == State.PLAYING; }
+        get { return _canBuild && CurrentState == State.Playing; }
         set
         {
             _canBuild = value; 
@@ -53,22 +53,22 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnPause = new UnityEvent();
     public UnityEvent OnGameOver = new UnityEvent();
 
-    private State _currentState = State.PLAYING;
+    private State _currentState = State.Playing;
     public State CurrentState {
         get { return _currentState; }
         private set
         {
             switch ( value )
             {
-                case State.PLAYING:
+                case State.Playing:
                     if (OnPlay != null)
                         OnPlay.Invoke();
                     break;
-                case State.PAUSE:
+                case State.Pause:
                     if (OnPause != null)
                         OnPause.Invoke();
                     break;
-                case State.GAME_OVER:
+                case State.GameOver:
                     if (OnGameOver != null)
                         OnGameOver.Invoke();
                     break;
@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    if ( CurrentState == State.PLAYING )
+	    if ( CurrentState == State.Playing )
 	        CurrentTime += Time.deltaTime;
 	}
 }
