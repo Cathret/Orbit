@@ -60,7 +60,8 @@ namespace Orbit.Entity.Unit
         {
             base.Update();
 
-            ShootTimer += Time.deltaTime;
+            if ( !_canShoot )
+                ShootTimer += Time.deltaTime;
         }
     }
 }

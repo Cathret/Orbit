@@ -27,6 +27,7 @@ public class OpponentManager : MonoBehaviour
     private uint _spawnPaddingFromScreen = 5;
 
     private List<AOpponentController> _listOpponentsAlive = new List<AOpponentController>();
+    private List<AOpponentController> _listOpponentsVisible = new List<AOpponentController>();
     #endregion
 
     private void Start()
@@ -50,13 +51,20 @@ public class OpponentManager : MonoBehaviour
 
         AOpponentController opponentInstance = Instantiate( opponentPrefab, position, Quaternion.identity );
         // TODO: change every event with sender as first parameter
-        opponentInstance.TriggerDestroy += () => { _listOpponentsAlive.Remove( opponentInstance ); };
+        opponentInstance.TriggerDestroy += () =>
+        {
+            _listOpponentsAlive.Remove( opponentInstance );
+            if ( _listOpponentsVisible.Contains( opponentInstance ) )
+                _listOpponentsVisible.Remove( opponentInstance );
+        };
+
+        _listOpponentsAlive.Add( opponentInstance );
     }
 
     public void RegisterOpponent( AOpponentController opponent )
     {
-        if ( !_listOpponentsAlive.Contains( opponent ) )
-            _listOpponentsAlive.Add( opponent );
+        if ( !_listOpponentsVisible.Contains( opponent ) )
+            _listOpponentsVisible.Add( opponent );
     }
 
     public bool AreAllOpponentsDead()
@@ -70,7 +78,7 @@ public class OpponentManager : MonoBehaviour
         float minDist = Mathf.Infinity;
         Vector3 currentPos = cell.position;
 
-        foreach ( AOpponentController opponentController in _listOpponentsAlive )
+        foreach ( AOpponentController opponentController in _listOpponentsVisible )
         {
             float dist = Vector3.Distance( opponentController.transform.position, currentPos );
             if ( dist < minDist )
