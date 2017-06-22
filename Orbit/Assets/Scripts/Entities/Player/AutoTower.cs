@@ -54,8 +54,8 @@ namespace Orbit.Entity.Unit
                 if (FindClosestOpponent(Cell.transform, out target))
                 {
                     Shoot(target - transform.position);
-                    if (_head)
-                        _head.transform.right = (target - transform.position).normalized;
+                    if (Head)
+                        Head.transform.right = (target - transform.position).normalized;
                 }
             }
         }
