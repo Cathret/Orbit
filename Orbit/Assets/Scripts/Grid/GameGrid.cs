@@ -175,6 +175,11 @@ public class GameGrid : MonoBehaviour
     }
 
     public bool CanBeAdded( uint x, uint y )
+    { 
+        return CanBeConnected( x, y ) && _grid[x, y] == null;
+    }
+
+    public bool CanBeConnected(uint x, uint y)
     {
         bool result = false;
 
@@ -195,7 +200,7 @@ public class GameGrid : MonoBehaviour
         if (!_grid[x, y])
             return false;
 
-        return CanBeAdded(x, y);
+        return CanBeConnected(x, y);
     }
 
     public void RemoveCase ( uint x, uint y )

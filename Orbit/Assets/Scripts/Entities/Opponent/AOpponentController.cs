@@ -9,7 +9,7 @@ namespace Orbit.Entity
     {
         protected List<Vector3> WayPoints = new List<Vector3>();
 
-        private int currentWayPoint = 0;
+        protected int currentWayPoint = 0;
 
         #region Members
         public uint Speed

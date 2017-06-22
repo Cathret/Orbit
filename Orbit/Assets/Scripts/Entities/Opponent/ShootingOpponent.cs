@@ -33,6 +33,8 @@ namespace Orbit.Entity.Opponent
         #region Public functions
         public void Shoot( Vector3 direction )
         {
+            if ( currentWayPoint > 0 )
+                return;
             direction.Normalize();
             Projectile bullet = Instantiate( _projectileType, transform.position, transform.rotation );
             bullet.transform.up = direction;
@@ -60,7 +62,7 @@ namespace Orbit.Entity.Opponent
             Vector2 point = Random.insideUnitCircle * GameGrid.Instance.RealEfficientSide / 2;
             Vector3 target = new Vector3(point.x, point.y);
             target += center;
-            //WayPoints.Add(center + target);
+            
             WayPoints.Add((target - transform.position).normalized * distance + transform.position);
             WayPoints.Add(transform.position);
         }

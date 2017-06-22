@@ -35,7 +35,8 @@ public class MouseController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-        HandleMouse();
+        if (!_currentInsertionMenu)
+            HandleMouse();
 	}
 
     void HandleMouse()
