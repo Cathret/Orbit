@@ -21,7 +21,7 @@ public class HudScript : MonoBehaviour
     void Start ()
 	{
 	    GameManager.Instance.OnResourcesChange += UpdateResourcesText;
-	    WaveManager.Instance.OnWaveChanged += UpdateWaveText;
+	    WaveManager.Instance.RoundChanged += UpdateRoundText;
         _rotateClockWise.onClick.AddListener( GameGrid.Instance.RotateClockwise );
         _rotateIInvClockWise.onClick.AddListener(GameGrid.Instance.RotateReverseClockwise);
 
@@ -42,7 +42,7 @@ public class HudScript : MonoBehaviour
         _resourcesText.text = count.ToString();
     }
 
-    void UpdateWaveText( uint level )
+    void UpdateRoundText( uint level )
     {
         _zoneText.text = level.ToString();
     }

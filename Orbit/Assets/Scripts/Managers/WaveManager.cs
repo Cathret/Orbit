@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
-
-    private static WaveManager _instance;
-
     public static WaveManager Instance
     {
         get
@@ -17,81 +14,180 @@ public class WaveManager : MonoBehaviour
             return _instance;
         }
     }
+    private static WaveManager _instance = null;
+
+    #region Members
+
+    #region SerializeFields
+    public uint NbWavesPerRound
+    {
+        get { return _nbWavesPerRound; }
+        protected set { _nbWavesPerRound = value; }
+    }
+    [SerializeField]
+    private uint _nbWavesPerRound = 3;
+
+    public uint MaxNbQuarterPerWave
+    {
+        get { return _maxNbQuarterPerWave; }
+        protected set { _maxNbQuarterPerWave = value; }
+    }
+    [SerializeField]
+    private uint _maxNbQuarterPerWave = 1;
+
+    protected uint SpawningSeed
+    {
+        get { return (uint)Random.Range( (int)_randomSeedSmall, (int)_randomSeedHigh ); }
+    }
+    [SerializeField]
+    private uint _randomSeedSmall = 4;
+    [SerializeField]
+    private uint _randomSeedHigh = 7;
+
+    public float MultiplicatorPerRound
+    {
+        get { return _multiplicatorPerRound; }
+        protected set { _multiplicatorPerRound = value; }
+    }
+    [SerializeField, Range( 1.0f, 5.0f )]
+    private float _multiplicatorPerRound = 1.3f;
+
+    public float RoundLength
+    {
+        get { return _roundLength; }
+        protected set { _roundLength = value; }
+    }
+    [SerializeField, Range( 0.0f, 300.0f )]
+    private float _roundLength = 30.0f;
 
     [SerializeField]
     private AOpponentController[] _enemies;
 
     [SerializeField]
-    private uint _currentWave = 1;
+    private uint _paddingFromScreen = 8;
+    #endregion
 
-    [SerializeField, Range(0, 3600)]
-    private float _waveLength = 30.0f;
-
-    private float _timeLeft = 0;
-
-    public float TimeLeft
+    public float TimeBetweenWaves
     {
-        get { return _timeLeft; }
-        set
+        get { return RoundLength / NbWavesPerRound; }
+    }
+
+    public uint CurrentRound
+    {
+        get { return _currentRound; }
+        protected set { _currentRound = value; }
+    }
+    private uint _currentRound = 0;
+
+    public uint CurrentWave
+    {
+        get { return _currentWave; }
+        protected set { _currentWave = value; }
+    }
+    private uint _currentWave = 0;
+
+    public float TimeSpentSinceLastWave
+    {
+        get { return _timeSpentSinceLastWave; }
+        protected set
         {
-            _timeLeft = value;
-            if ( _timeLeft > _waveLength )
+            _timeSpentSinceLastWave = value;
+            if ( _timeSpentSinceLastWave > TimeBetweenWaves )
             {
-                NextWave();
-                _timeLeft = 0.0f;
+                OnUpdate = UpdateSendWave;
+                _timeSpentSinceLastWave = 0.0f;
             }
         }
     }
+    private float _timeSpentSinceLastWave = 0;
 
-    [SerializeField]
-    private uint _paddingFromScreen = 8;
+    public delegate void DelegateRound( uint value );
+    public event DelegateRound RoundChanged;
 
-    [SerializeField]
-    private uint _baseEnemyPerSec = 10;
+    public delegate void DelegateUpdate();
+    public event DelegateUpdate OnUpdate = () => { };
 
-    [SerializeField, Range( 1.0f, 5.0f)]
-    private float _multiplyPerWave = 1.3f;
+    private CameraController _cameraController = null;
+    #endregion
 
-    private uint _enemyPerSec = 10;
-
-    public delegate void WaveDelegate( uint value );
-    public event WaveDelegate OnWaveChanged;
-
-    private CameraController _cameraController;
-
-    private Coroutine _spawnerEnemies;
-
-    // Use this for initialization
-    void Start ()
+    private void Awake()
     {
-        _spawnerEnemies = StartCoroutine(EnemyCoroutine());
-        _cameraController = FindObjectOfType<CameraController>();
+        if ( _randomSeedSmall > _randomSeedHigh )
+            Debug.LogError( "WaveManager.Start() - RandomSeedSmall cannot be greater then RandomSeedHigh" );
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    private void Start()
     {
-        if ( GameManager.Instance.CurrentState == GameManager.State.PLAYING )
+        _cameraController = FindObjectOfType<CameraController>();
+        if ( _cameraController == null )
+            Debug.LogError( "WaveManager.Start() - could not find object of type CameraController" );
+
+        GameManager.Instance.OnPlay.AddListener( OnStartNewRound );
+    }
+
+    private void OnStartNewRound()
+    {
+        if ( RoundChanged != null )
+            RoundChanged.Invoke( ++CurrentRound );
+
+        OnUpdate = UpdateSendWave;
+    }
+
+    private void Update()
+    {
+        // TODO: remove debug
+        if ( Input.GetKeyDown( KeyCode.P ) )
         {
-            TimeLeft += Time.deltaTime;
+            CurrentRound++;
+            OnStartNewRound();
         }
+        OnUpdate();
 	}
 
-    void OnDestroy()
+    private void UpdateWaitForNextWave()
     {
-        if (_spawnerEnemies != null)
-            StopCoroutine(_spawnerEnemies);
+        TimeSpentSinceLastWave += Time.deltaTime; // Changes OnUpdate to UpdateSendWave when TimeSpentSinceLastWave go over the time between the waves
+        Debug.Log( "UpdateWaitForNextWave()" );
     }
 
-    void NextWave()
+    private void UpdateSendWave()
     {
-        _enemyPerSec = ( uint )( _baseEnemyPerSec * Mathf.Pow( _multiplyPerWave, _currentWave++ ) );
+        NextWave();
+        Debug.Log( "UpdateSendWave()" );
 
-        if (OnWaveChanged != null)
-            OnWaveChanged.Invoke(_currentWave);
+        if ( CurrentWave < NbWavesPerRound )
+            OnUpdate = UpdateWaitForNextWave;
+        else
+            OnUpdate = UpdateWaitEndRound;
     }
 
-    void SpawnEnemy()
+    private void UpdateWaitEndRound()
+    {
+        // TODO: wait until every opponent has been destroyed or has dissapeared
+
+        // IF NOT OPPONENT LEFT
+        {
+            CurrentWave = 0;
+            TimeSpentSinceLastWave = 0;
+            OnUpdate = () => { };
+            Debug.Log( "UpdateWaitEndRound()" );
+        }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnPlay.RemoveListener( OnStartNewRound );
+    }
+
+    private void NextWave()
+    {
+        uint nbOpponents = (uint)Mathf.FloorToInt( SpawningSeed * Mathf.Pow( MultiplicatorPerRound, ++CurrentWave ) );
+
+        for (uint i = nbOpponents; i != 0; --i)
+            SpawnEnemy();
+    }
+
+    private void SpawnEnemy()
     {
         int enemiesLength = _enemies.Length;
         if (enemiesLength == 0)
@@ -109,16 +205,7 @@ public class WaveManager : MonoBehaviour
 
         Vector3 position = GameGrid.Instance.RealCenter + distance;
 
+        // TODO: keep track of every opponent spawned
         Instantiate( prefab, position, Quaternion.identity );
-    }
-
-    IEnumerator EnemyCoroutine()
-    {
-        while ( true )
-        {
-            if ( GameManager.Instance.CurrentState == GameManager.State.PLAYING )
-                SpawnEnemy();
-            yield return new WaitForSeconds(1.0f / _enemyPerSec);
-        }
     }
 }
