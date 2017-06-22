@@ -32,6 +32,7 @@ namespace Orbit.Entity
             get { return _bIsSelected; }
             protected set { _bIsSelected = value; }
         }
+
         [SerializeField] // TODO remove
         private bool _bIsSelected = false;
 
@@ -47,6 +48,14 @@ namespace Orbit.Entity
 
         [SerializeField]
         private SpriteRenderer _spriteRenderer;
+
+        [SerializeField]
+        private Sprite _icon;
+
+        public Sprite Icon
+        {
+            get { return _icon; }
+        }
         #endregion
 
         #region Public functions

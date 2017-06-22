@@ -151,6 +151,8 @@ MonoBehaviour:
   _bIsSelected: 0
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
     type: 2}
+  _spriteRenderer: {fileID: 0}
+  _icon: {fileID: 21300000, guid: e6f6977369b2e0144aad49a44e833400, type: 3}
 --- !u!212 &212206647798409604
 SpriteRenderer:
   m_ObjectHideFlags: 1

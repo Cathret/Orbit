@@ -230,6 +230,8 @@ MonoBehaviour:
   _bIsSelected: 0
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
     type: 2}
+  _spriteRenderer: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 5e9c0e12f7f441e47be87b5b8d845ff2, type: 3}
   _repairSpeed: 2
 --- !u!198 &198621428664929470
 ParticleSystem:

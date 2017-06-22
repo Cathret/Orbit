@@ -61,7 +61,12 @@ public class GameCell : MonoBehaviour
     private AUnitController _unit;
     public AUnitController Unit
     {
-        get { return _unit; }
+        get
+        {
+            if (_unit == null)
+                _unit = GetComponent<AUnitController>();
+            return _unit;
+        }
     }
 
     void Awake()
@@ -69,9 +74,7 @@ public class GameCell : MonoBehaviour
         _targetPosition = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        _unit = GetComponent<AUnitController>();
-        if ( _unit != null )
-            _unit.TriggerDeath += Delete;
+        Unit.TriggerDeath += Delete;
     }
 
     void Start()
