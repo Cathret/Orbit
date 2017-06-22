@@ -86,21 +86,13 @@ namespace Orbit.Entity
 
         protected virtual void OnDeath()
         {
-            // Entity is dead
-            float timer = 0.0f;
             if ( _deathParSysPrefab )
             {
-                ParticleSystem particle = Instantiate( _deathParSysPrefab, transform );
-                timer = particle.main.duration;
+                ParticleSystem particle = Instantiate( _deathParSysPrefab, transform.position, transform.rotation );
                 particle.Play();
-                SpriteRenderer[] children = GetComponentsInChildren<SpriteRenderer>();
-                foreach ( SpriteRenderer t in children )
-                {
-                    if ( t )
-                        Destroy( t );
-                }
+                Destroy(particle.gameObject, particle.main.duration);
             }
-            Destroy( gameObject, timer );
+            Destroy( gameObject );
         }
 
         protected virtual void OnDestroy()
