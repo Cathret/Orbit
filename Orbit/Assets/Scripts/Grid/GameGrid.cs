@@ -88,10 +88,11 @@ public class GameGrid : MonoBehaviour
         transform.position = new Vector3( 0, 0, FixedZ );
         _grid = new GameCell[Side, Side];
 
+        CheckGrid();
+
         if (_defaultCell)
             AddCase(_defaultCell, CenterX, CenterY);
-        else
-            CheckGrid();
+            
     }
 
     void OnDrawGizmos()
