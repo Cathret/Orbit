@@ -12,15 +12,7 @@ namespace Orbit.Entity
         public int ShieldPower
         {
             get { return _shieldPower; }
-            set
-            {
-                _shieldPower = value;
-
-                if ( _shieldPower < 0 )
-                    _shieldPower = 0;
-                if ( _shieldPower == 0 )
-                    Hp = 0;
-            }
+            set { _shieldPower = value; }
         }
         private int _shieldPower;
         #endregion
@@ -32,6 +24,14 @@ namespace Orbit.Entity
 
             _selfGenerator = GetComponentInParent<IShieldingEntity>();
             TriggerShieldDestroyed = _selfGenerator.OnShieldDestroyed;
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+
+            MaxHP = ( uint )ShieldPower;
+            Hp = ( int )MaxHP;
         }
 
         protected override void OnDeath()

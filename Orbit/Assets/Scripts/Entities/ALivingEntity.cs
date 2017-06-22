@@ -7,6 +7,7 @@ namespace Orbit.Entity
         #region Events
         public delegate void DelegateTrigger();
         public event DelegateTrigger TriggerDeath;
+        public event DelegateTrigger TriggerDestroy;
 
         public delegate void DelegateUint( uint value );
         public event DelegateUint HpChanged;
@@ -92,6 +93,12 @@ namespace Orbit.Entity
                 particle.Play();
             }
             Destroy( gameObject, timer);
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if ( TriggerDestroy != null )
+                TriggerDestroy();
         }
         #endregion
     }
