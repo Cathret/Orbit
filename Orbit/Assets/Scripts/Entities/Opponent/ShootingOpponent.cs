@@ -68,7 +68,7 @@ namespace Orbit.Entity.Opponent
         protected override void Update()
         {
             base.Update();
-            if ( GameManager.Instance.CurrentState == GameManager.State.Playing )
+            if ( GameManager.Instance.CurrentGameState == GameManager.GameState.Play )
             {
                 CooldownTimer += Time.deltaTime;
             }

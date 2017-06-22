@@ -32,20 +32,15 @@ public class GuiManager : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-
-        GameManager.Instance.OnPlay.AddListener(ShowHud);
         GameManager.Instance.OnPause.AddListener(ShowPauseUi);
         GameManager.Instance.OnGameOver.AddListener(ShowGameOverUi);
-        GameManager.Instance.OnBuildSetEnabled += ShowBuildUi;
+
+        GameManager.Instance.OnAttackMode.AddListener(ShowHud);
+        GameManager.Instance.OnBuildMode.AddListener(ShowBuildUi);
     }
 
-    void CleanCanvas()
+    void CleanUi()
     {
-        if ( _hudObject )
-        {
-            Destroy( _hudObject );
-            _hudObject = null;
-        }
         if ( _pauseUiObject )
         {
             Destroy( _pauseUiObject );
@@ -58,41 +53,45 @@ public class GuiManager : MonoBehaviour
         }
     }
 
+    void CleanHuds()
+    {
+        if (_hudObject)
+        {
+            Destroy(_hudObject);
+            _hudObject = null;
+        }
+        if (_buildUiObject)
+        {
+            Destroy(_buildUiObject);
+            _buildUiObject = null;
+        }
+    }
+
     void ShowHud()
     {
-        CleanCanvas();
+        CleanHuds();
         if (_hudPrefab && _hudObject )
             _hudObject = Instantiate( _hudPrefab, transform, false );
     }
 
     void ShowPauseUi()
     {
-        CleanCanvas();
+        CleanUi();
         if (_pauseUiPrefab && _pauseUiObject )
             _pauseUiObject = Instantiate(_pauseUiPrefab, transform, false);
     }
 
     void ShowGameOverUi()
     {
-        CleanCanvas();
+        CleanUi();
         if (_gameOverUiPrefab && _gameOverUiObject)
             _gameOverUiObject = Instantiate(_gameOverUiPrefab, transform, false);
     }
 
-    void ShowBuildUi( bool show )
+    void ShowBuildUi()
     {
-        if ( show )
-        {
-            if ( _buildUiPrefab && _buildUiObject == null )
+        CleanHuds();
+        if ( _buildUiPrefab && _buildUiObject == null )
                 _buildUiObject = Instantiate(_buildUiPrefab, transform, false );
-        }
-        else
-        {
-            if ( _buildUiObject )
-            {
-                Destroy(_buildUiObject);
-                _buildUiObject = null;
-            }
-        }
     }
 }

@@ -71,7 +71,7 @@ public class WaveManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if ( GameManager.Instance.CurrentState == GameManager.State.Playing )
+        if ( GameManager.Instance.CurrentGameState == GameManager.GameState.Play )
         {
             TimeLeft += Time.deltaTime;
         }
@@ -116,7 +116,7 @@ public class WaveManager : MonoBehaviour
     {
         while ( true )
         {
-            if ( GameManager.Instance.CurrentState == GameManager.State.Playing )
+            if (GameManager.Instance.CurrentGameState == GameManager.GameState.Play)
                 SpawnEnemy();
             yield return new WaitForSeconds(1.0f / _enemyPerSec);
         }

@@ -68,9 +68,6 @@ public class MouseController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    if ( !GameManager.Instance.CanPlay )
-	        return;
-
 	    if ( _mode == MouseMode.Selection)
 	    {
 	        Vector2 mousePosition = Input.mousePosition;
@@ -117,18 +114,17 @@ public class MouseController : MonoBehaviour
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
         GameCell cell = GameGrid.Instance.GetCellFromWorldPoint( pos );
         if ( cell )
-            //TODO: Activate only in game mode
-     //       if (cell.Connected)
+            if (cell.Connected)
                 cell.Selected = true;
-        else if ( GameManager.Instance.CanBuild && _clickLength > _longClickLength && _currentInsertionMenu == null)
+        else if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Building && _clickLength > _longClickLength && _currentInsertionMenu == null)
         {
             int x, y;
             if ( GameGrid.Instance.GetPositionFromWorldPoint( pos, out x, out y ) )
             {
                 uint ux = ( uint )x;
                 uint uy = ( uint )y;
-                /*if ( !GameGrid.Instance.CanBeAdded(ux, uy) )
-                    return;*/
+                if ( !GameGrid.Instance.CanBeAdded(ux, uy) )
+                    return;
                 _currentInsertionMenu = Instantiate( _insertionMenu, GuiManager.Instance.transform, false );
                 _currentInsertionMenu.X = ux;
                 _currentInsertionMenu.Y = uy;

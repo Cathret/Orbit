@@ -137,7 +137,7 @@ public class GameGrid : MonoBehaviour
         if (!cell)
             return;
 
-        //if (IsConnected(x, y))
+        //if (CanBeAdded(x, y))
         {
             GameCell createdCell = Instantiate( cell );
             InitCellPosition(createdCell, x, y);
