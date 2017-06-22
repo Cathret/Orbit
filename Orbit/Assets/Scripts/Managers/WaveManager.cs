@@ -133,12 +133,6 @@ public class WaveManager : MonoBehaviour
 
     private void Update()
     {
-        // TODO: remove debug
-        if ( Input.GetKeyDown( KeyCode.P ) )
-        {
-            CurrentRound++;
-            OnStartNewRound();
-        }
         OnUpdate();
     }
 
@@ -146,13 +140,11 @@ public class WaveManager : MonoBehaviour
     {
         TimeSpentSinceLastWave +=
             Time.deltaTime; // Changes OnUpdate to UpdateSendWave when TimeSpentSinceLastWave go over the time between the waves
-        Debug.Log( "UpdateWaitForNextWave()" );
     }
 
     private void UpdateSendWave()
     {
         NextWave();
-        Debug.Log( "UpdateSendWave()" );
 
         if ( CurrentWave < NbWavesPerRound )
             OnUpdate = UpdateWaitForNextWave;
@@ -167,7 +159,6 @@ public class WaveManager : MonoBehaviour
             CurrentWave = 0;
             TimeSpentSinceLastWave = 0;
             OnUpdate = () => { };
-            Debug.Log( "UpdateWaitEndRound()" );
             GameManager.Instance.CurrentGameMode = GameManager.GameMode.Building;
         }
     }
