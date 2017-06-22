@@ -91,6 +91,12 @@ namespace Orbit.Entity
                 ParticleSystem particle = Instantiate(_deathParSysPrefab, transform);
                 timer = particle.main.duration;
                 particle.Play();
+                SpriteRenderer[] children = GetComponentsInChildren<SpriteRenderer>();
+                foreach (SpriteRenderer t in children )
+                {
+                    if ( t )
+                        Destroy(t);
+                }
             }
             Destroy( gameObject, timer);
         }

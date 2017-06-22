@@ -119,7 +119,7 @@ public class WaveManager : MonoBehaviour
         if ( _opponentManager == null )
             Debug.LogError( "WaveManager.Start() - could not find object of type OpponentManager" );
 
-        GameManager.Instance.OnPlay.AddListener( OnStartNewRound );
+        GameManager.Instance.OnAttackMode.AddListener( OnStartNewRound );
     }
 
     private void OnStartNewRound()
