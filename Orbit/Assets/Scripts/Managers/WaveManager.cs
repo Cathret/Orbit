@@ -171,7 +171,6 @@ public class WaveManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnPlay.RemoveListener( OnStartNewRound );
     }
 
     private void NextWave()

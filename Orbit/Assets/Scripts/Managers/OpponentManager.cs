@@ -4,6 +4,17 @@ using Orbit.Entity;
 
 public class OpponentManager : MonoBehaviour
 {
+    public static OpponentManager Instance
+    {
+        get
+        {
+            if ( _instance == null )
+                _instance = FindObjectOfType<OpponentManager>();
+            return _instance;
+        }
+    }
+    private static OpponentManager _instance;
+
     #region Members
     public CameraController CameraController
     {
@@ -15,7 +26,7 @@ public class OpponentManager : MonoBehaviour
     [SerializeField]
     private uint _spawnPaddingFromScreen = 5;
 
-    private List<AOpponentController> _listActiveOpponents = new List<AOpponentController>();
+    private List<AOpponentController> _listOpponentsAlive = new List<AOpponentController>();
     #endregion
 
     private void Start()
@@ -39,13 +50,39 @@ public class OpponentManager : MonoBehaviour
 
         AOpponentController opponentInstance = Instantiate( opponentPrefab, position, Quaternion.identity );
         // TODO: change every event with sender as first parameter
-        opponentInstance.TriggerDestroy += () => { _listActiveOpponents.Remove( opponentInstance ); };
+        opponentInstance.TriggerDestroy += () => { _listOpponentsAlive.Remove( opponentInstance ); };
 
-        _listActiveOpponents.Add( opponentInstance );
+        _listOpponentsAlive.Add( opponentInstance );
     }
 
     public bool AreAllOpponentsDead()
     {
-        return _listActiveOpponents.Count <= 0;
+        return _listOpponentsAlive.Count <= 0;
+    }
+
+    public bool FindClosestOpponent( Transform cell, out Vector3 target )
+    {
+        Transform tMin = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = cell.position;
+
+        foreach ( AOpponentController opponentController in _listOpponentsAlive )
+        {
+            float dist = Vector3.Distance(opponentController.transform.position, currentPos);
+            if ( dist < minDist )
+            {
+                tMin = opponentController.transform;
+                minDist = dist;
+            }
+        }
+
+        if ( tMin )
+        {
+            target = tMin.position;
+            return true;
+        }
+
+        target = new Vector3();
+        return false;
     }
 }
