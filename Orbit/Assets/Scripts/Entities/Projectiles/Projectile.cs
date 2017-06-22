@@ -14,13 +14,13 @@ namespace Orbit.Entity
         [SerializeField]
         private uint _power = 1;
 
-        public uint Speed
+        public float Speed
         {
             get { return _speed; }
             protected set { _speed = value; }
         }
-        [SerializeField]
-        private uint _speed = 2;
+        [SerializeField, Range( 0, 50 )]
+        private float _speed = 2;
 
         public bool IsFriend
         {

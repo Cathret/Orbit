@@ -2,6 +2,6 @@
 {
     public interface IMovingEntity
     {
-        uint Speed { get; }
+        float Speed { get; }
     }
 }

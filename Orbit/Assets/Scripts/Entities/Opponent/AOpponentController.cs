@@ -12,21 +12,21 @@ namespace Orbit.Entity
         protected int currentWayPoint = 0;
 
         #region Members
-        public uint Speed
+        public float Speed
         {
             get { return _speed; }
             protected set { _speed = value; }
         }
-        [SerializeField]
-        protected uint _speed = 2;
+        [SerializeField, Range(0, 50)]
+        protected float _speed = 2;
 
-        public uint RotateSpeed
+        public float RotateSpeed
         {
             get { return _rotateSpeed; }
             protected set { _rotateSpeed = value; }
         }
-        [SerializeField]
-        protected uint _rotateSpeed = 20;
+        [SerializeField, Range(0, 100)]
+        protected float _rotateSpeed = 20;
 
         public uint ResourcesToDrop
         {
