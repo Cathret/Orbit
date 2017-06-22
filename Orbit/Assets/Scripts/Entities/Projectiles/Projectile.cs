@@ -35,13 +35,6 @@ namespace Orbit.Entity
         #endregion
 
         #region Protected functions
-        protected override void Start()
-        {
-            base.Start();
-
-            Destroy( gameObject, 5.0f );
-        }
-
         protected override void Update()
         {
             base.Update();
@@ -52,6 +45,7 @@ namespace Orbit.Entity
         }
         #endregion
 
+        #region Private functions
         private void OnTriggerEnter2D( Collider2D other )
         {
             ALivingEntity livingEntity = other.gameObject.GetComponent<ALivingEntity>();
@@ -63,5 +57,11 @@ namespace Orbit.Entity
 
             Destroy( gameObject );
         }
+
+        private void OnBecameInvisible()
+        {
+            Destroy( gameObject );
+        }
+        #endregion
     }
 }
