@@ -169,7 +169,8 @@ public class WaveManager : MonoBehaviour
 
     private void NextWave()
     {
-        uint nbOpponents = (uint)Mathf.FloorToInt( SpawningSeed * Mathf.Pow( MultiplicatorPerRound, ++CurrentWave ) );
+        uint nbOpponents = (uint)Mathf.FloorToInt( SpawningSeed * Mathf.Pow( MultiplicatorPerRound, CurrentRound ) );
+        CurrentWave++;
 
         for ( uint i = nbOpponents; i != 0; --i )
             SpawnEnemy();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Orbit.Entity
@@ -10,6 +11,9 @@ namespace Orbit.Entity
         protected List<Vector3> WayPoints = new List<Vector3>();
 
         protected int currentWayPoint = 0;
+
+        [SerializeField]
+        private float _secondsBeforeRegister = 1.5f;
 
         #region Members
         public float Speed
@@ -76,9 +80,26 @@ namespace Orbit.Entity
         }
         #endregion
 
+        private void OnBecameVisible()
+        {
+            StartCoroutine( RegisterToOpponentManager() );
+        }
+
+        private void OnBecameInvisible()
+        {
+            Destroy( gameObject );
+        }
+
         public void DropResources()
         {
             GameManager.Instance.ResourcesCount += ResourcesToDrop;
+        }
+
+        private IEnumerator RegisterToOpponentManager()
+        {
+            yield return new WaitForSeconds( _secondsBeforeRegister );
+
+            OpponentManager.Instance.RegisterOpponent( this );
         }
     }
 }

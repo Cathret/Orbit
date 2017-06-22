@@ -207,6 +207,7 @@ MonoBehaviour:
   _deathParSysPrefab: {fileID: 198792207422468714, guid: 0a1c03ece4a39bc47b46d0480d78b853,
     type: 2}
   _basePower: 1
+  _secondsBeforeRegister: 1.5
   _speed: 1
   _rotateSpeed: 20
   _resourcesToDrop: 1

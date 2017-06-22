@@ -51,8 +51,12 @@ public class OpponentManager : MonoBehaviour
         AOpponentController opponentInstance = Instantiate( opponentPrefab, position, Quaternion.identity );
         // TODO: change every event with sender as first parameter
         opponentInstance.TriggerDestroy += () => { _listOpponentsAlive.Remove( opponentInstance ); };
+    }
 
-        _listOpponentsAlive.Add( opponentInstance );
+    public void RegisterOpponent( AOpponentController opponent )
+    {
+        if ( !_listOpponentsAlive.Contains( opponent ) )
+            _listOpponentsAlive.Add( opponent );
     }
 
     public bool AreAllOpponentsDead()

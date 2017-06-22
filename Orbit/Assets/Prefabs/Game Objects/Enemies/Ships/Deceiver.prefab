@@ -662,6 +662,7 @@ MonoBehaviour:
   _maxHealthPoints: 5
   _deathParSysPrefab: {fileID: 0}
   _basePower: 2
+  _secondsBeforeRegister: 1.5
   _speed: 1
   _rotateSpeed: 20
   _resourcesToDrop: 3
