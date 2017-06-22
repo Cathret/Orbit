@@ -146,7 +146,7 @@ MonoBehaviour:
   _maxHealthPoints: 10
   _deathParSysPrefab: {fileID: 0}
   _basePower: 1
-  Head: {fileID: 0}
+  Head: {fileID: 1027661704479118}
   _level: 1
   _bIsSelected: 0
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
