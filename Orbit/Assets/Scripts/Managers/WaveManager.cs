@@ -62,9 +62,6 @@ public class WaveManager : MonoBehaviour
 
     [SerializeField]
     private AOpponentController[] _enemies;
-
-    [SerializeField]
-    private uint _paddingFromScreen = 8;
     #endregion
 
     public float TimeBetweenWaves
@@ -107,7 +104,7 @@ public class WaveManager : MonoBehaviour
     public delegate void DelegateUpdate();
     public event DelegateUpdate OnUpdate = () => { };
 
-    private CameraController _cameraController = null;
+    private OpponentManager _opponentManager = null;
     #endregion
 
     private void Awake()
@@ -118,9 +115,9 @@ public class WaveManager : MonoBehaviour
 
     private void Start()
     {
-        _cameraController = FindObjectOfType<CameraController>();
-        if ( _cameraController == null )
-            Debug.LogError( "WaveManager.Start() - could not find object of type CameraController" );
+        _opponentManager = FindObjectOfType<OpponentManager>();
+        if ( _opponentManager == null )
+            Debug.LogError( "WaveManager.Start() - could not find object of type OpponentManager" );
 
         GameManager.Instance.OnAttackMode.AddListener( OnStartNewRound );
     }
@@ -163,9 +160,7 @@ public class WaveManager : MonoBehaviour
 
     private void UpdateWaitEndRound()
     {
-        // TODO: wait until every opponent has been destroyed or has dissapeared
-
-        // IF NOT OPPONENT LEFT
+        if ( _opponentManager.AreAllOpponentsDead() )
         {
             CurrentWave = 0;
             TimeSpentSinceLastWave = 0;
@@ -176,7 +171,6 @@ public class WaveManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnPlay.RemoveListener( OnStartNewRound );
     }
 
     private void NextWave()
@@ -195,17 +189,6 @@ public class WaveManager : MonoBehaviour
 
         AOpponentController prefab = _enemies[Random.Range( 0, enemiesLength )];
 
-        Vector3 distance = Random.insideUnitCircle.normalized;
-        uint padding = GameGrid.Instance.EfficientSide;
-
-        if ( _cameraController )
-            padding = _cameraController.Padding;
-
-        distance *= GameGrid.Instance.CellSize * ( padding + _paddingFromScreen );
-
-        Vector3 position = GameGrid.Instance.RealCenter + distance;
-
-        // TODO: keep track of every opponent spawned
-        Instantiate( prefab, position, Quaternion.identity );
+        _opponentManager.SpawnOpponent( prefab );
     }
 }

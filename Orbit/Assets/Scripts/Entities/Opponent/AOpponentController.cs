@@ -7,8 +7,6 @@ namespace Orbit.Entity
                                                 IMovingEntity,
                                                 IDropResources
     {
-        public static List<AOpponentController> OpponentList = new List<AOpponentController>();
-
         protected List<Vector3> WayPoints = new List<Vector3>();
 
         private int currentWayPoint = 0;
@@ -40,12 +38,6 @@ namespace Orbit.Entity
         #endregion
 
         #region Protected functions
-        protected override void Start()
-        {
-            base.Start();
-            OpponentList.Add( this );
-        }
-
         protected override void Update()
         {
             base.Update();
@@ -80,8 +72,6 @@ namespace Orbit.Entity
         protected override void OnDeath()
         {
             DropResources();
-
-            OpponentList.Remove(this);
 
             base.OnDeath();
         }
