@@ -58,9 +58,8 @@ namespace Orbit.Entity
                     float moveSpeed = _speed * Time.deltaTime;
                     transform.position = transform.position + ( delta * moveSpeed );
                     //Rotate Towards
-                    Vector3 direction = (target - transform.position).normalized;
-                    transform.up = Vector3.Slerp(transform.up, direction, Time.deltaTime * _rotateSpeed);
-
+                    Vector3 direction = ( target - transform.position ).normalized;
+                    transform.up = Vector3.Slerp( transform.up, direction, Time.deltaTime * _rotateSpeed );
                 }
             }
             else

@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace Orbit.Entity.Unit
 {
-    public class Reparator : AUnitController, IRepairingEntity
+    public class Reparator : AUnitController,
+                             IRepairingEntity
     {
         #region Members
         protected Coroutine RepairCoroutine
@@ -101,8 +102,8 @@ namespace Orbit.Entity.Unit
             else if ( RepairedUnit != null )
             {
                 FollowMouse = false;
-                if (Head)
-                    Head.transform.right = (RepairedUnit.transform.position - transform.position).normalized;
+                if ( Head )
+                    Head.transform.right = ( RepairedUnit.transform.position - transform.position ).normalized;
             }
         }
 

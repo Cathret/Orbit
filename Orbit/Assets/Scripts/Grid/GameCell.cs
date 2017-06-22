@@ -11,7 +11,7 @@ public class GameCell : MonoBehaviour
 
     public static GameCell SelectedCell
     {
-        get {  return _lastSelected; }
+        get { return _lastSelected; }
     }
 
     public uint X { get; private set; }
@@ -20,9 +20,11 @@ public class GameCell : MonoBehaviour
     private Vector3 _targetPosition;
 
     public delegate void DelegateBool( bool value );
+
     public event DelegateBool OnSelection;
 
     public delegate void DelegateVector3( Vector3 value );
+
     public DelegateVector3 OnActionLaunched;
 
     [SerializeField]
@@ -39,7 +41,7 @@ public class GameCell : MonoBehaviour
         {
             switch ( value )
             {
-                case true: 
+                case true:
                     SelectCallback();
                     break;
                 case false:
@@ -47,13 +49,13 @@ public class GameCell : MonoBehaviour
                     break;
             }
             _selected = value;
-        }    
+        }
     }
 
     public bool Connected
     {
         get { return _connected; }
-        set { SetConnected(value); }
+        set { SetConnected( value ); }
     }
 
     private AUnitController _unit;
@@ -74,14 +76,15 @@ public class GameCell : MonoBehaviour
 
     void Start()
     {
-        if (spriteRenderer)
+        if ( spriteRenderer )
             spriteRenderer.color = _connected ? Color.white : Color.grey;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * GameGrid.Instance.RotationSpeed);
+        transform.position = Vector3.Lerp( transform.position, _targetPosition,
+                                           Time.deltaTime * GameGrid.Instance.RotationSpeed );
     }
 
     public void InitPosition( uint x, uint y )
@@ -106,14 +109,14 @@ public class GameCell : MonoBehaviour
         Y = y;
 
         GameGrid gameGrid = GameGrid.Instance;
-        _targetPosition.x = (X + 0.5f) * gameGrid.CellSize;
-        _targetPosition.y = (Y + 0.5f) * gameGrid.CellSize;
+        _targetPosition.x = ( X + 0.5f ) * gameGrid.CellSize;
+        _targetPosition.y = ( Y + 0.5f ) * gameGrid.CellSize;
         _targetPosition.z = gameGrid.FixedZ;
     }
 
-    void SetConnected(bool value)
+    void SetConnected( bool value )
     {
-        if (_connected == value)
+        if ( _connected == value )
             return;
         _connected = value;
 
@@ -131,8 +134,8 @@ public class GameCell : MonoBehaviour
             _lastSelected.Selected = false;
 
         _lastSelected = this;
-        if ( OnSelection != null)
-            OnSelection.Invoke(true);
+        if ( OnSelection != null )
+            OnSelection.Invoke( true );
     }
 
     void UnselectCallback()
@@ -143,13 +146,13 @@ public class GameCell : MonoBehaviour
         _selected = false;
         _lastSelected = null;
 
-        if (OnSelection != null)
-            OnSelection.Invoke(false);
+        if ( OnSelection != null )
+            OnSelection.Invoke( false );
     }
 
     public static void Unselect()
     {
-        if (_lastSelected)
+        if ( _lastSelected )
             _lastSelected.Selected = false;
     }
 
@@ -171,7 +174,7 @@ public class GameCell : MonoBehaviour
         }
         else if ( Y == cell.Y )
         {
-            if (Math.Abs( x1 - x2 ) == 1)
+            if ( Math.Abs( x1 - x2 ) == 1 )
                 return true;
         }
         return false;
@@ -179,8 +182,8 @@ public class GameCell : MonoBehaviour
 
     public void LaunchAction( Vector3 target )
     {
-        if (OnActionLaunched != null)
-            OnActionLaunched.Invoke(target);
+        if ( OnActionLaunched != null )
+            OnActionLaunched.Invoke( target );
     }
 
     void Delete()

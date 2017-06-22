@@ -6,10 +6,12 @@ namespace Orbit.Entity
     {
         #region Events
         public delegate void DelegateTrigger();
+
         public event DelegateTrigger TriggerDeath;
         public event DelegateTrigger TriggerDestroy;
 
         public delegate void DelegateUint( uint value );
+
         public event DelegateUint HpChanged;
         public event DelegateUint MaxHpChanged;
         #endregion
@@ -24,7 +26,7 @@ namespace Orbit.Entity
 
                 if ( _healthPoints > MaxHP )
                 {
-                    _healthPoints = ( int )MaxHP;
+                    _healthPoints = (int)MaxHP;
                     return;
                 }
 
@@ -38,7 +40,7 @@ namespace Orbit.Entity
                 }
 
                 if ( HpChanged != null )
-                    HpChanged( ( uint )_healthPoints );
+                    HpChanged( (uint)_healthPoints );
             }
         }
         private int _healthPoints = 0;
@@ -79,7 +81,7 @@ namespace Orbit.Entity
 
             TriggerDeath += OnDeath;
 
-            Hp = ( int )MaxHP;
+            Hp = (int)MaxHP;
         }
 
         protected virtual void OnDeath()
@@ -88,17 +90,17 @@ namespace Orbit.Entity
             float timer = 0.0f;
             if ( _deathParSysPrefab )
             {
-                ParticleSystem particle = Instantiate(_deathParSysPrefab, transform);
+                ParticleSystem particle = Instantiate( _deathParSysPrefab, transform );
                 timer = particle.main.duration;
                 particle.Play();
                 SpriteRenderer[] children = GetComponentsInChildren<SpriteRenderer>();
-                foreach (SpriteRenderer t in children )
+                foreach ( SpriteRenderer t in children )
                 {
                     if ( t )
-                        Destroy(t);
+                        Destroy( t );
                 }
             }
-            Destroy( gameObject, timer);
+            Destroy( gameObject, timer );
         }
 
         protected virtual void OnDestroy()

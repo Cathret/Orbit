@@ -9,7 +9,7 @@ public class WaveManager : MonoBehaviour
     {
         get
         {
-            if (_instance == null)
+            if ( _instance == null )
                 _instance = FindObjectOfType<WaveManager>();
             return _instance;
         }
@@ -17,7 +17,6 @@ public class WaveManager : MonoBehaviour
     private static WaveManager _instance = null;
 
     #region Members
-
     #region SerializeFields
     public uint NbWavesPerRound
     {
@@ -99,9 +98,11 @@ public class WaveManager : MonoBehaviour
     private float _timeSpentSinceLastWave = 0;
 
     public delegate void DelegateRound( uint value );
+
     public event DelegateRound RoundChanged;
 
     public delegate void DelegateUpdate();
+
     public event DelegateUpdate OnUpdate = () => { };
 
     private OpponentManager _opponentManager = null;
@@ -139,11 +140,12 @@ public class WaveManager : MonoBehaviour
             OnStartNewRound();
         }
         OnUpdate();
-	}
+    }
 
     private void UpdateWaitForNextWave()
     {
-        TimeSpentSinceLastWave += Time.deltaTime; // Changes OnUpdate to UpdateSendWave when TimeSpentSinceLastWave go over the time between the waves
+        TimeSpentSinceLastWave +=
+            Time.deltaTime; // Changes OnUpdate to UpdateSendWave when TimeSpentSinceLastWave go over the time between the waves
         Debug.Log( "UpdateWaitForNextWave()" );
     }
 
@@ -178,14 +180,14 @@ public class WaveManager : MonoBehaviour
     {
         uint nbOpponents = (uint)Mathf.FloorToInt( SpawningSeed * Mathf.Pow( MultiplicatorPerRound, ++CurrentWave ) );
 
-        for (uint i = nbOpponents; i != 0; --i)
+        for ( uint i = nbOpponents; i != 0; --i )
             SpawnEnemy();
     }
 
     private void SpawnEnemy()
     {
         int enemiesLength = _enemies.Length;
-        if (enemiesLength == 0)
+        if ( enemiesLength == 0 )
             return;
 
         AOpponentController prefab = _enemies[Random.Range( 0, enemiesLength )];

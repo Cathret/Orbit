@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace Orbit.Entity.Unit
 {
-    public class Booster : AUnitController, IBoostingEntity
+    public class Booster : AUnitController,
+                           IBoostingEntity
     {
         #region Members
         protected DelegateTrigger OnBoostedUnitDeath
@@ -79,17 +80,17 @@ namespace Orbit.Entity.Unit
             }
         }
 
-        protected override void ModifySelected(bool selected)
+        protected override void ModifySelected( bool selected )
         {
-            base.ModifySelected(selected);
+            base.ModifySelected( selected );
 
-            if (selected)
+            if ( selected )
                 FollowMouse = true;
-            else if (BoostedUnit != null)
+            else if ( BoostedUnit != null )
             {
                 FollowMouse = false;
-                if (Head)
-                    Head.transform.right = (BoostedUnit.transform.position - transform.position).normalized;
+                if ( Head )
+                    Head.transform.right = ( BoostedUnit.transform.position - transform.position ).normalized;
             }
         }
 

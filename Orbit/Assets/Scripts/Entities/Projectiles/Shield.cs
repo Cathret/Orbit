@@ -30,8 +30,8 @@ namespace Orbit.Entity
         {
             base.Start();
 
-            MaxHP = ( uint )ShieldPower;
-            Hp = ( int )MaxHP;
+            MaxHP = (uint)ShieldPower;
+            Hp = (int)MaxHP;
         }
 
         protected override void OnDeath()

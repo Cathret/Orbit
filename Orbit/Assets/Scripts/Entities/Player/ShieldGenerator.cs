@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace Orbit.Entity.Unit
 {
-    public class ShieldGenerator : AUnitController, IShieldingEntity
+    public class ShieldGenerator : AUnitController,
+                                   IShieldingEntity
     {
         #region Members
         protected Coroutine CooldownCoroutine

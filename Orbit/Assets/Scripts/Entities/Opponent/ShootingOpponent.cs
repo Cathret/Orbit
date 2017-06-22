@@ -5,7 +5,6 @@ namespace Orbit.Entity.Opponent
     public class ShootingOpponent : AOpponentController,
                                     IShootingEntity
     {
-
         #region Members
         [SerializeField]
         protected float ShootCooldown = 0.7f;
@@ -21,7 +20,7 @@ namespace Orbit.Entity.Opponent
                 if ( _cooldownTimer > ShootCooldown )
                 {
                     _cooldownTimer = 0.0f;
-                    Shoot(transform.up);
+                    Shoot( transform.up );
                 }
             }
         }
@@ -57,14 +56,14 @@ namespace Orbit.Entity.Opponent
             base.Start();
             ;
             Vector3 center = GameGrid.Instance.RealCenter;
-            float distance = (transform.position - center).magnitude - GameGrid.Instance.RealEfficientSide;
+            float distance = ( transform.position - center ).magnitude - GameGrid.Instance.RealEfficientSide;
 
             Vector2 point = Random.insideUnitCircle * GameGrid.Instance.RealEfficientSide / 2;
-            Vector3 target = new Vector3(point.x, point.y);
+            Vector3 target = new Vector3( point.x, point.y );
             target += center;
-            
-            WayPoints.Add((target - transform.position).normalized * distance + transform.position);
-            WayPoints.Add(transform.position);
+
+            WayPoints.Add( ( target - transform.position ).normalized * distance + transform.position );
+            WayPoints.Add( transform.position );
         }
 
         protected override void Update()

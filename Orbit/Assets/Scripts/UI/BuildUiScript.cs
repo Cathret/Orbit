@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class BuildUiScript : MonoBehaviour
 {
-
     [SerializeField]
     private Button _playButton;
 
@@ -13,8 +12,9 @@ public class BuildUiScript : MonoBehaviour
     private Text _resourcesText;
 
     // Use this for initialization
-    void Start () {
-        _playButton.onClick.AddListener(OnPlayClicked);
+    void Start()
+    {
+        _playButton.onClick.AddListener( OnPlayClicked );
         GameManager.Instance.OnResourcesChange += OnResourceChange;
     }
 

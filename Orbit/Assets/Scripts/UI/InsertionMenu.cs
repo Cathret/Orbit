@@ -18,10 +18,11 @@ public class InsertionMenu : MonoBehaviour
     public uint Y;
 
     public delegate void DestroyDelegate();
+
     public event DestroyDelegate DestroyCallback;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         for ( int i = 0; i < _prefabCells.Length; ++i )
         {
@@ -33,12 +34,12 @@ public class InsertionMenu : MonoBehaviour
             button.onClick.AddListener( () => { AddCell( y ); } );
         }
 
-        _quitButton.onClick.AddListener(Quit);
+        _quitButton.onClick.AddListener( Quit );
     }
 
     void AddCell( int index )
     {
-        GameGrid.Instance.AddCase(_prefabCells[index], X, Y);
+        GameGrid.Instance.AddCase( _prefabCells[index], X, Y );
         Quit();
     }
 
@@ -49,7 +50,7 @@ public class InsertionMenu : MonoBehaviour
 
     void OnDestoy()
     {
-        if (DestroyCallback != null)
+        if ( DestroyCallback != null )
             DestroyCallback.Invoke();
     }
 }

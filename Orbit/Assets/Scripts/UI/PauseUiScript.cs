@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PauseUiScript : MonoBehaviour {
-
+public class PauseUiScript : MonoBehaviour
+{
     [SerializeField]
     private Button _continueButton;
 
@@ -12,10 +12,10 @@ public class PauseUiScript : MonoBehaviour {
     private Button _quitButton;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         _continueButton.onClick.AddListener( Continue );
-        _quitButton.onClick.AddListener(GameManager.Instance.ToMainMenu);
+        _quitButton.onClick.AddListener( GameManager.Instance.ToMainMenu );
     }
 
     void Continue()

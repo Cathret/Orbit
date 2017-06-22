@@ -10,7 +10,7 @@ public class GuiManager : MonoBehaviour
     {
         get
         {
-            if (_instance == null)
+            if ( _instance == null )
                 _instance = FindObjectOfType<GuiManager>();
             return _instance;
         }
@@ -30,13 +30,13 @@ public class GuiManager : MonoBehaviour
     private GameObject _gameOverUiObject;
 
     // Use this for initialization
-    void Awake ()
+    void Awake()
     {
-        GameManager.Instance.OnPause.AddListener(ShowPauseUi);
-        GameManager.Instance.OnGameOver.AddListener(ShowGameOverUi);
+        GameManager.Instance.OnPause.AddListener( ShowPauseUi );
+        GameManager.Instance.OnGameOver.AddListener( ShowGameOverUi );
 
-        GameManager.Instance.OnAttackMode.AddListener(ShowHud);
-        GameManager.Instance.OnBuildMode.AddListener(ShowBuildUi);
+        GameManager.Instance.OnAttackMode.AddListener( ShowHud );
+        GameManager.Instance.OnBuildMode.AddListener( ShowBuildUi );
     }
 
     void CleanUi()
@@ -55,14 +55,14 @@ public class GuiManager : MonoBehaviour
 
     void CleanHuds()
     {
-        if (_hudObject)
+        if ( _hudObject )
         {
-            Destroy(_hudObject);
+            Destroy( _hudObject );
             _hudObject = null;
         }
-        if (_buildUiObject)
+        if ( _buildUiObject )
         {
-            Destroy(_buildUiObject);
+            Destroy( _buildUiObject );
             _buildUiObject = null;
         }
     }
@@ -70,28 +70,28 @@ public class GuiManager : MonoBehaviour
     void ShowHud()
     {
         CleanHuds();
-        if (_hudPrefab && _hudObject == null)
+        if ( _hudPrefab && _hudObject == null )
             _hudObject = Instantiate( _hudPrefab, transform, false );
     }
 
     void ShowPauseUi()
     {
         CleanUi();
-        if (_pauseUiPrefab && _pauseUiObject == null)
-            _pauseUiObject = Instantiate(_pauseUiPrefab, transform, false);
+        if ( _pauseUiPrefab && _pauseUiObject == null )
+            _pauseUiObject = Instantiate( _pauseUiPrefab, transform, false );
     }
 
     void ShowGameOverUi()
     {
         CleanUi();
-        if (_gameOverUiPrefab && _gameOverUiObject == null)
-            _gameOverUiObject = Instantiate(_gameOverUiPrefab, transform, false);
+        if ( _gameOverUiPrefab && _gameOverUiObject == null )
+            _gameOverUiObject = Instantiate( _gameOverUiPrefab, transform, false );
     }
 
     void ShowBuildUi()
     {
         CleanHuds();
         if ( _buildUiPrefab && _buildUiObject == null )
-                _buildUiObject = Instantiate(_buildUiPrefab, transform, false );
+            _buildUiObject = Instantiate( _buildUiPrefab, transform, false );
     }
 }

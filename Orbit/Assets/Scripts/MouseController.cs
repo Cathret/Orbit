@@ -14,7 +14,7 @@ public class MouseController : MonoBehaviour
             if ( _instance == null )
                 _instance = FindObjectOfType<MouseController>();
             return _instance;
-        }   
+        }
     }
 
     [SerializeField]
@@ -29,7 +29,7 @@ public class MouseController : MonoBehaviour
 
     void Awake()
     {
-        GameManager.Instance.OnBuildMode.AddListener(SwitchToBuildMode);
+        GameManager.Instance.OnBuildMode.AddListener( SwitchToBuildMode );
     }
 
     void Start()
@@ -37,12 +37,12 @@ public class MouseController : MonoBehaviour
         _highlight = Instantiate( _highlightPrefab );
     }
 
-	// Update is called once per frame
-	void Update ()
-	{
-        if (!_currentInsertionMenu)
+    // Update is called once per frame
+    void Update()
+    {
+        if ( !_currentInsertionMenu )
             HandleMouse();
-	}
+    }
 
     void HandleMouse()
     {
@@ -51,7 +51,7 @@ public class MouseController : MonoBehaviour
 
         if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Attacking )
             HandleMouseInAttackMode();
-        else if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Building)
+        else if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Building )
             HandleMouseInBuildMode();
     }
 
@@ -59,7 +59,7 @@ public class MouseController : MonoBehaviour
     {
         HighlightConstructible();
 
-        if (Input.GetMouseButtonDown(0))
+        if ( Input.GetMouseButtonDown( 0 ) )
             AddCell();
     }
 
@@ -67,45 +67,49 @@ public class MouseController : MonoBehaviour
     {
         HighlightCellSelection();
 
-        if (Input.GetMouseButtonDown(0))
+        if ( Input.GetMouseButtonDown( 0 ) )
             SelectCell();
-        else if (Input.GetMouseButtonDown(1))
+        else if ( Input.GetMouseButtonDown( 1 ) )
             Action();
     }
 
     void Action()
     {
         GameCell cell = GameCell.SelectedCell;
-        if (cell && cell.Connected)
+        if ( cell && cell.Connected )
         {
             Vector3 mousePos = Input.mousePosition;
-            Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
-            cell.LaunchAction(pos);
+            Vector3 pos =
+                Camera.main.ScreenToWorldPoint( new Vector3( mousePos.x, mousePos.y,
+                                                             -Camera.main.transform.position.z ) );
+            cell.LaunchAction( pos );
         }
     }
 
     void SelectCell()
     {
         Vector3 mousePos = Input.mousePosition;
-        Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
-        GameCell cell = GameGrid.Instance.GetCellFromWorldPoint(pos);
-        if (cell)
-            if (cell.Connected)
+        Vector3 pos =
+            Camera.main.ScreenToWorldPoint( new Vector3( mousePos.x, mousePos.y, -Camera.main.transform.position.z ) );
+        GameCell cell = GameGrid.Instance.GetCellFromWorldPoint( pos );
+        if ( cell )
+            if ( cell.Connected )
                 cell.Selected = true;
     }
 
     void AddCell()
     {
         Vector3 mousePos = Input.mousePosition;
-        Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
+        Vector3 pos =
+            Camera.main.ScreenToWorldPoint( new Vector3( mousePos.x, mousePos.y, -Camera.main.transform.position.z ) );
         int x, y;
-        if (GameGrid.Instance.GetPositionFromWorldPoint(pos, out x, out y))
+        if ( GameGrid.Instance.GetPositionFromWorldPoint( pos, out x, out y ) )
         {
             uint ux = (uint)x;
             uint uy = (uint)y;
-            if (!GameGrid.Instance.CanBeAdded(ux, uy))
+            if ( !GameGrid.Instance.CanBeAdded( ux, uy ) )
                 return;
-            _currentInsertionMenu = Instantiate(_insertionMenu, GuiManager.Instance.transform, false);
+            _currentInsertionMenu = Instantiate( _insertionMenu, GuiManager.Instance.transform, false );
             _currentInsertionMenu.X = ux;
             _currentInsertionMenu.Y = uy;
             _currentInsertionMenu.DestroyCallback += () => { _currentInsertionMenu = null; };
@@ -114,7 +118,7 @@ public class MouseController : MonoBehaviour
 
     void HighlightConstructible()
     {
-        if (!_highlight)
+        if ( !_highlight )
             return;
 
         GameGrid gameGrid = GameGrid.Instance;
@@ -123,23 +127,24 @@ public class MouseController : MonoBehaviour
 
         Vector3 mousePos = Input.mousePosition;
 
-        Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
+        Vector3 pos =
+            Camera.main.ScreenToWorldPoint( new Vector3( mousePos.x, mousePos.y, -Camera.main.transform.position.z ) );
         int posX, posY;
-        GameGrid.Instance.GetPositionFromWorldPoint(pos, out posX, out posY);
+        GameGrid.Instance.GetPositionFromWorldPoint( pos, out posX, out posY );
 
-        if (posX == -1 || posY == -1)
+        if ( posX == -1 || posY == -1 )
             return;
 
-        _highlight.SetActive(GameGrid.Instance.CanHighlightConstructible((uint)posX, (uint)posY));
+        _highlight.SetActive( GameGrid.Instance.CanHighlightConstructible( (uint)posX, (uint)posY ) );
 
-        _highlight.transform.position = new Vector3((posX + 0.5f) * cellSize,
-            (posY + 0.5f) * cellSize,
-            gameGrid.FixedZ);
+        _highlight.transform.position = new Vector3( ( posX + 0.5f ) * cellSize,
+                                                     ( posY + 0.5f ) * cellSize,
+                                                     gameGrid.FixedZ );
     }
 
     void HighlightCellSelection()
     {
-        if (!_highlight)
+        if ( !_highlight )
             return;
 
         GameGrid gameGrid = GameGrid.Instance;
@@ -148,18 +153,19 @@ public class MouseController : MonoBehaviour
 
         Vector3 mousePos = Input.mousePosition;
 
-        Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
+        Vector3 pos =
+            Camera.main.ScreenToWorldPoint( new Vector3( mousePos.x, mousePos.y, -Camera.main.transform.position.z ) );
         int posX, posY;
-        GameGrid.Instance.GetPositionFromWorldPoint(pos, out posX, out posY);
+        GameGrid.Instance.GetPositionFromWorldPoint( pos, out posX, out posY );
 
-        if (posX == -1 || posY == -1)
+        if ( posX == -1 || posY == -1 )
             return;
 
-        _highlight.SetActive(GameGrid.Instance.GetCell((uint)posX, (uint)posY) != null);
+        _highlight.SetActive( GameGrid.Instance.GetCell( (uint)posX, (uint)posY ) != null );
 
-        _highlight.transform.position = new Vector3((posX + 0.5f) * cellSize,
-            (posY + 0.5f) * cellSize,
-            gameGrid.FixedZ);
+        _highlight.transform.position = new Vector3( ( posX + 0.5f ) * cellSize,
+                                                     ( posY + 0.5f ) * cellSize,
+                                                     gameGrid.FixedZ );
     }
 
     void SwitchToBuildMode()

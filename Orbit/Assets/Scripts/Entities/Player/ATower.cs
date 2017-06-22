@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace Orbit.Entity.Unit
 {
-    public abstract class ATower : AUnitController, IShootingEntity
+    public abstract class ATower : AUnitController,
+                                   IShootingEntity
     {
         #region Members
         [SerializeField]

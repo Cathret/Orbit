@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameOverUiScript : MonoBehaviour {
-
+public class GameOverUiScript : MonoBehaviour
+{
     [SerializeField]
     private Button _replayButton;
 
@@ -12,10 +12,9 @@ public class GameOverUiScript : MonoBehaviour {
     private Button _quitButton;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         _replayButton.onClick.AddListener( GameManager.Instance.Restart );
-        _quitButton.onClick.AddListener(GameManager.Instance.ToMainMenu);
+        _quitButton.onClick.AddListener( GameManager.Instance.ToMainMenu );
     }
-	
 }

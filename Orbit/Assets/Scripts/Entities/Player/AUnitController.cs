@@ -55,7 +55,8 @@ namespace Orbit.Entity
         {
             Cell = GetComponent<GameCell>();
             if ( Cell == null )
-                Debug.LogError( "AUnitController.Awake() - Cell is null, there's no GameCell component in object", this );
+                Debug.LogError( "AUnitController.Awake() - Cell is null, there's no GameCell component in object",
+                                this );
 
             if ( _awakeParSysPrefab )
             {
@@ -63,7 +64,7 @@ namespace Orbit.Entity
                 particle.Play();
             }
 
-            Cell.OnSelection +=  ModifySelected;
+            Cell.OnSelection += ModifySelected;
             Cell.OnActionLaunched += ExecuteOnClick;
         }
 
@@ -82,10 +83,12 @@ namespace Orbit.Entity
         {
             base.Update();
 
-            if (IsSelected && FollowMouse && Head)
+            if ( IsSelected && FollowMouse && Head )
             {
-                Vector3 target = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-                Head.transform.right = (target - transform.position).normalized;
+                Vector3 target =
+                    Camera.main.ScreenToWorldPoint( new Vector3( Input.mousePosition.x, Input.mousePosition.y,
+                                                                 -Camera.main.transform.position.z ) );
+                Head.transform.right = ( target - transform.position ).normalized;
             }
         }
         #endregion

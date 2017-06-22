@@ -68,7 +68,7 @@ public class OpponentManager : MonoBehaviour
 
         foreach ( AOpponentController opponentController in _listOpponentsAlive )
         {
-            float dist = Vector3.Distance(opponentController.transform.position, currentPos);
+            float dist = Vector3.Distance( opponentController.transform.position, currentPos );
             if ( dist < minDist )
             {
                 tMin = opponentController.transform;
