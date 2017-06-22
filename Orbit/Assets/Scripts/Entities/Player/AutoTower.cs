@@ -5,59 +5,58 @@ namespace Orbit.Entity.Unit
 {
     public class AutoTower : ATower
     {
-        #region Members
-        protected Coroutine ShootCoroutine
+        protected override void Awake()
         {
-            get { return _shootCoroutine; }
-            set { _shootCoroutine = value; }
-        }
-        private Coroutine _shootCoroutine = null;
-
-        public float ShootingSpeed
-        {
-            get { return _shootingSpeed; }
-            protected set { _shootingSpeed = value; }
-        }
-        [SerializeField]
-        private float _shootingSpeed;
-        #endregion
-
-        #region Protected functions
-        protected override void Start()
-        {
-            base.Start();
-
-            ShootCoroutine = StartCoroutine( AutoShoot() );
+            base.Awake();
+            FollowMouse = false;
         }
 
-        protected override void OnDestroy()
+        protected override void Update()
         {
-            if ( ShootCoroutine != null )
-                StopCoroutine( ShootCoroutine );
-
-            base.OnDestroy();
+            base.Update();
+            if ( _canShoot )
+                AutoShoot();
         }
-        #endregion
 
         public override void ExecuteOnClick( Vector3 target )
         {
             // Automatic, so do nothing
         }
 
-        public IEnumerator AutoShoot()
+        private bool FindClosestOpponent( Transform cell, out Vector3 target )
         {
-            while ( true )
+            Transform tMin = null;
+            float minDist = Mathf.Infinity;
+            Vector3 currentPos = cell.position;
+            foreach (AOpponentController t in AOpponentController.OpponentList)
             {
-                if ( Cell.Connected )
+                float dist = Vector3.Distance(t.transform.position, currentPos);
+                if (dist < minDist)
                 {
-                    //Vector3 target;
-                    //if ( FindClosestOpponent( Cell, out target ) )
-                    //{
-                    //    Shoot( target - transform.position );
-                    //}
+                    tMin = t.transform;
+                    minDist = dist;
                 }
+            }
+            if ( tMin )
+            {
+                target = tMin.position;
+                return true;
+            }
+            target = new Vector3();
+            return false;
+        }
 
-                yield return new WaitForSeconds( ShootingSpeed );
+        private void AutoShoot()
+        {
+            if (Cell.Connected)
+            {
+                Vector3 target;
+                if (FindClosestOpponent(Cell.transform, out target))
+                {
+                    Shoot(target - transform.position);
+                    if (_head)
+                        _head.transform.right = (target - transform.position).normalized;
+                }
             }
         }
     }

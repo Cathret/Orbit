@@ -28,7 +28,7 @@ namespace Orbit.Entity.Unit
         [SerializeField]
         private Projectile _projectileType = null;
 
-        private bool _canShoot = true;
+        protected bool _canShoot = true;
         #endregion
 
         #region Protected functions
