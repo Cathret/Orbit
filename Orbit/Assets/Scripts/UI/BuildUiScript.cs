@@ -16,6 +16,7 @@ public class BuildUiScript : MonoBehaviour
     {
         _playButton.onClick.AddListener( OnPlayClicked );
         GameManager.Instance.OnResourcesChange += OnResourceChange;
+        OnResourceChange( GameManager.Instance.ResourcesCount );
     }
 
     void OnDestroy()
