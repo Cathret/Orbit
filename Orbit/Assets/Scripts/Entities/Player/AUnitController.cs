@@ -67,8 +67,10 @@ namespace Orbit.Entity
             Cell.OnActionLaunched += ExecuteOnClick;
         }
 
-        protected virtual void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+
             if ( Cell )
             {
                 Cell.OnSelection -= ModifySelected;

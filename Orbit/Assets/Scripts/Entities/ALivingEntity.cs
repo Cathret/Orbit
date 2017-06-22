@@ -7,6 +7,7 @@ namespace Orbit.Entity
         #region Events
         public delegate void DelegateTrigger();
         public event DelegateTrigger TriggerDeath;
+        public event DelegateTrigger TriggerDestroy;
 
         public delegate void DelegateUint( uint value );
         public event DelegateUint HpChanged;
@@ -90,8 +91,20 @@ namespace Orbit.Entity
                 ParticleSystem particle = Instantiate(_deathParSysPrefab, transform);
                 timer = particle.main.duration;
                 particle.Play();
+                SpriteRenderer[] children = GetComponentsInChildren<SpriteRenderer>();
+                foreach (SpriteRenderer t in children )
+                {
+                    if ( t )
+                        Destroy(t);
+                }
             }
             Destroy( gameObject, timer);
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if ( TriggerDestroy != null )
+                TriggerDestroy();
         }
         #endregion
     }

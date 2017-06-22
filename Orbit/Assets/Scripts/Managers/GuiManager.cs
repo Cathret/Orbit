@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class GuiManager : MonoBehaviour
 {
+    private static GuiManager _instance;
+
+    public static GuiManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = FindObjectOfType<GuiManager>();
+            return _instance;
+        }
+    }
+
     [SerializeField]
     private GameObject _hudPrefab;
     private GameObject _hudObject;
@@ -17,25 +29,18 @@ public class GuiManager : MonoBehaviour
     private GameObject _gameOverUiPrefab;
     private GameObject _gameOverUiObject;
 
-    private Transform _canvas;
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {
-        _canvas = GetComponent<Canvas>().transform;
-
-        GameManager.Instance.OnPlay.AddListener(ShowHud);
         GameManager.Instance.OnPause.AddListener(ShowPauseUi);
         GameManager.Instance.OnGameOver.AddListener(ShowGameOverUi);
-        GameManager.Instance.OnBuildSetEnabled += ShowBuildUi;
+
+        GameManager.Instance.OnAttackMode.AddListener(ShowHud);
+        GameManager.Instance.OnBuildMode.AddListener(ShowBuildUi);
     }
 
-    void CleanCanvas()
+    void CleanUi()
     {
-        if ( _hudObject )
-        {
-            Destroy( _hudObject );
-            _hudObject = null;
-        }
         if ( _pauseUiObject )
         {
             Destroy( _pauseUiObject );
@@ -48,41 +53,45 @@ public class GuiManager : MonoBehaviour
         }
     }
 
+    void CleanHuds()
+    {
+        if (_hudObject)
+        {
+            Destroy(_hudObject);
+            _hudObject = null;
+        }
+        if (_buildUiObject)
+        {
+            Destroy(_buildUiObject);
+            _buildUiObject = null;
+        }
+    }
+
     void ShowHud()
     {
-        CleanCanvas();
-        if (_hudPrefab && _hudObject )
-            _hudObject = Instantiate( _hudPrefab, _canvas, false );
+        CleanHuds();
+        if (_hudPrefab && _hudObject == null)
+            _hudObject = Instantiate( _hudPrefab, transform, false );
     }
 
     void ShowPauseUi()
     {
-        CleanCanvas();
-        if (_pauseUiPrefab && _pauseUiObject )
-            _pauseUiObject = Instantiate(_pauseUiPrefab, _canvas, false);
+        CleanUi();
+        if (_pauseUiPrefab && _pauseUiObject == null)
+            _pauseUiObject = Instantiate(_pauseUiPrefab, transform, false);
     }
 
     void ShowGameOverUi()
     {
-        CleanCanvas();
-        if (_gameOverUiPrefab && _gameOverUiObject)
-            _gameOverUiObject = Instantiate(_gameOverUiPrefab, _canvas, false);
+        CleanUi();
+        if (_gameOverUiPrefab && _gameOverUiObject == null)
+            _gameOverUiObject = Instantiate(_gameOverUiPrefab, transform, false);
     }
 
-    void ShowBuildUi( bool show )
+    void ShowBuildUi()
     {
-        if ( show )
-        {
-            if ( _buildUiPrefab && _buildUiObject == null )
-                _buildUiObject = Instantiate(_buildUiPrefab, _canvas, false );
-        }
-        else
-        {
-            if ( _buildUiObject )
-            {
-                Destroy(_buildUiObject);
-                _buildUiObject = null;
-            }
-        }
+        CleanHuds();
+        if ( _buildUiPrefab && _buildUiObject == null )
+                _buildUiObject = Instantiate(_buildUiPrefab, transform, false );
     }
 }

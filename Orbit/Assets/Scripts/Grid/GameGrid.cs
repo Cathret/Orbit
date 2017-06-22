@@ -19,6 +19,9 @@ public class GameGrid : MonoBehaviour
     }
 
     [SerializeField]
+    private GameCell _defaultCell;
+
+    [SerializeField]
     private uint _side;
 
     public uint Side
@@ -82,6 +85,12 @@ public class GameGrid : MonoBehaviour
         CheckGrid();
     }
 
+    void Start()
+    {
+        if (_defaultCell)
+            AddCase( _defaultCell, CenterX, CenterY );
+    }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
@@ -137,7 +146,7 @@ public class GameGrid : MonoBehaviour
         if (!cell)
             return;
 
-        //if (IsConnected(x, y))
+        //if (CanBeAdded(x, y))
         {
             GameCell createdCell = Instantiate( cell );
             InitCellPosition(createdCell, x, y);
@@ -149,7 +158,7 @@ public class GameGrid : MonoBehaviour
         }
     }
 
-    public bool CanHighlight( uint x, uint y )
+    public bool CanHighlightConstructible( uint x, uint y )
     {
         bool result = false;
 
@@ -162,10 +171,15 @@ public class GameGrid : MonoBehaviour
         if (y > 1)
             result = _grid[x, y - 1] != null || result;
 
-        return (result || _grid[x, y] != null);
+        return (result && _grid[x, y] == null);
     }
 
     public bool CanBeAdded( uint x, uint y )
+    { 
+        return CanBeConnected( x, y ) && _grid[x, y] == null;
+    }
+
+    public bool CanBeConnected(uint x, uint y)
     {
         bool result = false;
 
@@ -186,7 +200,7 @@ public class GameGrid : MonoBehaviour
         if (!_grid[x, y])
             return false;
 
-        return CanBeAdded(x, y);
+        return CanBeConnected(x, y);
     }
 
     public void RemoveCase ( uint x, uint y )

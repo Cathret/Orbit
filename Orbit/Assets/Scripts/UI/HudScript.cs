@@ -33,7 +33,7 @@ public class HudScript : MonoBehaviour
 	    float currentTime = GameManager.Instance.CurrentTime;
 	    int seconds = (( int )currentTime) % 60;
         int minutes = ((int)currentTime) / 60;
-        _timerText.text = String.Format("{0}:{1}", minutes, seconds);
+        _timerText.text = String.Format("{0:00}:{1:00}", minutes, seconds);
 
     }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,64 +19,83 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public enum State
+    public enum GameState
     {
-        PLAYING,
-        PAUSE,
-        GAME_OVER
+        Play,
+        Pause,
+        GameOver,
+        None
     }
-
-    public delegate void BoolDelegate( bool value );
-    public event BoolDelegate OnBuildSetEnabled;
-
-    [SerializeField]
-    private bool _canPlay = true;
-    [SerializeField]
-    private bool _canBuild = true;
-
-    public bool CanPlay
+    public enum GameMode
     {
-        get { return _canPlay && CurrentState == State.PLAYING; }
-    }
-
-    public bool CanBuild
-    {
-        get { return _canBuild && CurrentState == State.PLAYING; }
-        set
-        {
-            _canBuild = value; 
-            if (OnBuildSetEnabled != null)
-                OnBuildSetEnabled.Invoke( _canBuild );
-        }
+        Attacking,
+        Building,
+        None
     }
 
     public UnityEvent OnPlay = new UnityEvent();
     public UnityEvent OnPause = new UnityEvent();
     public UnityEvent OnGameOver = new UnityEvent();
+    public UnityEvent OnNone = new UnityEvent();
 
-    private State _currentState = State.PLAYING;
-    public State CurrentState {
-        get { return _currentState; }
-        private set
+    private GameState _currentGameState = GameState.None;
+    public GameState CurrentGameState
+    {
+        get { return _currentGameState; }
+        set
         {
-            switch ( value )
+            switch (value)
             {
-                case State.PLAYING:
+                case GameState.Play:
                     if (OnPlay != null)
                         OnPlay.Invoke();
                     break;
-                case State.PAUSE:
+                case GameState.Pause:
                     if (OnPause != null)
                         OnPause.Invoke();
                     break;
-                case State.GAME_OVER:
+                case GameState.GameOver:
                     if (OnGameOver != null)
                         OnGameOver.Invoke();
+                    break;
+                case GameState.None:
+                    if (OnNone != null)
+                        OnNone.Invoke();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException( "value", value, null );
             }
-            _currentState = value;
+            _currentGameState = value;
+        }
+    }
+
+    public UnityEvent OnAttackMode = new UnityEvent();
+    public UnityEvent OnBuildMode = new UnityEvent();
+    public UnityEvent OnNoneMode = new UnityEvent();
+
+    private GameMode _currentGameMode = GameMode.None;
+    public GameMode CurrentGameMode {
+        get { return _currentGameMode; }
+        set
+        {
+            switch ( value )
+            {
+                case GameMode.Attacking:
+                    if ( OnAttackMode != null )
+                        OnAttackMode.Invoke();
+                    break;
+                case GameMode.Building:
+                    if (OnBuildMode != null)
+                        OnBuildMode.Invoke();
+                    break;
+                case GameMode.None:
+                    if (OnNoneMode != null)
+                        OnNoneMode.Invoke();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException( "value", value, null );
+            }
+            _currentGameMode = value;
         }
     }
 
@@ -101,12 +121,24 @@ public class GameManager : MonoBehaviour
     void Start ()
     {
         CurrentTime = Time.time;
+        CurrentGameMode = GameMode.Building;
+        CurrentGameState = GameState.Play;
     }
 	
 	// Update is called once per frame
 	void Update ()
 	{
-	    if ( CurrentState == State.PLAYING )
+	    if (CurrentGameState == GameState.Play)
 	        CurrentTime += Time.deltaTime;
 	}
+
+    public void ToMainMenu()
+    {
+        SceneManager.LoadScene(SceneManager.GetSceneByName( "BaseScene" ).buildIndex);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
