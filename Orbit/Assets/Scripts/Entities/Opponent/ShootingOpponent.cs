@@ -74,6 +74,13 @@ namespace Orbit.Entity.Opponent
                 CooldownTimer += Time.deltaTime;
             }
         }
+
+        protected override void OnBecameVisible()
+        {
+            base.OnBecameVisible();
+
+            CooldownTimer = ShootCooldown - 1.0f;
+        }
         #endregion
     }
 }

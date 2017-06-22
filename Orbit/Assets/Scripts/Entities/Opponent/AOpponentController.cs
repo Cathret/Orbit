@@ -80,7 +80,7 @@ namespace Orbit.Entity
         }
         #endregion
 
-        private void OnBecameVisible()
+        protected virtual void OnBecameVisible()
         {
             StartCoroutine( RegisterToOpponentManager() );
         }
