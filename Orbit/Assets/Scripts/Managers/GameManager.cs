@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour
 
     public void ToMainMenu()
     {
-        SceneManager.LoadScene( SceneManager.GetSceneByName( "BaseScene" ).buildIndex );
+        SceneManager.LoadScene( 0 );
     }
 
     public void Restart()
