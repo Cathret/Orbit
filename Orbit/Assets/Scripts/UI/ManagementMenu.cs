@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class ManagementMenu : MonoBehaviour
 {
-    
+    [SerializeField]
     private Button moveButton;
-
+    [SerializeField]
     private Button removeButton;
 
     public AUnitController unit;
@@ -17,8 +17,12 @@ public class ManagementMenu : MonoBehaviour
 
     private uint dragX = 0;
     private uint dragY = 0;
-	// Use this for initialization
-	void Start ()
+
+    public delegate void DestroyDelegate();
+    public event DestroyDelegate DestroyCallback;
+
+    // Use this for initialization
+    void Start ()
 	{
 	    moveButton.onClick.AddListener( Drag );
 	    removeButton.onClick.AddListener(Remove);
@@ -36,13 +40,14 @@ public class ManagementMenu : MonoBehaviour
             {
                 uint ux = ( uint )x;
                 uint uy = ( uint )y;
-                if ( GameGrid.Instance.CanBeAdded( ux, uy ) )
+                if ( GameGrid.Instance.CanBeAdded( ux, uy ) || (unit.Cell.X == ux && unit.Cell.Y == uy) )
                 {
                     dragX = ux;
                     dragY = uy;
+                    unit.Cell.SetPosition(dragX, dragY);
                 }
             }
-            if ( Input.GetMouseButtonUp( 0 ))
+            if ( Input.GetMouseButtonDown( 0 ))
                 Drop();
         }
     }
@@ -57,16 +62,25 @@ public class ManagementMenu : MonoBehaviour
     void Drag()
     {
         isDragging = true;
+        Destroy(moveButton.gameObject);
+        Destroy(removeButton.gameObject);
     }
 
     void Drop()
     {
         isDragging = false;
-        unit.Cell.SetPosition( dragX, dragY );
+        GameGrid.Instance.MoveCell(unit.Cell, dragX, dragY);
         Quit();
     }
+
     void Quit()
     {
         Destroy( gameObject );
+    }
+
+    void OnDestoy()
+    {
+        if (DestroyCallback != null)
+            DestroyCallback.Invoke();
     }
 }

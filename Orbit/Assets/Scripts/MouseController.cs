@@ -27,6 +27,11 @@ public class MouseController : MonoBehaviour
 
     private InsertionMenu _currentInsertionMenu;
 
+    [SerializeField]
+    private ManagementMenu _manageMenu;
+
+    private ManagementMenu _currentManageMenu;
+
     void Awake()
     {
         GameManager.Instance.OnBuildMode.AddListener( SwitchToBuildMode );
@@ -57,10 +62,23 @@ public class MouseController : MonoBehaviour
 
     void HandleMouseInBuildMode()
     {
-        HighlightConstructible();
+
+        if (_currentInsertionMenu || _currentManageMenu)
+            return;
+
+        HighlightBuildMode();
+
+        Vector3 mousePos = Input.mousePosition;
+        Vector3 pos =
+            Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
+
+        GameCell cell = GameGrid.Instance.GetCellFromWorldPoint(pos);
 
         if ( Input.GetMouseButtonDown( 0 ) )
-            AddCell();
+            if ( cell )
+                ManageCell( cell );
+            else
+                AddCell( pos );
     }
 
     void HandleMouseInAttackMode()
@@ -97,13 +115,22 @@ public class MouseController : MonoBehaviour
                 cell.Selected = true;
     }
 
-    void AddCell()
+    void ManageCell(GameCell cell)
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 pos =
-            Camera.main.ScreenToWorldPoint( new Vector3( mousePos.x, mousePos.y, -Camera.main.transform.position.z ) );
+        
+        if ( cell )
+        {
+            _currentManageMenu = Instantiate(_manageMenu, GuiManager.Instance.transform, false);
+            _currentManageMenu.transform.position = Camera.main.WorldToScreenPoint(GameGrid.Instance.GetRealPosition(cell.X, cell.Y));
+            _currentManageMenu.DestroyCallback += () => { _currentManageMenu = null; };
+            _currentManageMenu.unit = cell.Unit;
+        }
+    }
+
+    void AddCell(Vector3 mouseWorldPos)
+    {
         int x, y;
-        if ( GameGrid.Instance.GetPositionFromWorldPoint( pos, out x, out y ) )
+        if ( GameGrid.Instance.GetPositionFromWorldPoint(mouseWorldPos, out x, out y ) )
         {
             uint ux = (uint)x;
             uint uy = (uint)y;
@@ -117,7 +144,7 @@ public class MouseController : MonoBehaviour
         }
     }
 
-    void HighlightConstructible()
+    void HighlightBuildMode()
     {
         if ( !_highlight )
             return;
@@ -136,7 +163,7 @@ public class MouseController : MonoBehaviour
         if ( posX == -1 || posY == -1 )
             return;
 
-        _highlight.SetActive( GameGrid.Instance.CanHighlightConstructible( (uint)posX, (uint)posY ) );
+        _highlight.SetActive( GameGrid.Instance.CanHighlightBuildMode( (uint)posX, (uint)posY ) );
 
         _highlight.transform.position = new Vector3( ( posX + 0.5f ) * cellSize,
                                                      ( posY + 0.5f ) * cellSize,
@@ -148,6 +175,9 @@ public class MouseController : MonoBehaviour
         if ( !_highlight )
             return;
 
+        if ( GameCell.SelectedCell )
+            return;
+        
         GameGrid gameGrid = GameGrid.Instance;
 
         float cellSize = gameGrid.CellSize;
