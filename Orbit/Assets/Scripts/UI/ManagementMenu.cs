@@ -40,7 +40,7 @@ public class ManagementMenu : MonoBehaviour
             {
                 uint ux = ( uint )x;
                 uint uy = ( uint )y;
-                if ( GameGrid.Instance.CanBeAdded( ux, uy ) || (unit.Cell.X == ux && unit.Cell.Y == uy) )
+                if ( GameGrid.Instance.CanBeAdded( ux, uy ) )
                 {
                     dragX = ux;
                     dragY = uy;
@@ -62,6 +62,7 @@ public class ManagementMenu : MonoBehaviour
     void Drag()
     {
         isDragging = true;
+        GameGrid.Instance.CleanCase(unit.Cell.X, unit.Cell.Y);
         Destroy(moveButton.gameObject);
         Destroy(removeButton.gameObject);
     }
