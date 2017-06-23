@@ -42,9 +42,10 @@ namespace Orbit.Entity
         #endregion
 
         #region Protected functions
-        protected override void Update()
+        protected override void UpdateAttackMode()
         {
-            base.Update();
+            // Do not override UpdateBuildMode, because should never have an active opponent when in building mode
+            base.UpdateAttackMode();
 
             if ( currentWayPoint < WayPoints.Count )
             {
@@ -78,12 +79,12 @@ namespace Orbit.Entity
 
             base.OnDeath();
         }
-        #endregion
 
         protected virtual void OnBecameVisible()
         {
             StartCoroutine( RegisterToOpponentManager() );
         }
+        #endregion
 
         private void OnBecameInvisible()
         {

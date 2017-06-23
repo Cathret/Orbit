@@ -6,19 +6,16 @@ namespace Orbit.Entity
     public abstract class AUnitController : AEntityController
     {
         #region Static members
-
         public static UnityEvent DmgTakenEvent = new UnityEvent();
-
         #endregion
+
         #region Members
-        // TODO: create a shop that will instanciate a prefab
-        //public uint Price
-        //{
-        //    get { return _price; }
-        //}
-        //[SerializeField]
-        //private uint _price;
-        //
+        public uint Price
+        {
+            get { return _price; }
+        }
+        [SerializeField]
+        private uint _price;
 
         [SerializeField]
         protected GameObject Head;
@@ -38,8 +35,6 @@ namespace Orbit.Entity
             get { return _bIsSelected; }
             protected set { _bIsSelected = value; }
         }
-
-        [SerializeField] // TODO remove
         private bool _bIsSelected = false;
 
         public GameCell Cell
@@ -55,13 +50,12 @@ namespace Orbit.Entity
         [SerializeField]
         private SpriteRenderer _spriteRenderer;
 
-        [SerializeField]
-        private Sprite _icon;
-
         public Sprite Icon
         {
             get { return _icon; }
         }
+        [SerializeField]
+        private Sprite _icon;
         #endregion
 
         #region Public functions
@@ -71,6 +65,8 @@ namespace Orbit.Entity
         #region Protected functions
         protected override void Start()
         {
+            base.Start();
+
             Cell = GetComponent<GameCell>();
             if ( Cell == null )
                 Debug.LogError( "AUnitController.Awake() - Cell is null, there's no GameCell component in object", this );
@@ -102,9 +98,9 @@ namespace Orbit.Entity
             }
         }
 
-        protected override void Update()
+        protected override void UpdateAttackMode()
         {
-            base.Update();
+            base.UpdateAttackMode();
 
             if ( IsSelected && FollowMouse && Head )
             {

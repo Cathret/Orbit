@@ -4,6 +4,6 @@ namespace Orbit.Entity
 {
     public interface IRepairingEntity
     {
-        IEnumerator Repair();
+        void Repair();
     }
 }

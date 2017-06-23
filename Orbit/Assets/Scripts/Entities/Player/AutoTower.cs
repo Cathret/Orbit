@@ -11,9 +11,9 @@ namespace Orbit.Entity.Unit
             FollowMouse = false;
         }
 
-        protected override void Update()
+        protected override void UpdateAttackMode()
         {
-            base.Update();
+            base.UpdateAttackMode();
             if ( _canShoot )
                 AutoShoot();
         }
