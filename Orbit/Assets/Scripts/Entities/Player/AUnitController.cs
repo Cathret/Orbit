@@ -11,14 +11,14 @@ namespace Orbit.Entity
 
         #endregion
         #region Members
-        // TODO: create a shop that will instanciate a prefab
-        //public uint Price
-        //{
-        //    get { return _price; }
-        //}
-        //[SerializeField]
-        //private uint _price;
-        //
+        
+        public uint Price
+        {
+            get { return _price; }
+        }
+        [SerializeField]
+        private uint _price;
+        
 
         [SerializeField]
         protected GameObject Head;
@@ -44,7 +44,9 @@ namespace Orbit.Entity
 
         public GameCell Cell
         {
-            get { return _gameCell; }
+            get { if ( _gameCell == null)
+                _gameCell = GetComponent<GameCell>();
+                return _gameCell; }
             protected set { _gameCell = value; }
         }
         private GameCell _gameCell = null;
@@ -71,7 +73,6 @@ namespace Orbit.Entity
         #region Protected functions
         protected override void Start()
         {
-            Cell = GetComponent<GameCell>();
             if ( Cell == null )
                 Debug.LogError( "AUnitController.Awake() - Cell is null, there's no GameCell component in object", this );
 
