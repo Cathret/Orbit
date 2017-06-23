@@ -40,13 +40,14 @@ public class ManagementMenu : MonoBehaviour
             {
                 uint ux = ( uint )x;
                 uint uy = ( uint )y;
-                if ( GameGrid.Instance.CanBeAdded( ux, uy ) )
+                if ( GameGrid.Instance.CanBeAdded( ux, uy ) || (unit.Cell.X == ux && unit.Cell.Y == uy) )
                 {
                     dragX = ux;
                     dragY = uy;
+                    unit.Cell.SetPosition(dragX, dragY);
                 }
             }
-            if ( Input.GetMouseButtonUp( 0 ))
+            if ( Input.GetMouseButtonDown( 0 ))
                 Drop();
         }
     }
@@ -61,14 +62,17 @@ public class ManagementMenu : MonoBehaviour
     void Drag()
     {
         isDragging = true;
+        Destroy(moveButton.gameObject);
+        Destroy(removeButton.gameObject);
     }
 
     void Drop()
     {
         isDragging = false;
-        unit.Cell.SetPosition( dragX, dragY );
+        GameGrid.Instance.MoveCell(unit.Cell, dragX, dragY);
         Quit();
     }
+
     void Quit()
     {
         Destroy( gameObject );

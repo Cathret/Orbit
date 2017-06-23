@@ -62,6 +62,10 @@ public class MouseController : MonoBehaviour
 
     void HandleMouseInBuildMode()
     {
+
+        if (_currentInsertionMenu || _currentManageMenu)
+            return;
+
         HighlightBuildMode();
 
         Vector3 mousePos = Input.mousePosition;
@@ -143,9 +147,6 @@ public class MouseController : MonoBehaviour
     void HighlightBuildMode()
     {
         if ( !_highlight )
-            return;
-
-        if ( _currentInsertionMenu || _currentManageMenu)
             return;
 
         GameGrid gameGrid = GameGrid.Instance;

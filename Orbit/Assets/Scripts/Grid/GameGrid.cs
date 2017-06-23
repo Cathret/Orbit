@@ -206,6 +206,16 @@ public class GameGrid : MonoBehaviour
         return CanBeConnected( x, y );
     }
 
+    public void MoveCell( GameCell cell, uint destX, uint destY )
+    {
+        if (destX > 0 && destX < Side)
+            if (destY > 0 && destY < Side)
+            {
+                _grid[cell.X, cell.Y] = cell;
+                cell.SetPosition( destX, destY );
+            }
+    }
+
     public void RemoveCell( GameCell cell )
     {
         uint x = cell.X, y = cell.Y;
@@ -219,7 +229,7 @@ public class GameGrid : MonoBehaviour
     {
         if ( _grid[x, y] )
         {
-            Destroy( _grid[x, y] );
+            Destroy( _grid[x, y].gameObject );
             _grid[x, y] = null;
 
             CheckGrid();
