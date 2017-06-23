@@ -66,13 +66,11 @@ namespace Orbit.Entity.Opponent
             WayPoints.Add( transform.position );
         }
 
-        protected override void Update()
+        protected override void UpdateAttackMode()
         {
-            base.Update();
-            if ( GameManager.Instance.CurrentGameState == GameManager.GameState.Play )
-            {
-                CooldownTimer += Time.deltaTime;
-            }
+            base.UpdateAttackMode();
+
+            CooldownTimer += Time.deltaTime;
         }
 
         protected override void OnBecameVisible()

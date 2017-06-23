@@ -7,13 +7,6 @@ namespace Orbit.Entity.Unit
                              IRepairingEntity
     {
         #region Members
-        protected Coroutine RepairCoroutine
-        {
-            get { return _repairCoroutine; }
-            set { _repairCoroutine = value; }
-        }
-        private Coroutine _repairCoroutine = null;
-
         protected DelegateTrigger OnRepairedUnitDeath
         {
             get { return _onRepairedUnitDeath; }
@@ -44,6 +37,29 @@ namespace Orbit.Entity.Unit
         }
         [SerializeField]
         private float _repairSpeed;
+
+        public bool CanRepair
+        {
+            get { return _canRepair; }
+            protected set { _canRepair = value; }
+        }
+        private bool _canRepair;
+
+        public float RepairTimer
+        {
+            get { return _repairTimer; }
+            set
+            {
+                _repairTimer = value;
+
+                if ( _repairTimer >= _repairSpeed )
+                {
+                    _repairTimer = 0.0f;
+                    _canRepair = true;
+                }
+            }
+        }
+        private float _repairTimer;
         #endregion
 
         #region Protected functions
@@ -51,7 +67,6 @@ namespace Orbit.Entity.Unit
         {
             base.Awake();
 
-            RepairCoroutine = StartCoroutine( Repair() );
             OnRepairedUnitDeath = () =>
             {
                 RepairedUnit.TriggerDeath -= OnRepairedUnitDeath;
@@ -62,15 +77,26 @@ namespace Orbit.Entity.Unit
             ReparatorParticles = GetComponentInChildren<ParticleSystem>();
             if ( ReparatorParticles == null )
                 Debug.LogWarning( "Reparator.Awake() - could not find ParticleSystem in children" );
+
+            GameManager.Instance.OnAttackMode.AddListener( ResetCooldown );
+        }
+
+        protected override void UpdateAttackMode()
+        {
+            base.UpdateAttackMode();
+
+            if ( CanRepair )
+                Repair();
+            else
+                RepairTimer += Time.deltaTime;
         }
 
         protected override void OnDestroy()
         {
-            if ( RepairCoroutine != null )
-                StopCoroutine( RepairCoroutine );
-
             if ( RepairedUnit )
                 OnRepairedUnitDeath.Invoke();
+
+            GameManager.Instance.OnAttackMode.RemoveListener( ResetCooldown );
 
             base.OnDestroy();
         }
@@ -109,19 +135,22 @@ namespace Orbit.Entity.Unit
             }
         }
 
-        public IEnumerator Repair()
+        public void Repair()
         {
-            while ( true )
-            {
-                if ( RepairedUnit != null )
-                {
-                    RepairedUnit.ReceiveHeal( (int)Power );
-                    if ( ReparatorParticles != null )
-                        ReparatorParticles.Play();
-                }
+            if ( RepairedUnit == null || !CanRepair )
+                return;
 
-                yield return new WaitForSeconds( RepairSpeed );
-            }
+            RepairedUnit.ReceiveHeal( ( int )Power );
+            if ( ReparatorParticles != null )
+                ReparatorParticles.Play();
+
+            CanRepair = false;
+        }
+
+        private void ResetCooldown()
+        {
+            CanRepair = false;
+            RepairTimer = 0.0f;
         }
     }
 }
