@@ -7,13 +7,6 @@ namespace Orbit.Entity.Unit
                                    IShieldingEntity
     {
         #region Members
-        protected Coroutine CooldownCoroutine
-        {
-            get { return _cooldownCoroutine; }
-            set { _cooldownCoroutine = value; }
-        }
-        private Coroutine _cooldownCoroutine;
-
         public float RechargeSpeed
         {
             get { return _rechargeSpeed; }
@@ -21,6 +14,29 @@ namespace Orbit.Entity.Unit
         }
         [SerializeField]
         private float _rechargeSpeed;
+
+        public float ShieldTimer
+        {
+            get { return _shieldTimer; }
+            protected set
+            {
+                _shieldTimer = value;
+
+                if ( _shieldTimer >= _rechargeSpeed )
+                {
+                    _shieldTimer = 0.0f;
+                    _canCreateShield = true;
+                }
+            }
+        }
+        private float _shieldTimer = 0;
+
+        public bool CanCreateShield
+        {
+            get { return _canCreateShield; }
+            protected set { _canCreateShield = value; }
+        }
+        private bool _canCreateShield;
 
         protected Shield ShieldInstance
         {
@@ -40,6 +56,9 @@ namespace Orbit.Entity.Unit
 
             if ( _shieldPrefab == null )
                 Debug.LogError( "ShieldGenerator.Awake() - Shield Prefab is null, need to be set in Editor" );
+
+            GameManager.Instance.OnAttackMode.AddListener( ChangeMode );
+            GameManager.Instance.OnBuildMode.AddListener( ChangeMode );
         }
 
         protected override void Start()
@@ -49,10 +68,23 @@ namespace Orbit.Entity.Unit
             CreateShield();
         }
 
+        protected override void UpdateAttackMode()
+        {
+            base.UpdateAttackMode();
+
+            if ( ShieldInstance == null )
+            {
+                if ( CanCreateShield )
+                    CreateShield();
+                else
+                    ShieldTimer += Time.deltaTime;
+            }
+        }
+
         protected override void OnDestroy()
         {
-            if ( CooldownCoroutine != null )
-                StopCoroutine( CooldownCoroutine );
+            GameManager.Instance.OnAttackMode.RemoveListener( ChangeMode );
+            GameManager.Instance.OnBuildMode.RemoveListener( ChangeMode );
 
             base.OnDestroy();
         }
@@ -71,19 +103,26 @@ namespace Orbit.Entity.Unit
             ShieldInstance = Instantiate( _shieldPrefab, transform );
             ShieldInstance.ShieldPower = (int)Power;
             ShieldInstance.gameObject.layer = gameObject.layer;
+
+            CanCreateShield = false;
         }
 
         public void OnShieldDestroyed()
         {
+            // Is automaticallty called when Shield is created with a parent
             ShieldInstance = null;
-            CooldownCoroutine = StartCoroutine( GenerationCooldown() );
         }
 
-        private IEnumerator GenerationCooldown()
+        private void ChangeMode()
         {
-            yield return new WaitForSeconds( RechargeSpeed );
-
             CreateShield();
+            ResetCooldown();
+        }
+
+        private void ResetCooldown()
+        {
+            CanCreateShield = false;
+            ShieldTimer = 0.0f;
         }
     }
 }

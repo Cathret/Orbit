@@ -54,7 +54,7 @@ namespace Orbit.Entity.Unit
 
                 if ( _repairTimer >= _repairSpeed )
                 {
-                    _repairTimer = 0;
+                    _repairTimer = 0.0f;
                     _canRepair = true;
                 }
             }
@@ -77,6 +77,8 @@ namespace Orbit.Entity.Unit
             ReparatorParticles = GetComponentInChildren<ParticleSystem>();
             if ( ReparatorParticles == null )
                 Debug.LogWarning( "Reparator.Awake() - could not find ParticleSystem in children" );
+
+            GameManager.Instance.OnAttackMode.AddListener( ResetCooldown );
         }
 
         protected override void UpdateAttackMode()
@@ -86,13 +88,15 @@ namespace Orbit.Entity.Unit
             if ( CanRepair )
                 Repair();
             else
-                RepairTimer  += Time.deltaTime;
+                RepairTimer += Time.deltaTime;
         }
 
         protected override void OnDestroy()
         {
             if ( RepairedUnit )
                 OnRepairedUnitDeath.Invoke();
+
+            GameManager.Instance.OnAttackMode.RemoveListener( ResetCooldown );
 
             base.OnDestroy();
         }
@@ -141,6 +145,12 @@ namespace Orbit.Entity.Unit
                 ReparatorParticles.Play();
 
             CanRepair = false;
+        }
+
+        private void ResetCooldown()
+        {
+            CanRepair = false;
+            RepairTimer = 0.0f;
         }
     }
 }

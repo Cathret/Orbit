@@ -24,14 +24,15 @@ namespace Orbit.Entity
 
             _selfGenerator = GetComponentInParent<IShieldingEntity>();
             TriggerShieldDestroyed = _selfGenerator.OnShieldDestroyed;
+
+            GameManager.Instance.OnAttackMode.AddListener( FillHp );
         }
 
         protected override void Start()
         {
             base.Start();
 
-            MaxHP = (uint)ShieldPower;
-            Hp = (int)MaxHP;
+            FillHp();
         }
 
         protected override void OnDeath()
@@ -40,6 +41,21 @@ namespace Orbit.Entity
                 TriggerShieldDestroyed();
 
             base.OnDeath();
+        }
+
+        protected override void OnDestroy()
+        {
+            GameManager.Instance.OnAttackMode.RemoveListener( FillHp );
+
+            base.OnDestroy();
+        }
+        #endregion
+
+        #region Private functions
+        private void FillHp()
+        {
+            MaxHP = ( uint )ShieldPower;
+            Hp = ( int )MaxHP;
         }
         #endregion
     }

@@ -5,8 +5,8 @@ namespace Orbit.Entity
     public class ABaseEntity : MonoBehaviour
     {
         #region Member
-        private delegate void DelegateUpdate();
-        private event DelegateUpdate OnUpdate = () => { };
+        protected delegate void DelegateUpdate();
+        protected event DelegateUpdate OnUpdate = () => { };
         #endregion
 
         #region Protected functions
@@ -22,6 +22,14 @@ namespace Orbit.Entity
         {
             if ( GameManager.Instance.CurrentGameState == GameManager.GameState.Play )
                 OnPlay();
+        }
+
+        protected virtual void OnDestroy()
+        {
+            GameManager.Instance.OnAttackMode.RemoveListener( OnAttackMode );
+            GameManager.Instance.OnBuildMode.RemoveListener( OnBuildMode );
+            GameManager.Instance.OnPause.RemoveListener( OnPause );
+            GameManager.Instance.OnPlay.RemoveListener( OnPlay );
         }
 
         protected void Update()
