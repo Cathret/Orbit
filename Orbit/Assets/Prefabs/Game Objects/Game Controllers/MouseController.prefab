@@ -55,4 +55,5 @@ MonoBehaviour:
     type: 2}
   _insertionMenu: {fileID: 114373743939309820, guid: 64ebda4a3fa36ed42985fac13a74da5f,
     type: 2}
-  _longClickLength: 0.5
+  _manageMenu: {fileID: 114595369199264792, guid: 753702500fd1440468dddfc852b69368,
+    type: 2}

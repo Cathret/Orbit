@@ -161,7 +161,7 @@ public class GameGrid : MonoBehaviour
         }
     }
 
-    public bool CanHighlightConstructible( uint x, uint y )
+    public bool CanHighlightBuildMode( uint x, uint y )
     {
         bool result = false;
 
@@ -174,7 +174,7 @@ public class GameGrid : MonoBehaviour
         if ( y > 1 )
             result = _grid[x, y - 1] != null || result;
 
-        return ( result && _grid[x, y] == null );
+        return ( result || _grid[x, y] != null );
     }
 
     public bool CanBeAdded( uint x, uint y )
