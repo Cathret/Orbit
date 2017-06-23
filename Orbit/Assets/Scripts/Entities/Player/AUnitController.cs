@@ -44,7 +44,9 @@ namespace Orbit.Entity
 
         public GameCell Cell
         {
-            get { return _gameCell; }
+            get { if ( _gameCell == null)
+                    _gameCell = GetComponent<GameCell>();
+                return _gameCell; }
             protected set { _gameCell = value; }
         }
         private GameCell _gameCell = null;
@@ -72,7 +74,6 @@ namespace Orbit.Entity
         {
             base.Start();
 
-            Cell = GetComponent<GameCell>();
             if ( Cell == null )
                 Debug.LogError( "AUnitController.Awake() - Cell is null, there's no GameCell component in object", this );
 
