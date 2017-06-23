@@ -16,6 +16,11 @@ namespace Orbit.Entity
         }
         [SerializeField]
         private uint _price;
+        
+        public uint CurrentPrice
+        {
+            get { return (uint)( Hp / MaxHP * Price ); }
+        }
 
         [SerializeField]
         protected GameObject Head;

@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Orbit.Entity;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InsertionMenu : MonoBehaviour
 {
     [SerializeField]
-    private GameCell[] _prefabCells;
+    private AUnitController[] _prefabCells;
 
     [SerializeField]
-    private GameObject _itemPrefab;
+    private InsertionItem _itemPrefab;
 
     [SerializeField]
     private Button _quitButton;
@@ -26,24 +27,12 @@ public class InsertionMenu : MonoBehaviour
     {
         for ( int i = 0; i < _prefabCells.Length; ++i )
         {
-            GameObject item = Instantiate( _itemPrefab, transform, false );
-            Image image = item.GetComponent<Image>();
-            Sprite sprite = _prefabCells[i].Unit.Icon;
-            if (sprite == null)
-                sprite = _prefabCells[i].GetComponent<SpriteRenderer>().sprite;
-            image.sprite = sprite;
-            int y = i;
-            Button button = item.GetComponent<Button>();
-            button.onClick.AddListener( () => { AddCell( y ); } );
+            InsertionItem item = Instantiate( _itemPrefab, transform, false );
+            item.SetItem(_prefabCells[i], X, Y);
+            item.DestroyCallback += Quit;
         }
 
         _quitButton.onClick.AddListener( Quit );
-    }
-
-    void AddCell( int index )
-    {
-        GameGrid.Instance.AddCase( _prefabCells[index], X, Y );
-        Quit();
     }
 
     void Quit()

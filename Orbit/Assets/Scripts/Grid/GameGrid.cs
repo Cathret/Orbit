@@ -206,6 +206,15 @@ public class GameGrid : MonoBehaviour
         return CanBeConnected( x, y );
     }
 
+    public void RemoveCell( GameCell cell )
+    {
+        uint x = cell.X, y = cell.Y;
+        if (x > 0 && x < Side)
+            if (y > 0 && y < Side)
+            {
+                RemoveCase( x, y );
+            }
+    }
     public void RemoveCase( uint x, uint y )
     {
         if ( _grid[x, y] )
@@ -352,5 +361,15 @@ public class GameGrid : MonoBehaviour
             }
 
         return false;
+    }
+
+    public Vector3 GetRealPosition(uint x, uint y)
+    {
+        if (x > 0 && x < Side)
+            if ( y > 0 && y < Side )
+            {
+                return new Vector3(x * CellSize, y * CellSize, FixedZ);
+            }
+        return new Vector3();
     }
 }

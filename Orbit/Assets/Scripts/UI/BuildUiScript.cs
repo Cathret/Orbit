@@ -21,7 +21,8 @@ public class BuildUiScript : MonoBehaviour
 
     void OnDestroy()
     {
-        GameManager.Instance.OnResourcesChange -= OnResourceChange;
+        if (GameManager.Instance)
+            GameManager.Instance.OnResourcesChange -= OnResourceChange;
     }
 
     void OnPlayClicked()
