@@ -17,94 +17,14 @@ Platform assembly: D:\[O]rbit\Git\Orbit\Orbit\Test_Data\Managed\UnityEngine.Netw
 Loading D:\[O]rbit\Git\Orbit\Orbit\Test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: D:\[O]rbit\Git\Orbit\Orbit\Test_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
 Loading D:\[O]rbit\Git\Orbit\Orbit\Test_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.021 seconds
+- Completed reload, in  0.020 seconds
 Platform assembly: D:\[O]rbit\Git\Orbit\Orbit\Test_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: D:\[O]rbit\Git\Orbit\Orbit\Test_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 75Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.104199 ms
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Z does not correspond
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
+UnloadTime: 1.152002 ms
 Z does not correspond
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
@@ -138,7 +58,7 @@ Z does not correspond
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Setting up 4 worker threads for Enlighten.
-  Thread -> id: 3c10 -> priority: 1 
-  Thread -> id: 4758 -> priority: 1 
-  Thread -> id: 3898 -> priority: 1 
-  Thread -> id: 26e4 -> priority: 1 
+  Thread -> id: 22a4 -> priority: 1 
+  Thread -> id: 3b58 -> priority: 1 
+  Thread -> id: 41f0 -> priority: 1 
+  Thread -> id: 16bc -> priority: 1 
