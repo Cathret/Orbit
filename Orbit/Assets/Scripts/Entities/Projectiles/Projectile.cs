@@ -35,13 +35,18 @@ namespace Orbit.Entity
         #endregion
 
         #region Protected functions
-        protected override void Update()
+        protected override void UpdateAttackMode()
         {
-            base.Update();
+            base.UpdateAttackMode();
 
-            Vector3 position = transform.localPosition;
-            position = Vector3.Lerp( position, position + transform.up, Time.deltaTime * Speed );
-            transform.localPosition = position;
+            Move();
+        }
+
+        protected override void UpdateBuildMode()
+        {
+            base.UpdateBuildMode();
+
+            Move();
         }
         #endregion
 
@@ -61,6 +66,13 @@ namespace Orbit.Entity
         private void OnBecameInvisible()
         {
             Destroy( gameObject );
+        }
+
+        private void Move()
+        {
+            Vector3 position = transform.localPosition;
+            position = Vector3.Lerp( position, position + transform.up, Time.deltaTime * Speed );
+            transform.localPosition = position;
         }
         #endregion
     }

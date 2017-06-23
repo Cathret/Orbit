@@ -40,6 +40,14 @@ namespace Orbit.Entity.Unit
             if ( _projectileType == null )
                 Debug.LogError( "ATower.Awake() - Projectile Type is null, need to be set in Editor", this );
         }
+
+        protected override void UpdateAttackMode()
+        {
+            base.UpdateAttackMode();
+
+            if ( !_canShoot )
+                ShootTimer += Time.deltaTime;
+        }
         #endregion
 
         public void Shoot( Vector3 direction )
@@ -54,14 +62,6 @@ namespace Orbit.Entity.Unit
             bullet.IsFriend = true;
 
             _canShoot = false;
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-
-            if ( !_canShoot )
-                ShootTimer += Time.deltaTime;
         }
     }
 }

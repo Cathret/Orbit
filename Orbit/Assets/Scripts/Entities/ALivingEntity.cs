@@ -101,10 +101,12 @@ namespace Orbit.Entity
             Destroy( gameObject );
         }
 
-        protected virtual void OnDestroy()
+        protected override void OnDestroy()
         {
             if ( TriggerDestroy != null )
                 TriggerDestroy();
+
+            base.OnDestroy();
         }
         #endregion
     }

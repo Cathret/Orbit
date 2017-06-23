@@ -31,9 +31,11 @@ namespace Orbit.Entity
             IsFriend = false;
         }
 
-        protected void OnDestroy()
+        protected override void OnDestroy()
         {
             DropResources();
+
+            base.OnDestroy();
         }
         #endregion
     }
