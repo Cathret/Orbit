@@ -225,6 +225,12 @@ public class GameGrid : MonoBehaviour
                 RemoveCase( x, y );
             }
     }
+
+    public void CleanCase( uint x, uint y )
+    {
+        _grid[x, y] = null;
+    }
+
     public void RemoveCase( uint x, uint y )
     {
         if ( _grid[x, y] )
