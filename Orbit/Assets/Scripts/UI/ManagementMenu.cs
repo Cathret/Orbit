@@ -55,8 +55,7 @@ public class ManagementMenu : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && gameObject.activeSelf &&
                 !RectTransformUtility.RectangleContainsScreenPoint(
                                                                     gameObject.GetComponent<RectTransform>(),
-                                                                    Input.mousePosition,
-                                                                    Camera.main))
+                                                                    Input.mousePosition))
             {
                 Quit();
             }
