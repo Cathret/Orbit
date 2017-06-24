@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Orbit.Entity;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InsertionMenu : MonoBehaviour
@@ -12,11 +13,9 @@ public class InsertionMenu : MonoBehaviour
     [SerializeField]
     private InsertionItem _itemPrefab;
 
-    [SerializeField]
-    private Button _quitButton;
-
     public uint X;
     public uint Y;
+    private bool _initialized = false;
 
     public delegate void DestroyDelegate();
     public event DestroyDelegate DestroyCallback;
@@ -30,8 +29,18 @@ public class InsertionMenu : MonoBehaviour
             item.SetItem(_prefabCells[i], X, Y);
             item.DestroyCallback += Quit;
         }
+    }
 
-        _quitButton.onClick.AddListener( Quit );
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && gameObject.activeSelf &&
+            !RectTransformUtility.RectangleContainsScreenPoint(
+                                                               gameObject.GetComponent<RectTransform>(),
+                                                               Input.mousePosition,
+                                                               Camera.main))
+        {
+            Quit();
+        }
     }
 
     void Quit()
@@ -44,4 +53,5 @@ public class InsertionMenu : MonoBehaviour
         if ( DestroyCallback != null )
             DestroyCallback.Invoke();
     }
+
 }

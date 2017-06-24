@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _highlightPrefab: {fileID: 1046971276192324, guid: 006de9e2e3ae7f34f9403cdba2b37c4c,
     type: 2}
-  _insertionMenu: {fileID: 114373743939309820, guid: 64ebda4a3fa36ed42985fac13a74da5f,
+  _insertionMenu: {fileID: 114312430780386874, guid: 64ebda4a3fa36ed42985fac13a74da5f,
     type: 2}
   _manageMenu: {fileID: 114595369199264792, guid: 753702500fd1440468dddfc852b69368,
     type: 2}
