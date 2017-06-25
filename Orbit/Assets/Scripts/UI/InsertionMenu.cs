@@ -13,6 +13,9 @@ public class InsertionMenu : MonoBehaviour
     [SerializeField]
     private InsertionItem _itemPrefab;
 
+	[SerializeField]
+	private GameObject _container;
+
     public uint X;
     public uint Y;
 
@@ -24,7 +27,7 @@ public class InsertionMenu : MonoBehaviour
     {
         for ( int i = 0; i < _prefabCells.Length; ++i )
         {
-            InsertionItem item = Instantiate( _itemPrefab, transform, false );
+			InsertionItem item = Instantiate( _itemPrefab, _container.transform, false );
             item.SetItem(_prefabCells[i], X, Y);
             item.DestroyCallback += Quit;
         }
@@ -32,9 +35,9 @@ public class InsertionMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && gameObject.activeSelf &&
+		if (Input.GetMouseButtonDown(0) && _container.gameObject.activeSelf &&
             !RectTransformUtility.RectangleContainsScreenPoint(
-                                                               gameObject.GetComponent<RectTransform>(),
+				_container.gameObject.GetComponent<RectTransform>(),
                                                                Input.mousePosition))
         {
             Quit();

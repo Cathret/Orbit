@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shakeDuration: 0.3
-  shakeAmount: 0.2
+  defaultShakeAmount: 0.2
   decreaseFactor: 1
 --- !u!114 &869216536
 MonoBehaviour:

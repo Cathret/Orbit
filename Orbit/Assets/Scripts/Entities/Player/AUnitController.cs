@@ -59,7 +59,12 @@ namespace Orbit.Entity
 
         public Sprite Icon
         {
-            get { return _icon; }
+			get { if (_icon == null) 
+				{
+					SpriteRenderer renderer = GetComponent<SpriteRenderer> ();
+					_icon = renderer ? renderer.sprite : null;
+				}
+				return _icon; }
         }
         [SerializeField]
         private Sprite _icon;

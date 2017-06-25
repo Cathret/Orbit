@@ -137,7 +137,7 @@ public class MouseController : MonoBehaviour
             if ( !GameGrid.Instance.CanBeAdded( ux, uy ) )
                 return;
             _currentInsertionMenu = Instantiate( _insertionMenu, GuiManager.Instance.transform, false );
-            _currentInsertionMenu.transform.position = Camera.main.WorldToScreenPoint( GameGrid.Instance.GetRealPosition( ux, uy ) );
+            //_currentInsertionMenu.transform.position = Camera.main.WorldToScreenPoint( GameGrid.Instance.GetRealPosition( ux, uy ) );
             _currentInsertionMenu.X = ux;
             _currentInsertionMenu.Y = uy;
             _currentInsertionMenu.DestroyCallback += () => { _currentInsertionMenu = null; };
