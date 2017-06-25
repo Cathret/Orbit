@@ -8,15 +8,22 @@ public class InsertionItem : MonoBehaviour
 {
     [SerializeField]
     private Button button;
+
+	private InsertionMenu _menu;
+	public InsertionMenu Menu 
+	{
+		set { _menu = value; }
+	}
+
     [SerializeField]
     private Image image;
     [SerializeField]
     private Text text;
 
-    public uint X;
-    public uint Y;
+	public uint X { get; private set; }
+	public uint Y { get; private set; }
 
-    private AUnitController _unit;
+	public AUnitController Unit { get; private set; }
 
     public delegate void DestroyDelegate();
 
@@ -29,13 +36,14 @@ public class InsertionItem : MonoBehaviour
             return;
         X = x;
         Y = y;
-        _unit = unit;
-        image.sprite = _unit.Icon;
-        text.text = _unit.Price.ToString();
-		if (_unit.Price <= GameManager.Instance.ResourcesCount)
+		Unit = unit;
+		image.sprite = Unit.Icon;
+		text.text = Unit.Price.ToString();
+		if (Unit.Price <= GameManager.Instance.ResourcesCount)
 			button.onClick.AddListener (AddUnit);
 		else 
 		{
+			button.enabled = false;
 			text.color = Color.red;
 			image.color = Color.grey;
 		}
@@ -43,9 +51,15 @@ public class InsertionItem : MonoBehaviour
 
     void AddUnit()
     {
-		GameManager.Instance.ResourcesCount -= _unit.Price;
-		GameGrid.Instance.AddCase (_unit.Cell, X, Y);
+		GameManager.Instance.ResourcesCount -= Unit.Price;
+		GameGrid.Instance.AddCase (Unit.Cell, X, Y);
 		if (DestroyCallback != null)
 			DestroyCallback.Invoke ();
     }
+
+	public void ShowName ()
+	{
+		if (_menu)
+			_menu.NameLabel.text = Unit.UnitName;
+	}
 }

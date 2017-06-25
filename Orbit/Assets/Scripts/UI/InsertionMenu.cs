@@ -16,8 +16,16 @@ public class InsertionMenu : MonoBehaviour
 	[SerializeField]
 	private GameObject _container;
 
-    public uint X;
-    public uint Y;
+	[SerializeField]
+	private Text _nameLabel;
+
+	public Text NameLabel
+	{
+		get { return _nameLabel; }
+	}
+
+	public uint X { get; set; }
+	public uint Y { get; set; }
 
     public delegate void DestroyDelegate();
     public event DestroyDelegate DestroyCallback;
@@ -29,6 +37,7 @@ public class InsertionMenu : MonoBehaviour
         {
 			InsertionItem item = Instantiate( _itemPrefab, _container.transform, false );
             item.SetItem(_prefabCells[i], X, Y);
+			item.Menu = this;
             item.DestroyCallback += Quit;
         }
     }

@@ -117,7 +117,6 @@ public class MouseController : MonoBehaviour
 
     void ManageCell(GameCell cell)
     {
-        
         if ( cell )
         {
             _currentManageMenu = Instantiate(_manageMenu, GuiManager.Instance.transform, false);

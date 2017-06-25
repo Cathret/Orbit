@@ -10,6 +10,13 @@ namespace Orbit.Entity
         #endregion
 
         #region Members
+		public string UnitName
+		{
+			get { return _unitName; }
+		}
+		[SerializeField]
+		private string _unitName;
+
         public uint Price
         {
             get { return _price; }
@@ -54,16 +61,21 @@ namespace Orbit.Entity
         [SerializeField]
         private ParticleSystem _awakeParSysPrefab;
 
-        [SerializeField]
         private SpriteRenderer _spriteRenderer;
+
+		public SpriteRenderer OwnSpriteRenderer
+		{
+			get {
+				if ( _spriteRenderer == null)
+					_spriteRenderer = GetComponent<SpriteRenderer>();
+				return _spriteRenderer;
+			}
+		}
 
         public Sprite Icon
         {
 			get { if (_icon == null) 
-				{
-					SpriteRenderer renderer = GetComponent<SpriteRenderer> ();
-					_icon = renderer ? renderer.sprite : null;
-				}
+				_icon = OwnSpriteRenderer ? OwnSpriteRenderer.sprite : null;
 				return _icon; }
         }
         [SerializeField]
@@ -82,8 +94,7 @@ namespace Orbit.Entity
             if ( Cell == null )
                 Debug.LogError( "AUnitController.Awake() - Cell is null, there's no GameCell component in object", this );
 
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            if ( _spriteRenderer == null )
+			if ( OwnSpriteRenderer == null )
                 Debug.LogError( "AUnitController.Awake() - Sprite Renderer is null, there's no SpriteRenderer component in object", this );
 
             if ( _awakeParSysPrefab )
@@ -131,7 +142,7 @@ namespace Orbit.Entity
         #region Private functions
         private void ModifyGrey( uint hp )
         {
-            _spriteRenderer.color = Color.Lerp( Color.black, Color.white, (float)hp / (float)MaxHP );
+			OwnSpriteRenderer.color = Color.Lerp( Color.black, Color.white, (float)hp / (float)MaxHP );
         }
         #endregion
     }

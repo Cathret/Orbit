@@ -92,7 +92,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Name
+  m_Text: Unit Name
 --- !u!114 &114312430780386874
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -114,6 +114,7 @@ MonoBehaviour:
   _itemPrefab: {fileID: 114236630792097292, guid: 0627e2a25e61f974cbc2c7ff7a831436,
     type: 2}
   _container: {fileID: 1245064285282068}
+  _nameLabel: {fileID: 114284774129861496}
   X: 0
   Y: 0
 --- !u!114 &114839080487198700

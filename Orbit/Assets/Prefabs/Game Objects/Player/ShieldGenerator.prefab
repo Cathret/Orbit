@@ -146,9 +146,10 @@ MonoBehaviour:
   _maxHealthPoints: 10
   _deathParSysPrefab: {fileID: 0}
   _basePower: 5
+  _unitName: Shield Generator
+  _price: 0
   Head: {fileID: 0}
   _level: 1
-  _bIsSelected: 0
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
     type: 2}
   _spriteRenderer: {fileID: 0}
@@ -196,6 +197,7 @@ SpriteRenderer:
   m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212877888611148390
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -236,3 +238,4 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

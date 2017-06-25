@@ -27,9 +27,7 @@ public class GameCell : MonoBehaviour
 
     public DelegateVector3 OnActionLaunched;
 
-    [SerializeField]
     private bool _connected = false;
-    [SerializeField]
     private bool _selected = false;
 
     private SpriteRenderer spriteRenderer;
