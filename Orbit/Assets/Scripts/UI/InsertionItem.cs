@@ -32,13 +32,20 @@ public class InsertionItem : MonoBehaviour
         _unit = unit;
         image.sprite = _unit.Icon;
         text.text = _unit.Price.ToString();
-        button.onClick.AddListener( AddUnit );
+		if (_unit.Price <= GameManager.Instance.ResourcesCount)
+			button.onClick.AddListener (AddUnit);
+		else 
+		{
+			text.color = Color.red;
+			image.color = Color.grey;
+		}
     }
 
     void AddUnit()
     {
-        GameGrid.Instance.AddCase(_unit.Cell, X, Y);
-        if (DestroyCallback != null)
-            DestroyCallback.Invoke();
+		GameManager.Instance.ResourcesCount -= _unit.Price;
+		GameGrid.Instance.AddCase (_unit.Cell, X, Y);
+		if (DestroyCallback != null)
+			DestroyCallback.Invoke ();
     }
 }

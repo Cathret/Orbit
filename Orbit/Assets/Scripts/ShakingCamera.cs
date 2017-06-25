@@ -13,7 +13,10 @@ public class ShakingCamera : MonoBehaviour {
 
     // Amplitude of the shake. A larger value shakes the camera harder.
     [SerializeField]
-    private float shakeAmount = 0.7f;
+    private float defaultShakeAmount = 0.7f;
+
+	private float shakeAmount = 0.0f;
+
     [SerializeField]
     private float decreaseFactor = 1.0f;
 
@@ -34,9 +37,17 @@ public class ShakingCamera : MonoBehaviour {
         }
     }
 
-    public void Shake()
-    {
-        originalPos = transform.localPosition;
-        shakeTimer = 0.0f;
-    }
+	public void Shake( float amount )
+	{
+		shakeAmount = amount;
+		originalPos = transform.localPosition;
+		shakeTimer = 0.0f;
+	}
+
+	public void Shake()
+	{
+		shakeAmount = defaultShakeAmount;
+		originalPos = transform.localPosition;
+		shakeTimer = 0.0f;
+	}
 }

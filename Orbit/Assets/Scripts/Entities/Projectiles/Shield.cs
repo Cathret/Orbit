@@ -45,7 +45,8 @@ namespace Orbit.Entity
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.OnAttackMode.RemoveListener( FillHp );
+			if ( GameManager.Instance )
+            	GameManager.Instance.OnAttackMode.RemoveListener( FillHp );
 
             base.OnDestroy();
         }

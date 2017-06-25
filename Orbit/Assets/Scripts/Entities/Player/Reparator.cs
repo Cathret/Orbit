@@ -96,8 +96,10 @@ namespace Orbit.Entity.Unit
             if ( RepairedUnit )
                 OnRepairedUnitDeath.Invoke();
 
-            GameManager.Instance.OnAttackMode.RemoveListener( ResetCooldown );
-
+			if (GameManager.Instance) 
+			{
+				GameManager.Instance.OnAttackMode.RemoveListener (ResetCooldown);
+			}
             base.OnDestroy();
         }
         #endregion

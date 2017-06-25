@@ -15,7 +15,6 @@ public class InsertionMenu : MonoBehaviour
 
     public uint X;
     public uint Y;
-    private bool _initialized = false;
 
     public delegate void DestroyDelegate();
     public event DestroyDelegate DestroyCallback;

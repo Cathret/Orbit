@@ -26,10 +26,13 @@ namespace Orbit.Entity
 
         protected virtual void OnDestroy()
         {
-            GameManager.Instance.OnAttackMode.RemoveListener( OnAttackMode );
-            GameManager.Instance.OnBuildMode.RemoveListener( OnBuildMode );
-            GameManager.Instance.OnPause.RemoveListener( OnPause );
-            GameManager.Instance.OnPlay.RemoveListener( OnPlay );
+			if (GameManager.Instance) 
+			{
+				GameManager.Instance.OnAttackMode.RemoveListener (OnAttackMode);
+				GameManager.Instance.OnBuildMode.RemoveListener (OnBuildMode);
+				GameManager.Instance.OnPause.RemoveListener (OnPause);
+				GameManager.Instance.OnPlay.RemoveListener (OnPlay);
+			}
         }
 
         protected void Update()

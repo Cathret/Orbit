@@ -83,9 +83,11 @@ namespace Orbit.Entity.Unit
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.OnAttackMode.RemoveListener( ChangeMode );
-            GameManager.Instance.OnBuildMode.RemoveListener( ChangeMode );
-
+			if (GameManager.Instance) 
+			{
+				GameManager.Instance.OnAttackMode.RemoveListener (ChangeMode);
+				GameManager.Instance.OnBuildMode.RemoveListener (ChangeMode);
+			}
             base.OnDestroy();
         }
         #endregion
