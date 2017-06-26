@@ -53,8 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nbWavesPerRound: 3
   _maxNbQuarterPerWave: 1
-  _randomSeedSmall: 4
-  _randomSeedHigh: 7
+  _randomSeedSmall: 2
+  _randomSeedHigh: 4
   _multiplicatorPerRound: 1.3
   _roundLength: 30
   _enemies:

@@ -18,7 +18,13 @@ public class GameGrid : MonoBehaviour
     }
 
     [SerializeField]
-    private GameCell _defaultCell;
+	private GameCell _defaultCell1;
+	[SerializeField]
+	private GameCell _defaultCell2;
+	[SerializeField]
+	private GameCell _defaultCell3;
+	[SerializeField]
+	private GameCell _defaultCell4;
 
     [SerializeField]
     private uint _side;
@@ -90,9 +96,16 @@ public class GameGrid : MonoBehaviour
 
         CheckGrid();
 
-        if (_defaultCell)
-            AddCase(_defaultCell, CenterX, CenterY);
-            
+		uint x = PosX;
+		uint y = PosY;
+		if (_defaultCell1)
+			AddCase (_defaultCell1, x, y, true);
+		if (_defaultCell2)
+			AddCase (_defaultCell2, x + 1, y, true);
+		if (_defaultCell3)
+			AddCase (_defaultCell3, x + 1, y - 1, true);
+		if (_defaultCell4)
+			AddCase (_defaultCell4, x, y - 1 , true);
     }
 
     void OnDrawGizmos()
@@ -144,12 +157,12 @@ public class GameGrid : MonoBehaviour
         cell.SetPosition( x, y );
     }
 
-    public void AddCase( GameCell cell, uint x, uint y )
+	public void AddCase( GameCell cell, uint x, uint y, bool force = false )
     {
         if ( !cell )
             return;
 
-        //if (CanBeAdded(x, y))
+		if (force || CanBeAdded(x, y))
         {
             GameCell createdCell = Instantiate( cell );
             InitCellPosition( createdCell, x, y );
