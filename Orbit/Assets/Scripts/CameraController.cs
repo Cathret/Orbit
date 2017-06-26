@@ -38,6 +38,8 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (GameManager.Instance.CurrentGameState != GameManager.GameState.Play)
+			return;
         _mainCamera.orthographicSize = Mathf.Lerp( _mainCamera.orthographicSize, _targetOrthographicSize,
                                                    Time.deltaTime * _resizeSpeed );
         transform.position = Vector3.Lerp( transform.position, _targetPosition, Time.deltaTime * _translationSpeed );

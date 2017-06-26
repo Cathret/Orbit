@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
         get { return _currentGameState; }
         set
         {
+			if (value == _currentGameState)
+				return;
             switch ( value )
             {
                 case GameState.Play:
@@ -80,6 +82,8 @@ public class GameManager : MonoBehaviour
         get { return _currentGameMode; }
         set
         {
+			if (value == _currentGameMode)
+				return;
             switch ( value )
             {
                 case GameMode.Attacking:
@@ -151,4 +155,15 @@ public class GameManager : MonoBehaviour
     {
         CurrentGameState = GameState.GameOver;
     }
+
+	void OnApplicationFocus(bool hasFocus)
+	{
+		if ( !hasFocus)
+			CurrentGameState = GameState.Pause;
+	}
+
+	void OnApplicationPause(bool pauseStatus)
+	{
+		CurrentGameState = pauseStatus ? GameState.Pause : GameState.Play;
+	}
 }

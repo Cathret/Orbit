@@ -32,6 +32,7 @@ public class GuiManager : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
+		GameManager.Instance.OnPlay.AddListener( CleanUi );
         GameManager.Instance.OnPause.AddListener( ShowPauseUi );
         GameManager.Instance.OnGameOver.AddListener( ShowGameOverUi );
 
@@ -94,4 +95,5 @@ public class GuiManager : MonoBehaviour
         if ( _buildUiPrefab && _buildUiObject == null )
             _buildUiObject = Instantiate( _buildUiPrefab, transform, false );
     }
+		
 }
