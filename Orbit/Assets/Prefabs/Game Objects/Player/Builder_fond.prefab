@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4570573955459538}
   - component: {fileID: 212179522690013758}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cadre_Cell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114895828495101278}
   - component: {fileID: 61401105748673890}
   - component: {fileID: 50400338282047690}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Builder_fond
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,6 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212934458115897510
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -234,4 +233,3 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
