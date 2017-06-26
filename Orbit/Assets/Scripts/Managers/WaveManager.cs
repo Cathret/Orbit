@@ -140,7 +140,8 @@ public class WaveManager : MonoBehaviour
 
     private void Update()
     {
-        OnUpdate();
+		if ( GameManager.Instance.CurrentGameState == GameManager.GameState.Play)
+        	OnUpdate();
     }
 
     private void UpdateWaitForNextWave()
