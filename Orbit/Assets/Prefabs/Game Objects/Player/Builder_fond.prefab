@@ -139,7 +139,7 @@ MonoBehaviour:
   _level: 1
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
     type: 2}
-  _icon: {fileID: 21300000, guid: 942feb847d8ef4244a571a482c582468, type: 3}
+  _icon: {fileID: 21300000, guid: eaab2b228fd13e143aada5ec3b135f4c, type: 3}
   _rechargeSpeed: 3
   _particlesOnBuild: {fileID: 0}
 --- !u!114 &114895828495101278
@@ -193,6 +193,7 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212934458115897510
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -233,3 +234,4 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
