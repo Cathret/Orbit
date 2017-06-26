@@ -164,12 +164,11 @@ MonoBehaviour:
   _deathParSysPrefab: {fileID: 0}
   _basePower: 2
   _unitName: Tower
-  _price: 0
+  _price: 20
   Head: {fileID: 1946849131756548}
   _level: 1
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
     type: 2}
-  _spriteRenderer: {fileID: 0}
   _icon: {fileID: 21300000, guid: 97e8f07b5ee2cb74fbd8294e475c11a8, type: 3}
   _shootCooldown: 0.25
   _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,
@@ -185,8 +184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544a5ce5adcc5b24289534428212d046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _connected: 0
-  _selected: 0
 --- !u!212 &212170534364612016
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -227,7 +224,6 @@ SpriteRenderer:
   m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212410109104955552
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -268,7 +264,6 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212575920631951928
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -309,4 +304,3 @@ SpriteRenderer:
   m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1

@@ -178,8 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544a5ce5adcc5b24289534428212d046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _connected: 0
-  _selected: 0
 --- !u!114 &114738208870311602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -195,12 +193,11 @@ MonoBehaviour:
   _deathParSysPrefab: {fileID: 0}
   _basePower: 1
   _unitName: Booster
-  _price: 0
+  _price: 10
   Head: {fileID: 1336772690440488}
   _level: 1
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
     type: 2}
-  _spriteRenderer: {fileID: 0}
   _icon: {fileID: 21300000, guid: e6f6977369b2e0144aad49a44e833400, type: 3}
 --- !u!212 &212047050706739736
 SpriteRenderer:
@@ -242,7 +239,6 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212206647798409604
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -283,7 +279,6 @@ SpriteRenderer:
   m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212579096506466500
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -324,4 +319,3 @@ SpriteRenderer:
   m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1

@@ -130,8 +130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544a5ce5adcc5b24289534428212d046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _connected: 0
-  _selected: 0
 --- !u!114 &114909476553060966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,12 +145,11 @@ MonoBehaviour:
   _deathParSysPrefab: {fileID: 0}
   _basePower: 5
   _unitName: Shield Generator
-  _price: 0
+  _price: 10
   Head: {fileID: 0}
   _level: 1
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
     type: 2}
-  _spriteRenderer: {fileID: 0}
   _icon: {fileID: 21300000, guid: 8e38d375cecf3a04d9bd6e4a786bf204, type: 3}
   _rechargeSpeed: 3
   _shieldPrefab: {fileID: 114869119522767672, guid: e300e7a5468305b47af6cb26320297ac,
@@ -197,7 +194,6 @@ SpriteRenderer:
   m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212877888611148390
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -238,4 +234,3 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
