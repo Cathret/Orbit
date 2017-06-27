@@ -318,7 +318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _resizeSpeed: 15
   _translationSpeed: 5
-  Padding: 15
+  Padding: 12
 --- !u!114 &869216534
 MonoBehaviour:
   m_ObjectHideFlags: 0
