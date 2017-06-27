@@ -170,7 +170,7 @@ MonoBehaviour:
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
     type: 2}
   _icon: {fileID: 21300000, guid: 97e8f07b5ee2cb74fbd8294e475c11a8, type: 3}
-  _shootCooldown: 0.25
+  _shootCooldown: 0.2
   _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,
     type: 2}
 --- !u!114 &114870026283712040
