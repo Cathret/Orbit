@@ -175,7 +175,7 @@ MonoBehaviour:
   _deathParSysPrefab: {fileID: 0}
   _basePower: 5
   _unitName: Shield Generator
-  _price: 10
+  _price: 20
   Head: {fileID: 0}
   _level: 1
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
