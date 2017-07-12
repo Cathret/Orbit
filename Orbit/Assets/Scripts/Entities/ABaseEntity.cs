@@ -4,6 +4,32 @@ namespace Orbit.Entity
 {
     public class ABaseEntity : MonoBehaviour
     {
+
+        #region  Sound
+
+        private AudioSource _source;
+        public AudioSource Source
+        {
+            get
+            {
+                if (_source == null)
+                    _source = GetComponent<AudioSource>();
+                if (_source == null)
+                    _source = gameObject.AddComponent<AudioSource>();
+                return _source;
+            }
+        }
+
+        protected void PlaySound(AudioClip clip)
+        {
+            if (clip)
+            {
+                Source.clip = clip;
+                Source.Play();
+            }
+        }
+
+        #endregion
         #region Member
         protected delegate void DelegateUpdate();
         protected event DelegateUpdate OnUpdate = () => { };

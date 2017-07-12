@@ -5,6 +5,9 @@ namespace Orbit.Entity.Unit
 {
     public class AutoTower : ATower
     {
+        [SerializeField]
+        private AudioClip _shootClip;
+
         protected override void Awake()
         {
             base.Awake();
@@ -31,6 +34,7 @@ namespace Orbit.Entity.Unit
                 if ( OpponentManager.Instance.FindClosestOpponent( Cell.transform, out target ) )
                 {
                     Shoot( target - transform.position );
+                    PlaySound(_shootClip);
                     if ( Head )
                         Head.transform.right = ( target - transform.position ).normalized;
                 }
