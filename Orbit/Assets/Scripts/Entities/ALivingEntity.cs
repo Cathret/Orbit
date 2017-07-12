@@ -17,6 +17,28 @@ namespace Orbit.Entity
         public event DelegateUint MaxHpChanged;
         #endregion
 
+        #region Music
+
+        [SerializeField]
+        private AudioClip _hitClip;
+
+        [SerializeField]
+        private AudioClip _deathClip;
+
+        private AudioSource _source;
+        public AudioSource Source
+        {
+            get
+            {
+                if (_source == null)
+                    _source = GetComponent<AudioSource>();
+                if (_source == null)
+                    _source = gameObject.AddComponent<AudioSource>();
+                return _source;
+            }
+        }
+
+        #endregion
         #region Members
         public int Hp
         {
@@ -77,6 +99,7 @@ namespace Orbit.Entity
         public void ReceiveDamages( int power )
         {
             Hp -= power;
+            PlayHitSound();
         }
         #endregion
 
@@ -98,6 +121,7 @@ namespace Orbit.Entity
                 particle.Play();
                 Destroy(particle.gameObject, particle.main.duration);
             }
+            PlayDeathSound();
             Destroy( gameObject );
         }
 
@@ -107,6 +131,23 @@ namespace Orbit.Entity
                 TriggerDestroy();
 
             base.OnDestroy();
+        }
+
+        protected void PlayHitSound()
+        {
+            if ( _hitClip )
+            {
+                Source.clip = _hitClip;
+                Source.Play();
+            }
+        }
+        protected void PlayDeathSound()
+        {
+            if (_deathClip)
+            {
+                Source.clip = _deathClip;
+                Source.Play();
+            }
         }
         #endregion
     }

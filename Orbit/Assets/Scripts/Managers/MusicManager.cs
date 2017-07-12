@@ -18,16 +18,25 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    private OrbitMusic[] musics;
-
-    public enum MusicType
+    private enum MusicType
     {
         Attack,
         Build,
         Pause,
         GameOver
     }
+
+    [SerializeField]
+    private AudioClip _attackClip;
+
+    [SerializeField]
+    private AudioClip _buildClip;
+
+    [SerializeField]
+    private AudioClip _pauseClip;
+
+    [SerializeField]
+    private AudioClip _gameOverClip;
 
     private AudioSource _source;
 
@@ -91,7 +100,7 @@ public class MusicManager : MonoBehaviour
 
     void Play( MusicType type )
     {
-        AudioClip clip = GetMusic(MusicType.Attack);
+        AudioClip clip = GetMusic(type);
         if ( !clip )
             return;
 
@@ -102,12 +111,19 @@ public class MusicManager : MonoBehaviour
 
     AudioClip GetMusic( MusicType type )
     {
-        foreach ( OrbitMusic music in musics )
+        switch ( type )
         {
-            if ( type == music.Type )
-                return music.Music;
+            case MusicType.Attack:
+                return _attackClip;
+            case MusicType.Build:
+                return _buildClip;
+            case MusicType.Pause:
+                return _pauseClip;
+            case MusicType.GameOver:
+                return _gameOverClip;
+            default:
+                return null;
         }
-        return null;
     }
 
     public void ResumeMusic()
@@ -140,26 +156,5 @@ public class MusicManager : MonoBehaviour
     public void Stop()
     {
         Source.Stop();
-    }
-
-    [Serializable]
-    public class OrbitMusic
-    {
-        
-        [SerializeField]
-        private AudioClip _music;
-
-        public AudioClip Music
-        {
-            get { return _music; }
-        }
-
-        [SerializeField]
-        private MusicType _type;
-        public MusicType Type
-        {
-            get { return _type; }
-        }
-
     }
 }
