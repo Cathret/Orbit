@@ -53,20 +53,27 @@ public class MusicManager : MonoBehaviour
     }
 
     [SerializeField, Range(0.0f, 1.0f)]
-    private float _volume = 1.0f;
-    public float Volume
+    private float _soundVolume = 1.0f;
+    public float SoundVolume
     {
-        get { return _volume; }
-        set
-        {
-            if ( value > 1.0f || value < 0.0f )
-                return;
-            _volume = value;
-            Source.volume = value;
-        }
+        get { return _musicVolume; }
+    }
+
+    [SerializeField, Range(0.0f, 1.0f)]
+    private float _musicVolume = 1.0f;
+    public float MusicVolume
+    {
+        get { return _musicVolume; }
     }
 
     private AudioClip _lastClip;
+
+    void Awake()
+    {
+        _soundVolume = PlayerPrefs.GetFloat( "SOUND_VOLUME" );
+        _musicVolume = PlayerPrefs.GetFloat("MUSIC_VOLUME");
+        Source.volume = MusicVolume;
+    }
 
     // Use this for initialization
     void Start ()
@@ -76,6 +83,7 @@ public class MusicManager : MonoBehaviour
         GameManager.Instance.OnGameOver.AddListener(PlayGameOverMusic);
         GameManager.Instance.OnPlay.AddListener(ResumeMusic);
         GameManager.Instance.OnPause.AddListener(PlayPauseMusic);
+
     }
 
     public void PlayAttackMusic()

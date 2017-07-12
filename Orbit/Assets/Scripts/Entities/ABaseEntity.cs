@@ -48,6 +48,7 @@ namespace Orbit.Entity
         {
             if ( GameManager.Instance.CurrentGameState == GameManager.GameState.Play )
                 OnPlay();
+            Source.volume = MusicManager.Instance.SoundVolume;
         }
 
         protected virtual void OnDestroy()
