@@ -21,17 +21,23 @@ public class SkyGenerator : MonoBehaviour
     private float _scaleVariation = 0.1f;
 
     [SerializeField, Range(0.0f, 1.0f)]
-    private float _grayScale = 0.5f;
+    private float _minGrayScale = 0.3f;
+    [SerializeField, Range(0.0f, 1.0f)]
+    private float _maxGrayScale = 0.7f;
+
     [SerializeField, Range(0.0f, 1.0f)]
     private float _grayScaleVariation = 0.1f;
 
     [SerializeField]
-    private float LoopLength = 0.7f;
+    private float _minLoopLength = 0.5f;
 
     [SerializeField]
-    private float LoopVariation = 0.2f;
+    private float _maxLoopLength = 1.0f;
 
-    public float density = 0.05f;
+    [SerializeField]
+    private float _loopVariation = 0.2f;
+
+    public float Density = 0.05f;
 
     public float CurrentDensity
     {
@@ -55,11 +61,11 @@ public class SkyGenerator : MonoBehaviour
         int index = Random.Range(0, _spritePrefabs.Length);
         StarDecoration star = Instantiate(_spritePrefabs[index], transform);
 
-        star.GrayScale = _grayScale;
+        star.GrayScale = Random.Range(_minGrayScale, _maxGrayScale);
         star.GrayScaleVariation = Random.Range(0.0f, _grayScaleVariation);
 
         star.ScaleVariation = Random.Range(0.0f, _scaleVariation);
-        star.LoopLength = LoopLength + Random.Range(-LoopVariation, LoopVariation);
+        star.LoopLength = Random.Range(_minLoopLength, _maxLoopLength) + Random.Range(-_loopVariation, _loopVariation);
 
         Vector2 pos = new Vector2(Random.Range( 0.0f, 1.0f ), Random.Range(0.0f, 1.0f));
 
@@ -86,7 +92,7 @@ public class SkyGenerator : MonoBehaviour
 
     void Update()
     {
-        while (CurrentDensity < density)
+        while (CurrentDensity < Density)
         {
             GenStar();
         }
