@@ -17,6 +17,15 @@ namespace Orbit.Entity
         public event DelegateUint MaxHpChanged;
         #endregion
 
+        #region Music
+
+        [SerializeField]
+        private AudioClip _hitClip;
+
+        [SerializeField]
+        private AudioClip _deathClip;
+
+        #endregion
         #region Members
         public int Hp
         {
@@ -77,6 +86,7 @@ namespace Orbit.Entity
         public void ReceiveDamages( int power )
         {
             Hp -= power;
+            PlaySound(_hitClip);
         }
         #endregion
 
@@ -98,6 +108,7 @@ namespace Orbit.Entity
                 particle.Play();
                 Destroy(particle.gameObject, particle.main.duration);
             }
+            PlaySound( _deathClip );
             Destroy( gameObject );
         }
 

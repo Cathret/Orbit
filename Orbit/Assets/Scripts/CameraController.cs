@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Kino;
 using Orbit.Entity;
 using UnityEngine;
 
@@ -33,6 +34,12 @@ public class CameraController : MonoBehaviour
         GameGrid.Instance.OnLayoutChanged.AddListener( UpdateTarget );
         UpdateTarget();
         transform.position = _targetPosition;
+
+        Bloom component = GetComponent<Bloom>();
+        if ( component )
+        {
+            component.enabled = PlayerPrefs.GetInt("BLOOM_EFFECT", 1) == 1;
+        }
     }
 
     // Update is called once per frame
