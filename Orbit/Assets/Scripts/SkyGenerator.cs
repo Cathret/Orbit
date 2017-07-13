@@ -31,13 +31,22 @@ public class SkyGenerator : MonoBehaviour
     [SerializeField]
     private float LoopVariation = 0.2f;
 
-    [SerializeField]
-    private uint StarCount = 50;
+    public float density = 0.05f;
 
+    public float CurrentDensity
+    {
+        get
+        {
+            float fixedZ = -Camera.main.transform.position.z;
+            Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0.0F, 0.0F, fixedZ));
+            Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1.0f, 1.0F, fixedZ));
+            return _spriteObjects.Count / ( ( topRight.x - bottomLeft.x ) * ( topRight.y - bottomLeft.y ) );
+        }
+    }
     [SerializeField]
     private StarDecoration[] _spritePrefabs;
 
-    private List<StarDecoration> _spriteObjects = new List<StarDecoration>();
+    private readonly List<StarDecoration> _spriteObjects = new List<StarDecoration>();
 
     void GenStar()
     {
@@ -50,11 +59,9 @@ public class SkyGenerator : MonoBehaviour
         star.ScaleVariation = Random.Range(0.0f, _scaleVariation);
         star.LoopLength = LoopLength + Random.Range(-LoopVariation, LoopVariation);
 
-        Vector2 insideUnitCircle = Random.insideUnitCircle;
-        insideUnitCircle.x = Mathf.Abs(insideUnitCircle.x);
-        insideUnitCircle.y = Mathf.Abs(insideUnitCircle.y);
+        Vector2 pos = new Vector2(Random.Range( 0.0f, 1.0f ), Random.Range(0.0f, 1.0f));
 
-        star.transform.position = Camera.main.ViewportToWorldPoint(new Vector3(insideUnitCircle.x, insideUnitCircle.y
+        star.transform.position = Camera.main.ViewportToWorldPoint(new Vector3(pos.x, pos.y
                                                                                , -Camera.main.transform.position.z));
         star.OnInvisble += ReleaseStar;
         _spriteObjects.Add( star );
@@ -76,20 +83,11 @@ public class SkyGenerator : MonoBehaviour
         _spriteObjects.Clear();
     }
 
-    public void Populate()
+    void Update()
     {
-        Clear();
-        for (int i = 0; i < StarCount; ++i)
+        while (CurrentDensity < density)
         {
             GenStar();
-        }
-    }
-
-    public void CheckAllStars()
-    {
-        for(int i = 0; i < StarCount; ++i )
-        {
-            _spriteObjects[i].CheckIfVisible();
         }
     }
 }

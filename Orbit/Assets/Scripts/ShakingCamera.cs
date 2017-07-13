@@ -25,6 +25,7 @@ public class ShakingCamera : MonoBehaviour {
     void Start()
     {
         AUnitController.DmgTakenEvent.AddListener(Shake);
+        shakeTimer = shakeDuration;
     }
 
     void Update()

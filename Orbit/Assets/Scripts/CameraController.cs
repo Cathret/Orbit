@@ -35,8 +35,6 @@ public class CameraController : MonoBehaviour
         UpdateTarget();
         transform.position = _targetPosition;
 
-        SkyGenerator.Instance.Populate();
-
         Bloom component = GetComponent<Bloom>();
         if ( component )
         {

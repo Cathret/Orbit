@@ -343,7 +343,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 869216527}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01bf73fb14d2a7f489ff620b4d0d0ca4, type: 3}
   m_Name: 
@@ -438,7 +438,7 @@ MonoBehaviour:
   _grayScaleVariation: 0.2
   LoopLength: 0.7
   LoopVariation: 0.2
-  StarCount: 50
+  density: 0.3
   _spritePrefabs:
   - {fileID: 114821123532014370, guid: 8d0427f2ba590644395aa0f11a187b65, type: 2}
 --- !u!4 &1065543255
