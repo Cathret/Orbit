@@ -6,26 +6,19 @@ public class GridOverlay : MonoBehaviour
 {
     public bool show = true;
 
-    private int gridSizeX;
-    private int gridSizeY;
+    public float gridSizeX;
+    public float gridSizeY;
     private int gridSizeZ = 0;
 
-    private float step = 1.0f;
+    public float step = 1.0f;
 
-    private float startX = 0;
-    private float startY = 0;
+    public float startX = 0;
+    public float startY = 0;
     private float startZ = 0;
 
     private Material lineMaterial;
 
     public Color mainColor = new Color(0f, 1f, 0f, 1f);
-
-    void Start()
-    {
-        gridSizeX = ( int )GameGrid.Instance.RealSide;
-        gridSizeY = gridSizeX;
-        step = GameGrid.Instance.CellSize;
-    }
 
     void CreateLineMaterial()
     {
@@ -48,9 +41,6 @@ public class GridOverlay : MonoBehaviour
 
     void OnPostRender()
     {
-        if ( GameManager.Instance.CurrentGameMode != GameManager.GameMode.Building )
-            return;
-
         CreateLineMaterial();
         // set the current material
         lineMaterial.SetPass(0);

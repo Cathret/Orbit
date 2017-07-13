@@ -362,7 +362,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d901da9b698fa4489358dc5f68f93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  show: 0
+  show: 1
+  gridSizeX: 0
+  gridSizeY: 0
+  step: 1
+  startX: 0
+  startY: 0
   mainColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &940170031
 Prefab:

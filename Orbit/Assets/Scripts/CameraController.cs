@@ -20,12 +20,15 @@ public class CameraController : MonoBehaviour
     private float _targetOrthographicSize;
     private float _fixedZ;
 
+    private GridOverlay _gridOverlay;
+
     void Awake()
     {
         _mainCamera = GetComponent<Camera>();
         _targetOrthographicSize = _mainCamera.orthographicSize;
         _targetPosition = transform.position;
         _fixedZ = transform.position.z;
+        _gridOverlay = GetComponent<GridOverlay>();
     }
 
     // Use this for initialization
@@ -76,10 +79,21 @@ public class CameraController : MonoBehaviour
         float ratioHeight = largeSide / height;
 
         float ratio = ratioWidth > ratioHeight ? ratioWidth : ratioHeight;
-
-        _targetPosition = GameGrid.Instance.RealCenter;
+       
+        _targetPosition = grid.RealCenter;
         _targetPosition.z = _fixedZ;
 
         _targetOrthographicSize = _mainCamera.orthographicSize * ratio;
+
+        if (_gridOverlay)
+        {
+            float side = Mathf.Max( width, height );
+            _gridOverlay.startX = _targetPosition.x - side;
+            _gridOverlay.startY = _targetPosition.y - side;
+
+            _gridOverlay.gridSizeX = _targetPosition.x + side;
+            _gridOverlay.gridSizeY = _targetPosition.y + side;
+            _gridOverlay.step = side;
+        }
     }
 }
