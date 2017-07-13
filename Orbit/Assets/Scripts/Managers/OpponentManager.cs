@@ -97,4 +97,15 @@ public class OpponentManager : MonoBehaviour
         target = new Vector3();
         return false;
     }
+
+    public List<AOpponentController> GetOpponentsInQuarter(GameCell.Quarter quarter)
+    {
+        List < AOpponentController > result = new List<AOpponentController>();
+        foreach (AOpponentController opponentController in _listOpponentsVisible)
+        {
+            if ( opponentController.QuarterPosition == quarter)
+                result.Add( opponentController );
+        }
+        return result;
+    }
 }

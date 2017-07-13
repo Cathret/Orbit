@@ -67,6 +67,27 @@ public class GameCell : MonoBehaviour
         }
     }
 
+    public enum Quarter
+    {
+        TopRight, BottomRight, BottomLeft, TopLeft
+    }
+
+    public Quarter QuarterPosition
+    {
+        get
+        {
+            GameGrid gameGrid = GameGrid.Instance;
+            if (Y >= gameGrid.CenterY)
+            {
+                return X >= gameGrid.CenterX ? Quarter.TopRight : Quarter.TopLeft;
+            }
+            else
+            {
+                return X >= gameGrid.CenterX ? Quarter.BottomRight : Quarter.BottomLeft;
+            }
+        }
+    }
+
     void Awake()
     {
         _targetPosition = transform.position;

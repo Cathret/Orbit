@@ -39,9 +39,17 @@ namespace Orbit.Entity
         }
         [SerializeField]
         private uint _resourcesToDrop;
+
+        public GameCell.Quarter QuarterPosition { get; private set; }
         #endregion
 
         #region Protected functions
+        protected override void Start()
+        {
+            base.Start();
+            CalcPositionInQuarter();
+        }
+
         protected override void UpdateAttackMode()
         {
             // Do not override UpdateBuildMode, because should never have an active opponent when in building mode
@@ -101,6 +109,21 @@ namespace Orbit.Entity
             yield return new WaitForSeconds( _secondsBeforeRegister );
 
             OpponentManager.Instance.RegisterOpponent( this );
+        }
+
+        void CalcPositionInQuarter()
+        {
+            GameGrid gameGrid = GameGrid.Instance;
+            float x = transform.position.x;
+            float y = transform.position.y;
+            if (y >= gameGrid.CenterY)
+            {
+                QuarterPosition = x >= gameGrid.RealCenter.x ? GameCell.Quarter.TopRight : GameCell.Quarter.TopLeft;
+            }
+            else
+            {
+                QuarterPosition = x >= gameGrid.RealCenter.y ? GameCell.Quarter.BottomRight : GameCell.Quarter.BottomLeft;
+            }
         }
     }
 }
