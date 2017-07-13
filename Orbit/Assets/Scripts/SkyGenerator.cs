@@ -50,6 +50,8 @@ public class SkyGenerator : MonoBehaviour
 
     void GenStar()
     {
+        if ( Camera.main == null )
+            return;
         int index = Random.Range(0, _spritePrefabs.Length);
         StarDecoration star = Instantiate(_spritePrefabs[index], transform);
 
@@ -72,7 +74,6 @@ public class SkyGenerator : MonoBehaviour
         int indexOf = _spriteObjects.IndexOf( star );
         Destroy( star.gameObject );
         _spriteObjects.RemoveAt( indexOf );
-        GenStar();
     }
 
     public void Clear()
