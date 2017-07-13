@@ -30,13 +30,16 @@ public class OpponentManager : MonoBehaviour
     private List<AOpponentController> _listOpponentsVisible = new List<AOpponentController>();
     #endregion
 
+    #region Unity functions
     private void Start()
     {
         CameraController = FindObjectOfType<CameraController>();
         if ( CameraController == null )
             Debug.LogError( "OpponentManager.Start() - could not find object of type CameraController" );
     }
+    #endregion
 
+    #region Public functions
     public void SpawnOpponent( AOpponentController opponentPrefab )
     {
         Vector3 distance = Random.insideUnitCircle.normalized;
@@ -74,6 +77,7 @@ public class OpponentManager : MonoBehaviour
 
     public bool FindClosestOpponent( Transform cell, out Vector3 target )
     {
+        // TODO: need to do this using the "quarters"
         Transform tMin = null;
         float minDist = Mathf.Infinity;
         Vector3 currentPos = cell.position;
@@ -97,4 +101,5 @@ public class OpponentManager : MonoBehaviour
         target = new Vector3();
         return false;
     }
+    #endregion
 }
