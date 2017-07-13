@@ -56,7 +56,7 @@ public class MusicManager : MonoBehaviour
     private float _soundVolume = 1.0f;
     public float SoundVolume
     {
-        get { return _musicVolume; }
+        get { return _soundVolume; }
     }
 
     [SerializeField, Range(0.0f, 1.0f)]
