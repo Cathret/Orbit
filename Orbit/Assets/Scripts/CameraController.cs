@@ -20,7 +20,9 @@ public class CameraController : MonoBehaviour
     private float _targetOrthographicSize;
     private float _fixedZ;
 
-    private GridOverlay _gridOverlay;
+    private GridOverlay _quarterGridOverlay;
+
+    private GridOverlay _caseGridOverlay;
 
     void Awake()
     {
@@ -28,7 +30,9 @@ public class CameraController : MonoBehaviour
         _targetOrthographicSize = _mainCamera.orthographicSize;
         _targetPosition = transform.position;
         _fixedZ = transform.position.z;
-        _gridOverlay = GetComponent<GridOverlay>();
+        GridOverlay[] gridOverlays = GetComponents<GridOverlay>();
+        _quarterGridOverlay = gridOverlays[0];
+        _caseGridOverlay = gridOverlays[1];
     }
 
     // Use this for initialization
@@ -85,15 +89,28 @@ public class CameraController : MonoBehaviour
 
         _targetOrthographicSize = _mainCamera.orthographicSize * ratio;
 
-        if (_gridOverlay)
+        float side = Mathf.Max( width, height );
+        if (_quarterGridOverlay)
         {
-            float side = Mathf.Max( width, height );
-            _gridOverlay.startX = _targetPosition.x - side;
-            _gridOverlay.startY = _targetPosition.y - side;
+            _quarterGridOverlay.startX = _targetPosition.x - side;
+            _quarterGridOverlay.startY = _targetPosition.y - side;
 
-            _gridOverlay.gridSizeX = _targetPosition.x + side;
-            _gridOverlay.gridSizeY = _targetPosition.y + side;
-            _gridOverlay.step = side;
+            _quarterGridOverlay.gridSizeX = _targetPosition.x + side;
+            _quarterGridOverlay.gridSizeY = _targetPosition.y + side;
+            _quarterGridOverlay.step = side;
         }
+
+        if (_caseGridOverlay)
+        {
+            int countCell = ( int )( side / cellSize );
+            float realSide = ( countCell + 1 ) * cellSize;
+            _caseGridOverlay.startX = _targetPosition.x - realSide;
+            _caseGridOverlay.startY = _targetPosition.y - realSide;
+
+            _caseGridOverlay.gridSizeX = _targetPosition.x + realSide;
+            _caseGridOverlay.gridSizeY = _targetPosition.y + realSide;
+            _caseGridOverlay.step = cellSize;
+        }
+
     }
 }
