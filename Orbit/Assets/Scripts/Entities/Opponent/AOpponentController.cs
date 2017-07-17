@@ -12,6 +12,12 @@ namespace Orbit.Entity
 
         protected int currentWayPoint = 0;
 
+        protected bool HasBeenRegistered
+        {
+            get { return _hasBeenRegistered; }
+        }
+        private bool _hasBeenRegistered = false;
+
         [SerializeField]
         private float _secondsBeforeRegister = 1.5f;
 
@@ -109,6 +115,8 @@ namespace Orbit.Entity
             yield return new WaitForSeconds( _secondsBeforeRegister );
 
             OpponentManager.Instance.RegisterOpponent( this );
+
+            _hasBeenRegistered = true;
         }
 
         void CalcPositionInQuarter()
