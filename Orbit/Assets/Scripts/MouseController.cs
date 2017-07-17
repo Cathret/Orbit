@@ -329,8 +329,10 @@ public class MouseController : MonoBehaviour
     {
         if (cell && _selectedCells.Contains(cell) == false)
         {
-            if ( _selectedCells.Count > 0 && cell.GetType() != _selectedCells[0].GetType() )
-                return;
+            if ( _selectedCells.Count > 0 && cell.Unit.GetType() != _selectedCells[0].Unit.GetType() )
+            {
+                UnselectCells();
+            }
             cell.Selected = true;
             _selectedCells.Add(cell);
         }
