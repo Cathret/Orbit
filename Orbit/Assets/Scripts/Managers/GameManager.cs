@@ -72,6 +72,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool Playing
+    {
+        get { return _currentGameState == GameState.Play; }
+    }
+
     public UnityEvent OnAttackMode = new UnityEvent();
     public UnityEvent OnBuildMode = new UnityEvent();
     public UnityEvent OnNoneMode = new UnityEvent();

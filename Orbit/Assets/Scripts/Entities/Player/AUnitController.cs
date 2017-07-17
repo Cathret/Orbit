@@ -83,6 +83,8 @@ namespace Orbit.Entity
         #endregion
 
         #region Public functions
+        public virtual void ExecuteOnDrag(Vector3 target)
+        { }
         public abstract void ExecuteOnClick( Vector3 target );
         #endregion
 
@@ -107,6 +109,7 @@ namespace Orbit.Entity
             TriggerHit += DmgTakenEvent.Invoke;
             Cell.OnSelection += ModifySelected;
             Cell.OnActionLaunched += ExecuteOnClick;
+            Cell.OnDraggedActionLaunched += ExecuteOnDrag;
         }
 
         protected override void OnDestroy()

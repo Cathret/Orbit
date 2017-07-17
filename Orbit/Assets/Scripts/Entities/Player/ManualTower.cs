@@ -12,5 +12,11 @@ namespace Orbit.Entity.Unit
             Shoot( target - transform.position );
             PlaySound(_shootClip);
         }
+
+        public override void ExecuteOnDrag(Vector3 target)
+        {
+            Shoot(target - transform.position);
+            PlaySound(_shootClip);
+        }
     }
 }

@@ -7,12 +7,6 @@ using UnityEngine.Events;
 
 public class GameCell : MonoBehaviour
 {
-    private static GameCell _lastSelected;
-
-    public static GameCell SelectedCell
-    {
-        get { return _lastSelected; }
-    }
 
     public uint X { get; private set; }
     public uint Y { get; private set; }
@@ -26,6 +20,7 @@ public class GameCell : MonoBehaviour
     public delegate void DelegateVector3( Vector3 value );
 
     public DelegateVector3 OnActionLaunched;
+    public DelegateVector3 OnDraggedActionLaunched;
 
     private bool _connected = false;
     private bool _selected = false;
@@ -152,10 +147,6 @@ public class GameCell : MonoBehaviour
             return;
 
         _selected = true;
-        if ( _lastSelected )
-            _lastSelected.Selected = false;
-
-        _lastSelected = this;
         if ( OnSelection != null )
             OnSelection.Invoke( true );
     }
@@ -166,16 +157,9 @@ public class GameCell : MonoBehaviour
             return;
 
         _selected = false;
-        _lastSelected = null;
 
         if ( OnSelection != null )
             OnSelection.Invoke( false );
-    }
-
-    public static void Unselect()
-    {
-        if ( _lastSelected )
-            _lastSelected.Selected = false;
     }
 
     public bool IsConnectedTo( GameCell cell )
@@ -206,6 +190,12 @@ public class GameCell : MonoBehaviour
     {
         if ( OnActionLaunched != null )
             OnActionLaunched.Invoke( target );
+    }
+
+    public void LaunchDraggedAction(Vector3 target)
+    {
+        if (OnDraggedActionLaunched != null)
+            OnDraggedActionLaunched.Invoke(target);
     }
 
     void Delete()

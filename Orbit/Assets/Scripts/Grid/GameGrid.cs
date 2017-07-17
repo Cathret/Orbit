@@ -308,27 +308,26 @@ public class GameGrid : MonoBehaviour
 
     public void RotateClockwise()
     {
-        uint u = EfficientSide / 2;
-
+        uint u = ( uint )Mathf.CeilToInt(EfficientSide / 2.0f);
         for ( uint x = 0; x < u; ++x )
         {
             for ( uint y = 0; y < u; ++y )
             {
                 GameCell tmpCell = _grid[x + CenterX, y + CenterY];
 
-                SetCellPosition( _grid[CenterX - x, y + CenterY], x + CenterX, y + CenterY );
-                SetCellPosition( _grid[CenterX - x, CenterY - y], CenterX - x, CenterY + y );
-                SetCellPosition( _grid[x + CenterX, CenterY - y], CenterX - x, CenterY - y );
-                SetCellPosition( tmpCell, x + CenterX, CenterY - y );
+                SetCellPosition( _grid[CenterX - (y + 1), x + CenterY], x + CenterX, y + CenterY );
+                SetCellPosition( _grid[CenterX - (x + 1), CenterY - (y + 1)], CenterX - (y + 1), x + CenterY);
+                SetCellPosition( _grid[y + CenterX, CenterY - (x + 1)], CenterX - (x + 1), CenterY - (y + 1) );
+                SetCellPosition( tmpCell, y + CenterX, CenterY - (x + 1));
             }
         }
 
-        CheckGrid();
+        //CheckGrid();
     }
 
     public void RotateReverseClockwise()
     {
-        uint u = EfficientSide / 2;
+        uint u = (uint)Mathf.CeilToInt(EfficientSide / 2.0f);
 
         for ( uint x = 0; x < u; ++x )
         {
@@ -336,13 +335,13 @@ public class GameGrid : MonoBehaviour
             {
                 GameCell tmpCell = _grid[x + CenterX, y + CenterY];
 
-                SetCellPosition( _grid[x + CenterX, CenterY - y], CenterX + x, CenterY + y );
-                SetCellPosition( _grid[CenterX - x, CenterY - y], CenterX + x, CenterY - y );
-                SetCellPosition( _grid[CenterX - x, y + CenterY], CenterX - x, CenterY - y );
-                SetCellPosition( tmpCell, CenterX - x, CenterY + y );
+                SetCellPosition(_grid[y + CenterX, CenterY - (x + 1)], x + CenterX, y + CenterY);
+                SetCellPosition(_grid[CenterX - (x + 1), CenterY - (y + 1)], y + CenterX, CenterY - (x + 1));
+                SetCellPosition(_grid[CenterX - (y + 1), x + CenterY], CenterX - (x + 1), CenterY - (y + 1));
+                SetCellPosition(tmpCell, CenterX - (y + 1), x + CenterY);
             }
         }
-        CheckGrid();
+        //CheckGrid();
     }
 
     public GameCell GetCell( uint x, uint y )
