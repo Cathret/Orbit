@@ -101,7 +101,8 @@ namespace Orbit.Entity.Unit
             if ( Cell.Connected )
             {
                 Vector3 target;
-                if ( OpponentManager.Instance.FindClosestOpponent( Cell.transform, out target ) )
+
+                if ( TowerAIManager.Instance.FindBestOpponent( Cell, out target, Power ) )
                 {
                     Shoot( target - transform.position );
                     PlaySound(_shootClip);
