@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Kino;
 using Orbit.Entity;
 using UnityEngine;
 
@@ -19,12 +20,19 @@ public class CameraController : MonoBehaviour
     private float _targetOrthographicSize;
     private float _fixedZ;
 
+    private GridOverlay _quarterGridOverlay;
+
+    private GridOverlay _caseGridOverlay;
+
     void Awake()
     {
         _mainCamera = GetComponent<Camera>();
         _targetOrthographicSize = _mainCamera.orthographicSize;
         _targetPosition = transform.position;
         _fixedZ = transform.position.z;
+        GridOverlay[] gridOverlays = GetComponents<GridOverlay>();
+        _quarterGridOverlay = gridOverlays[0];
+        _caseGridOverlay = gridOverlays[1];
     }
 
     // Use this for initialization
@@ -33,6 +41,12 @@ public class CameraController : MonoBehaviour
         GameGrid.Instance.OnLayoutChanged.AddListener( UpdateTarget );
         UpdateTarget();
         transform.position = _targetPosition;
+
+        Bloom component = GetComponent<Bloom>();
+        if ( component )
+        {
+            component.enabled = PlayerPrefs.GetInt("BLOOM_EFFECT", 1) == 1;
+        }
     }
 
     // Update is called once per frame
@@ -69,10 +83,34 @@ public class CameraController : MonoBehaviour
         float ratioHeight = largeSide / height;
 
         float ratio = ratioWidth > ratioHeight ? ratioWidth : ratioHeight;
-
-        _targetPosition = GameGrid.Instance.RealCenter;
+       
+        _targetPosition = grid.RealCenter;
         _targetPosition.z = _fixedZ;
 
         _targetOrthographicSize = _mainCamera.orthographicSize * ratio;
+
+        float side = Mathf.Max( width, height );
+        if (_quarterGridOverlay)
+        {
+            _quarterGridOverlay.startX = _targetPosition.x - side;
+            _quarterGridOverlay.startY = _targetPosition.y - side;
+
+            _quarterGridOverlay.gridSizeX = _targetPosition.x + side;
+            _quarterGridOverlay.gridSizeY = _targetPosition.y + side;
+            _quarterGridOverlay.step = side;
+        }
+
+        if (_caseGridOverlay)
+        {
+            int countCell = ( int )( side / cellSize );
+            float realSide = ( countCell + 1 ) * cellSize;
+            _caseGridOverlay.startX = _targetPosition.x - realSide;
+            _caseGridOverlay.startY = _targetPosition.y - realSide;
+
+            _caseGridOverlay.gridSizeX = _targetPosition.x + realSide;
+            _caseGridOverlay.gridSizeY = _targetPosition.y + realSide;
+            _caseGridOverlay.step = cellSize;
+        }
+
     }
 }

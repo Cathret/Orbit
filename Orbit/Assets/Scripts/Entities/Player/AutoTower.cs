@@ -9,6 +9,9 @@ namespace Orbit.Entity.Unit
     {
         #region Members
         [SerializeField]
+        private AutioClip _shootClip;
+        
+        [SerializeField]
         private float _shootCooldown = 0.5f;
 
         public float ShootTimer
@@ -101,6 +104,7 @@ namespace Orbit.Entity.Unit
                 if ( OpponentManager.Instance.FindClosestOpponent( Cell.transform, out target ) )
                 {
                     Shoot( target - transform.position );
+                    PlaySound(_shootClip);
                     if ( Head )
                         Head.transform.right = ( target - transform.position ).normalized;
                 }
