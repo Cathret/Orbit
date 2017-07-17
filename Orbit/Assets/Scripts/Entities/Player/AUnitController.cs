@@ -74,9 +74,12 @@ namespace Orbit.Entity
 
         public Sprite Icon
         {
-			get { if (_icon == null) 
-				_icon = OwnSpriteRenderer ? OwnSpriteRenderer.sprite : null;
-				return _icon; }
+			get
+            {
+                if (_icon == null) 
+				    _icon = OwnSpriteRenderer ? OwnSpriteRenderer.sprite : null;
+				return _icon;
+            }
         }
         [SerializeField]
         private Sprite _icon;

@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 61728584504065060}
   - component: {fileID: 50121950129293502}
   m_Layer: 8
-  m_Name: AutoTower_Base
+  m_Name: AutoTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544a5ce5adcc5b24289534428212d046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 212971282225625114}
 --- !u!114 &114411803141743710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -168,19 +169,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1819283257326886}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4029164527724ea49a7cbf7938098e33, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b132fb56e194c1468335fc3318130ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitClip: {fileID: 0}
+  _deathClip: {fileID: 0}
   _maxHealthPoints: 10
   _deathParSysPrefab: {fileID: 0}
   _basePower: 2
   _unitName: Auto Tower
-  _price: 0
+  _price: 30
   Head: {fileID: 1027661704479118}
   _level: 1
-  _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
-    type: 2}
+  _awakeParSysPrefab: {fileID: 0}
   _icon: {fileID: 21300000, guid: 476c6abb3acfcf74eaa7dc192a3a85a9, type: 3}
+  _shootClip: {fileID: 0}
   _shootCooldown: 4
   _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,
     type: 2}

@@ -25,7 +25,8 @@ public class GameCell : MonoBehaviour
     private bool _connected = false;
     private bool _selected = false;
 
-    private SpriteRenderer spriteRenderer;
+    [SerializeField]
+    private SpriteRenderer _spriteRenderer;
 
     public bool Selected
     {
@@ -86,15 +87,13 @@ public class GameCell : MonoBehaviour
     void Awake()
     {
         _targetPosition = transform.position;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-
         Unit.TriggerDeath += Delete;
     }
 
     void Start()
     {
-        if ( spriteRenderer )
-            spriteRenderer.color = _connected ? Color.white : Color.grey;
+        SetColorByConnection();
+        OnSelection += SetColorBySelection;
     }
 
     // Update is called once per frame
@@ -137,8 +136,26 @@ public class GameCell : MonoBehaviour
             return;
         _connected = value;
 
-        if ( spriteRenderer )
-            spriteRenderer.color = _connected ? Color.white : Color.grey;
+        SetColorByConnection();
+    }
+
+    void SetColorByConnection()
+    {
+        if (!_spriteRenderer || Selected)
+            return;
+
+        _spriteRenderer.color = Connected ? Color.white : Color.grey;
+    }
+
+    void SetColorBySelection( bool value )
+    {
+        if (!_spriteRenderer)
+            return;
+
+        if (value)
+            _spriteRenderer.color = Color.green;
+        else
+            SetColorByConnection();
     }
 
     void SelectCallback()
