@@ -9,7 +9,7 @@ namespace Orbit.Entity.Unit
     {
         #region Members
         [SerializeField]
-        private AutioClip _shootClip;
+        private AudioClip _shootClip;
         
         [SerializeField]
         private float _shootCooldown = 0.5f;
