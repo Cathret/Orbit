@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 4201703031365958}
   - component: {fileID: 212919430040731068}
   m_Layer: 0
-  m_Name: Cadre_Cell
+  m_Name: Frame_Cell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239,7 +239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544a5ce5adcc5b24289534428212d046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 212919430040731068}
 --- !u!114 &114677457375124628
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -25,7 +25,8 @@ public class GameCell : MonoBehaviour
     private bool _connected = false;
     private bool _selected = false;
 
-    [SerializeField]
+    private string _frameName = "Frame_Cell";
+
     private SpriteRenderer _spriteRenderer;
 
     public bool Selected
@@ -87,6 +88,7 @@ public class GameCell : MonoBehaviour
     void Awake()
     {
         _targetPosition = transform.position;
+        _spriteRenderer = transform.Find(_frameName).gameObject.GetComponent<SpriteRenderer>();
         Unit.TriggerDeath += Delete;
     }
 
