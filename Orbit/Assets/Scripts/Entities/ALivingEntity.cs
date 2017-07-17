@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Orbit.Entity
 {
@@ -73,8 +74,26 @@ namespace Orbit.Entity
         [SerializeField]
         private uint _maxHealthPoints = 1;
 
+        private SpriteRenderer _spriteRenderer;
+
+        public SpriteRenderer OwnSpriteRenderer
+        {
+            get
+            {
+                if (_spriteRenderer == null)
+                    _spriteRenderer = GetComponent<SpriteRenderer>();
+                return _spriteRenderer;
+            }
+        }
+
         [SerializeField]
         private ParticleSystem _deathParSysPrefab;
+
+        [SerializeField]
+        private Color _hitColor = Color.red;
+
+        [SerializeField]
+        private float _hitColorTime = 0.2f;
         #endregion
 
         #region Public functions
@@ -98,6 +117,11 @@ namespace Orbit.Entity
             TriggerDeath += OnDeath;
 
             Hp = (int)MaxHP;
+
+            if (OwnSpriteRenderer == null)
+                Debug.LogError("ALivingEntity.Awake() - Sprite Renderer is null, there's no SpriteRenderer component in object", this);
+
+            HpChanged += HpChangedCallback;
         }
 
         protected virtual void OnDeath()
@@ -118,6 +142,26 @@ namespace Orbit.Entity
                 TriggerDestroy();
 
             base.OnDestroy();
+        }
+        #endregion
+
+        #region Private Functions
+
+        private void HpChangedCallback( uint hp )
+        {
+            StartCoroutine( ColorCoroutine( hp ) );
+        }
+
+        private void ModifyGrey(uint hp)
+        {
+            OwnSpriteRenderer.color = Color.Lerp(Color.black, Color.white, (float)hp / (float)MaxHP);
+        }
+
+        IEnumerator ColorCoroutine(uint hp)
+        {
+            OwnSpriteRenderer.color = _hitColor;
+            yield return  new WaitForSeconds( _hitColorTime );
+            ModifyGrey( hp );
         }
         #endregion
     }

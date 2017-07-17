@@ -61,17 +61,6 @@ namespace Orbit.Entity
         [SerializeField]
         private ParticleSystem _awakeParSysPrefab;
 
-        private SpriteRenderer _spriteRenderer;
-
-		public SpriteRenderer OwnSpriteRenderer
-		{
-			get {
-				if ( _spriteRenderer == null)
-					_spriteRenderer = GetComponent<SpriteRenderer>();
-				return _spriteRenderer;
-			}
-		}
-
         public Sprite Icon
         {
 			get
@@ -99,16 +88,13 @@ namespace Orbit.Entity
             if ( Cell == null )
                 Debug.LogError( "AUnitController.Awake() - Cell is null, there's no GameCell component in object", this );
 
-			if ( OwnSpriteRenderer == null )
-                Debug.LogError( "AUnitController.Awake() - Sprite Renderer is null, there's no SpriteRenderer component in object", this );
-
             if ( _awakeParSysPrefab )
             {
                 ParticleSystem particle = Instantiate( _awakeParSysPrefab, transform );
                 particle.Play();
             }
 
-            HpChanged += ModifyGrey;
+            
             TriggerHit += DmgTakenEvent.Invoke;
             Cell.OnSelection += ModifySelected;
             Cell.OnActionLaunched += ExecuteOnClick;
@@ -142,13 +128,6 @@ namespace Orbit.Entity
         protected virtual void ModifySelected( bool selected )
         {
             IsSelected = selected;
-        }
-        #endregion
-
-        #region Private functions
-        private void ModifyGrey( uint hp )
-        {
-			OwnSpriteRenderer.color = Color.Lerp( Color.black, Color.white, (float)hp / (float)MaxHP );
         }
         #endregion
     }
