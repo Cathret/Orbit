@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Boo.Lang.Runtime;
+using System.Collections.Generic;
 using UnityEngine;
 using Orbit.Entity;
 
@@ -18,14 +17,82 @@ public class TowerAIManager : MonoBehaviour
     }
     private static TowerAIManager _instance;
 
+    #region Nested Class
+    public class OpponentTarget
+    {
+        public OpponentTarget( AOpponentController opponentController )
+        {
+            OpponentController = opponentController;
+        }
+        
+        #region Members
+        public AOpponentController OpponentController
+        {
+            get { return _opponentController; }
+            private set
+            {
+                if ( _opponentController )
+                {
+                    _opponentController.TriggerDestroy -= OnOpponentControllerDeath;
+                    _opponentController = null;
+                }
+
+                if ( value == null ) return;
+
+                _opponentController = value;
+                _opponentController.TriggerDestroy += OnOpponentControllerDeath;
+            }
+        }
+        private AOpponentController _opponentController = null;
+
+        public uint DamagesTowards
+        {
+            get { return _damagesTowards; }
+            private set { _damagesTowards = value; }
+        }
+        private uint _damagesTowards;
+
+        public bool IsValid
+        {
+            get { return OpponentController != null; }
+        }
+
+        public bool NeedToBeFocused()
+        {
+            if ( OpponentController )
+                return OpponentController.Hp > DamagesTowards;
+            return false;
+        }
+
+        public void SetAsTargetFor( Projectile projectile )
+        {
+            // TODO: change to be a function and not a lambda. Need to have Sender as parameter
+            projectile.TriggerDestroy += () =>
+            {
+                DamagesTowards -= projectile.Power;
+            };
+            DamagesTowards += projectile.Power;
+        }
+        #endregion
+
+        #region Private functions
+        private void OnOpponentControllerDeath()
+        {
+            _opponentController.TriggerDestroy -= OnOpponentControllerDeath;
+            _opponentController = null;
+        }
+        #endregion
+    }
+    #endregion
+
     #region Members
     private OpponentManager _opponentManager = null;
 
-    // TODO: should find a way to optimize that. Also need to have a "override" so does not have to get pair, and also may change "uint" when AOpponentController gets hit
-    private Dictionary<AOpponentController, uint> _opponentsDictionaryTopRight= new Dictionary<AOpponentController, uint>();
-    private Dictionary<AOpponentController, uint> _opponentsDictionaryTopLeft = new Dictionary<AOpponentController, uint>();
-    private Dictionary<AOpponentController, uint> _opponentsDictionaryBottomRight = new Dictionary<AOpponentController, uint>();
-    private Dictionary<AOpponentController, uint> _opponentsDictionaryBottomLeft = new Dictionary<AOpponentController, uint>();
+    // TODO: should find a way to optimize that
+    private List<OpponentTarget> _opponentsListTopRight = new List<OpponentTarget>();
+    private List<OpponentTarget> _opponentsListTopLeft = new List<OpponentTarget>();
+    private List<OpponentTarget> _opponentsListBottomRight = new List<OpponentTarget>();
+    private List<OpponentTarget> _opponentsListBottomLeft = new List<OpponentTarget>();
     #endregion
 
     #region Unity functions
@@ -36,58 +103,75 @@ public class TowerAIManager : MonoBehaviour
     #endregion
 
     #region Private functions
-    private Dictionary<AOpponentController, uint> GetListForQuarter( GameCell.Quarter quarter )
+    private void CleanOneList( List<OpponentTarget> oneList )
     {
+        oneList.RemoveAll( param => !param.IsValid );
+    }
+
+    private void CleanAllList()
+    {
+        CleanOneList( _opponentsListTopRight );
+        CleanOneList( _opponentsListTopLeft );
+        CleanOneList( _opponentsListBottomRight );
+        CleanOneList( _opponentsListBottomLeft );
+    }
+
+    private bool GetListForQuarter( GameCell.Quarter quarter, out List<OpponentTarget> listOpponentTargets )
+    {
+        CleanAllList();
+
         switch ( quarter )
         {
             case GameCell.Quarter.TopRight:
-                return _opponentsDictionaryTopRight;
+                listOpponentTargets = _opponentsListTopRight;
+                break;
             case GameCell.Quarter.TopLeft:
-                return _opponentsDictionaryTopLeft;
+                listOpponentTargets = _opponentsListTopLeft;
+                break;
             case GameCell.Quarter.BottomRight:
-                return _opponentsDictionaryBottomRight;
+                listOpponentTargets = _opponentsListBottomRight;
+                break;
             case GameCell.Quarter.BottomLeft:
-                return _opponentsDictionaryBottomLeft;
+                listOpponentTargets = _opponentsListBottomLeft;
+                break;
             default:
                 throw new ArgumentOutOfRangeException( "quarter", quarter, null );
         }
+
+        return true;
     }
     #endregion
 
     #region Public functions
     // TODO: remove power and find another way to notify (see TODO on Dictionaries)
-    public bool FindBestOpponent( GameCell cell, out Vector3 target, uint power )
+    public bool FindBestOpponent( GameCell cell, out OpponentTarget target )
     {
         AOpponentController bestOpponentController;
         List<AOpponentController> opponentList = _opponentManager.GetOpponentsInQuarter( cell.QuarterPosition );
         if ( opponentList.Count <= 0 )
         {
-            target = new Vector3();
+            target = new OpponentTarget( null );
             return false;
         }
-        Dictionary<AOpponentController, uint> usedDictionary = GetListForQuarter( cell.QuarterPosition );
+
+        List<OpponentTarget> usedList;
+        // Not checking if == false, will never happen without an exception
+        GetListForQuarter( cell.QuarterPosition, out usedList );
 
         foreach ( AOpponentController opponentController in opponentList )
         {
-            if ( !usedDictionary.ContainsKey( opponentController ) )
-                usedDictionary.Add( opponentController, 0u );
+            if ( !usedList.Exists( param => param.OpponentController == opponentController ) )
+                usedList.Add( new OpponentTarget( opponentController ) );
         }
 
-        usedDictionary = usedDictionary.Where( kv => kv.Key.Hp > kv.Value ).ToDictionary( p => p.Key, p => p.Value, usedDictionary.Comparer );
-        
-        if ( _opponentManager.FindClosestOpponentInList( usedDictionary.Keys, cell.transform, out bestOpponentController ) )
+        List<OpponentTarget> needToBeFocusedList = usedList.Where( param => param.NeedToBeFocused() ).ToList();
+        if ( _opponentManager.FindClosestOpponentInList( needToBeFocusedList.Select( param => param.OpponentController ), cell.transform, out bestOpponentController ) )
         {
-            // Get target position
-            target = bestOpponentController.transform.position;
-
-            // Add power to uint so keep track if going to kill the unit or not
-            KeyValuePair<AOpponentController, uint> keyValuePair = usedDictionary.Single( kv => kv.Key == bestOpponentController );
-            usedDictionary[keyValuePair.Key] = keyValuePair.Value + power;
-
+            target = needToBeFocusedList.Find( param => param.OpponentController == bestOpponentController );
             return true;
         }
 
-        target = new Vector3();
+        target = new OpponentTarget( null );
         return false;
     }
     #endregion
