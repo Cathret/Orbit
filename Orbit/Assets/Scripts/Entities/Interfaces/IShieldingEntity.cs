@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Orbit.Entity
+﻿namespace Orbit.Entity
 {
     public interface IShieldingEntity
     {

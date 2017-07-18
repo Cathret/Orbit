@@ -1,12 +1,34 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 public class GameGrid : MonoBehaviour
 {
     private static GameGrid _instance;
+
+    private uint _cellCount;
+
+    [SerializeField]
+    private float _cellSize;
+
+    [SerializeField]
+    private GameCell _defaultCell1;
+    [SerializeField]
+    private GameCell _defaultCell2;
+    [SerializeField]
+    private GameCell _defaultCell3;
+    [SerializeField]
+    private GameCell _defaultCell4;
+
+    private GameCell[,] _grid;
+
+    [SerializeField]
+    private float _rotationSpeed = 20.0f;
+
+    [SerializeField]
+    private uint _side;
+    public UnityEvent OnGridEmpty = new UnityEvent();
+
+    public UnityEvent OnLayoutChanged = new UnityEvent();
     public static GameGrid Instance
     {
         get
@@ -16,18 +38,6 @@ public class GameGrid : MonoBehaviour
             return _instance;
         }
     }
-
-    [SerializeField]
-	private GameCell _defaultCell1;
-	[SerializeField]
-	private GameCell _defaultCell2;
-	[SerializeField]
-	private GameCell _defaultCell3;
-	[SerializeField]
-	private GameCell _defaultCell4;
-
-    [SerializeField]
-    private uint _side;
 
     public uint Side
     {
@@ -40,17 +50,11 @@ public class GameGrid : MonoBehaviour
         get { return Side * CellSize; }
     }
 
-    [SerializeField]
-    private float _cellSize;
-
     public float CellSize
     {
         get { return _cellSize; }
         private set { _cellSize = value; }
     }
-
-    [SerializeField]
-    private float _rotationSpeed = 20.0f;
     public float RotationSpeed
     {
         get { return _rotationSpeed; }
@@ -79,16 +83,9 @@ public class GameGrid : MonoBehaviour
         get { return new Vector3( PosX * CellSize, PosY * CellSize, FixedZ ); }
     }
 
-    public UnityEvent OnLayoutChanged = new UnityEvent();
-    public UnityEvent OnGridEmpty = new UnityEvent();
-
-    private GameCell[,] _grid;
-
-    private uint _cellCount = 0;
-
     public float FixedZ { get; private set; }
 
-    void Awake()
+    private void Awake()
     {
         FixedZ = transform.position.z;
         transform.position = new Vector3( 0, 0, FixedZ );
@@ -96,19 +93,19 @@ public class GameGrid : MonoBehaviour
 
         CheckGrid();
 
-		uint x = PosX;
-		uint y = PosY;
-		if (_defaultCell1)
-			AddCase (_defaultCell1, x, y, true);
-		if (_defaultCell2)
-			AddCase (_defaultCell2, x + 1, y, true);
-		if (_defaultCell3)
-			AddCase (_defaultCell3, x + 1, y - 1, true);
-		if (_defaultCell4)
-			AddCase (_defaultCell4, x, y - 1 , true);
+        uint x = PosX;
+        uint y = PosY;
+        if ( _defaultCell1 )
+            AddCase( _defaultCell1, x, y, true );
+        if ( _defaultCell2 )
+            AddCase( _defaultCell2, x + 1, y, true );
+        if ( _defaultCell3 )
+            AddCase( _defaultCell3, x + 1, y - 1, true );
+        if ( _defaultCell4 )
+            AddCase( _defaultCell4, x, y - 1, true );
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
         for ( int x = 0; x < Side; ++x )
@@ -139,7 +136,7 @@ public class GameGrid : MonoBehaviour
         Gizmos.DrawSphere( position, 1.0f );
     }
 
-    void InitCellPosition( GameCell cell, uint x, uint y )
+    private void InitCellPosition( GameCell cell, uint x, uint y )
     {
         _grid[x, y] = cell;
         if ( !cell )
@@ -148,7 +145,7 @@ public class GameGrid : MonoBehaviour
         cell.InitPosition( x, y );
     }
 
-    void SetCellPosition( GameCell cell, uint x, uint y )
+    private void SetCellPosition( GameCell cell, uint x, uint y )
     {
         _grid[x, y] = cell;
         if ( !cell )
@@ -157,12 +154,12 @@ public class GameGrid : MonoBehaviour
         cell.SetPosition( x, y );
     }
 
-	public void AddCase( GameCell cell, uint x, uint y, bool force = false )
+    public void AddCase( GameCell cell, uint x, uint y, bool force = false )
     {
         if ( !cell )
             return;
 
-		if (force || CanBeAdded(x, y))
+        if ( force || CanBeAdded( x, y ) )
         {
             GameCell createdCell = Instantiate( cell );
             InitCellPosition( createdCell, x, y );
@@ -187,7 +184,7 @@ public class GameGrid : MonoBehaviour
         if ( y > 1 )
             result = _grid[x, y - 1] != null || result;
 
-        return ( result || _grid[x, y] != null );
+        return result || _grid[x, y] != null;
     }
 
     public bool CanBeAdded( uint x, uint y )
@@ -221,8 +218,8 @@ public class GameGrid : MonoBehaviour
 
     public void MoveCell( GameCell cell, uint destX, uint destY )
     {
-        if (destX > 0 && destX < Side)
-            if (destY > 0 && destY < Side)
+        if ( destX > 0 && destX < Side )
+            if ( destY > 0 && destY < Side )
             {
                 _grid[cell.X, cell.Y] = cell;
                 cell.SetPosition( destX, destY );
@@ -232,11 +229,9 @@ public class GameGrid : MonoBehaviour
     public void RemoveCell( GameCell cell )
     {
         uint x = cell.X, y = cell.Y;
-        if (x > 0 && x < Side)
-            if (y > 0 && y < Side)
-            {
+        if ( x > 0 && x < Side )
+            if ( y > 0 && y < Side )
                 RemoveCase( x, y );
-            }
     }
 
     public void CleanCase( uint x, uint y )
@@ -308,17 +303,17 @@ public class GameGrid : MonoBehaviour
 
     public void RotateClockwise()
     {
-        uint u = ( uint )Mathf.CeilToInt(EfficientSide / 2.0f);
+        uint u = ( uint )Mathf.CeilToInt( EfficientSide / 2.0f );
         for ( uint x = 0; x < u; ++x )
         {
             for ( uint y = 0; y < u; ++y )
             {
                 GameCell tmpCell = _grid[x + CenterX, y + CenterY];
 
-                SetCellPosition( _grid[CenterX - (y + 1), x + CenterY], x + CenterX, y + CenterY );
-                SetCellPosition( _grid[CenterX - (x + 1), CenterY - (y + 1)], CenterX - (y + 1), x + CenterY);
-                SetCellPosition( _grid[y + CenterX, CenterY - (x + 1)], CenterX - (x + 1), CenterY - (y + 1) );
-                SetCellPosition( tmpCell, y + CenterX, CenterY - (x + 1));
+                SetCellPosition( _grid[CenterX - ( y + 1 ), x + CenterY], x + CenterX, y + CenterY );
+                SetCellPosition( _grid[CenterX - ( x + 1 ), CenterY - ( y + 1 )], CenterX - ( y + 1 ), x + CenterY );
+                SetCellPosition( _grid[y + CenterX, CenterY - ( x + 1 )], CenterX - ( x + 1 ), CenterY - ( y + 1 ) );
+                SetCellPosition( tmpCell, y + CenterX, CenterY - ( x + 1 ) );
             }
         }
 
@@ -327,7 +322,7 @@ public class GameGrid : MonoBehaviour
 
     public void RotateReverseClockwise()
     {
-        uint u = (uint)Mathf.CeilToInt(EfficientSide / 2.0f);
+        uint u = ( uint )Mathf.CeilToInt( EfficientSide / 2.0f );
 
         for ( uint x = 0; x < u; ++x )
         {
@@ -335,10 +330,10 @@ public class GameGrid : MonoBehaviour
             {
                 GameCell tmpCell = _grid[x + CenterX, y + CenterY];
 
-                SetCellPosition(_grid[y + CenterX, CenterY - (x + 1)], x + CenterX, y + CenterY);
-                SetCellPosition(_grid[CenterX - (x + 1), CenterY - (y + 1)], y + CenterX, CenterY - (x + 1));
-                SetCellPosition(_grid[CenterX - (y + 1), x + CenterY], CenterX - (x + 1), CenterY - (y + 1));
-                SetCellPosition(tmpCell, CenterX - (y + 1), x + CenterY);
+                SetCellPosition( _grid[y + CenterX, CenterY - ( x + 1 )], x + CenterX, y + CenterY );
+                SetCellPosition( _grid[CenterX - ( x + 1 ), CenterY - ( y + 1 )], y + CenterX, CenterY - ( x + 1 ) );
+                SetCellPosition( _grid[CenterX - ( y + 1 ), x + CenterY], CenterX - ( x + 1 ), CenterY - ( y + 1 ) );
+                SetCellPosition( tmpCell, CenterX - ( y + 1 ), x + CenterY );
             }
         }
         //CheckGrid();
@@ -356,8 +351,8 @@ public class GameGrid : MonoBehaviour
 
     public GameCell GetCellFromWorldPoint( Vector3 point )
     {
-        int posX = (int)( point.x / CellSize );
-        int posY = (int)( point.y / CellSize );
+        int posX = ( int )( point.x / CellSize );
+        int posY = ( int )( point.y / CellSize );
 
         if ( point.z != FixedZ )
             Debug.Log( "Z does not correspond" );
@@ -371,8 +366,8 @@ public class GameGrid : MonoBehaviour
 
     public bool GetPositionFromWorldPoint( Vector3 point, out int x, out int y )
     {
-        int posX = (int)( point.x / CellSize );
-        int posY = (int)( point.y / CellSize );
+        int posX = ( int )( point.x / CellSize );
+        int posY = ( int )( point.y / CellSize );
 
         if ( point.z != FixedZ )
             Debug.Log( "Z does not correspond" );
@@ -391,13 +386,11 @@ public class GameGrid : MonoBehaviour
         return false;
     }
 
-    public Vector3 GetRealPosition(uint x, uint y)
+    public Vector3 GetRealPosition( uint x, uint y )
     {
-        if (x > 0 && x < Side)
+        if ( x > 0 && x < Side )
             if ( y > 0 && y < Side )
-            {
-                return new Vector3(x * CellSize, y * CellSize, FixedZ);
-            }
+                return new Vector3( x * CellSize, y * CellSize, FixedZ );
         return new Vector3();
     }
 }

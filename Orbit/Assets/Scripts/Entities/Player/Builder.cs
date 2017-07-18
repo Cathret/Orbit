@@ -2,9 +2,35 @@
 
 namespace Orbit.Entity
 {
-    public class Builder : AUnitController,
-                           IDropResources
+    public class Builder
+        : AUnitController
+          , IDropResources
     {
+        public void DropResources()
+        {
+            if ( _particlesOnBuild != null )
+                _particlesOnBuild.Play();
+
+            GameManager.Instance.ResourcesCount += ResourcesToDrop;
+            CanBuildResource = false;
+        }
+
+        public override void ExecuteOnClick( Vector3 target )
+        {
+            // Automatic, so do nothing
+        }
+
+        private void ChangeMode()
+        {
+            ResetCooldown();
+        }
+
+        private void ResetCooldown()
+        {
+            CanBuildResource = false;
+            BuildTimer = 0.0f;
+        }
+
         #region Members
         public uint ResourcesToDrop
         {
@@ -29,21 +55,16 @@ namespace Orbit.Entity
                 if ( _buildTimer >= _rechargeSpeed )
                 {
                     _buildTimer = 0.0f;
-                    _canBuildResource = true;
+                    CanBuildResource = true;
                 }
             }
         }
-        private float _buildTimer = 0;
+        private float _buildTimer;
 
-        public bool CanBuildResource
-        {
-            get { return _canBuildResource; }
-            protected set { _canBuildResource = value; }
-        }
-        private bool _canBuildResource;
+        public bool CanBuildResource { get; protected set; }
 
         [SerializeField]
-        private ParticleSystem _particlesOnBuild = null;
+        private ParticleSystem _particlesOnBuild;
         #endregion
 
         #region Protected functions
@@ -78,30 +99,5 @@ namespace Orbit.Entity
             base.OnDestroy();
         }
         #endregion
-
-        public override void ExecuteOnClick( Vector3 target )
-        {
-            // Automatic, so do nothing
-        }
-
-        private void ChangeMode()
-        {
-            ResetCooldown();
-        }
-
-        private void ResetCooldown()
-        {
-            CanBuildResource = false;
-            BuildTimer = 0.0f;
-        }
-
-        public void DropResources()
-        {
-            if ( _particlesOnBuild != null )
-                _particlesOnBuild.Play();
-            
-            GameManager.Instance.ResourcesCount += ResourcesToDrop;
-            CanBuildResource = false;
-        }
     }
 }

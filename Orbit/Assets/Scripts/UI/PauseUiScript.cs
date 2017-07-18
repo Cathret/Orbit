@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PauseUiScript : MonoBehaviour
@@ -12,13 +10,13 @@ public class PauseUiScript : MonoBehaviour
     private Button _quitButton;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         _continueButton.onClick.AddListener( Continue );
         _quitButton.onClick.AddListener( GameManager.Instance.ToMainMenu );
     }
 
-    void Continue()
+    private void Continue()
     {
         GameManager.Instance.CurrentGameState = GameManager.GameState.Play;
     }

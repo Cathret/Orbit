@@ -2,8 +2,9 @@
 
 namespace Orbit.Entity
 {
-    public class Projectile : ABaseEntity,
-                              IMovingEntity
+    public class Projectile
+        : ABaseEntity
+          , IMovingEntity
     {
         #region Members
         public uint Power
@@ -19,7 +20,8 @@ namespace Orbit.Entity
             get { return _speed; }
             protected set { _speed = value; }
         }
-        [SerializeField, Range( 0, 50 )]
+        [SerializeField]
+        [Range( 0, 50 )]
         private float _speed = 2;
 
         public bool IsFriend
@@ -58,7 +60,7 @@ namespace Orbit.Entity
             if ( livingEntity == null )
                 return;
 
-            livingEntity.ReceiveDamages( (int)Power );
+            livingEntity.ReceiveDamages( ( int )Power );
 
             Destroy( gameObject );
         }

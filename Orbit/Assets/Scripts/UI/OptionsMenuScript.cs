@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class OptionsMenuScript : MonoBehaviour
@@ -9,59 +7,53 @@ public class OptionsMenuScript : MonoBehaviour
     private Toggle _bloomToggle;
 
     [SerializeField]
-    private Slider _soundSlider;
-
-    [SerializeField]
     private Slider _musicSlider;
 
+    [SerializeField]
+    private Slider _soundSlider;
+
     // Use this for initialization
-    void Start ()
+    private void Start()
     {
-        _bloomToggle.onValueChanged.AddListener(SetBloomEnabled);
-        _soundSlider.onValueChanged.AddListener(SetSoundVolume);
-        _musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        _bloomToggle.onValueChanged.AddListener( SetBloomEnabled );
+        _soundSlider.onValueChanged.AddListener( SetSoundVolume );
+        _musicSlider.onValueChanged.AddListener( SetMusicVolume );
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         InitValues();
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         PlayerPrefs.Save();
-    } 
+    }
 
-    void InitValues()
+    private void InitValues()
     {
         if ( _bloomToggle )
-        {
             _bloomToggle.isOn = PlayerPrefs.GetInt( "BLOOM_EFFECT", 1 ) == 1;
-        }
 
-        if (_soundSlider)
-        {
-            _soundSlider.value = PlayerPrefs.GetFloat("SOUND_VOLUME", 1.0f);
-        }
+        if ( _soundSlider )
+            _soundSlider.value = PlayerPrefs.GetFloat( "SOUND_VOLUME", 1.0f );
 
-        if (_musicSlider)
-        {
-            _musicSlider.value = PlayerPrefs.GetFloat("MUSIC_VOLUME", 1.0f);
-        }
+        if ( _musicSlider )
+            _musicSlider.value = PlayerPrefs.GetFloat( "MUSIC_VOLUME", 1.0f );
     }
 
-    void SetBloomEnabled( bool value )
+    private void SetBloomEnabled( bool value )
     {
-        PlayerPrefs.SetInt("BLOOM_EFFECT", value ? 1 : 0);
+        PlayerPrefs.SetInt( "BLOOM_EFFECT", value ? 1 : 0 );
     }
 
-    void SetSoundVolume( float value )
+    private void SetSoundVolume( float value )
     {
-        PlayerPrefs.SetFloat("SOUND_VOLUME", value);
+        PlayerPrefs.SetFloat( "SOUND_VOLUME", value );
     }
 
-    void SetMusicVolume(float value)
+    private void SetMusicVolume( float value )
     {
-        PlayerPrefs.SetFloat("MUSIC_VOLUME", value);
+        PlayerPrefs.SetFloat( "MUSIC_VOLUME", value );
     }
 }

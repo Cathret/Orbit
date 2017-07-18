@@ -1,25 +1,68 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Orbit.Entity.Unit
 {
-    public class Reparator : AUnitController,
-                             IRepairingEntity
+    public class Reparator
+        : AUnitController
+          , IRepairingEntity
     {
-        #region Members
-        protected DelegateTrigger OnRepairedUnitDeath
+        public void Repair()
         {
-            get { return _onRepairedUnitDeath; }
-            set { _onRepairedUnitDeath = value; }
-        }
-        private DelegateTrigger _onRepairedUnitDeath;
+            if ( RepairedUnit == null || !CanRepair )
+                return;
 
-        protected AUnitController RepairedUnit
-        {
-            get { return _repairedUnit; }
-            set { _repairedUnit = value; }
+            RepairedUnit.ReceiveHeal( ( int )Power );
+            if ( ReparatorParticles != null )
+                ReparatorParticles.Play();
+
+            CanRepair = false;
         }
-        private AUnitController _repairedUnit;
+
+        public override void ExecuteOnClick( Vector3 target )
+        {
+            GameCell targetCell = GameGrid.Instance.GetCellFromWorldPoint( target );
+
+            if ( Cell.IsConnectedTo( targetCell ) )
+            {
+                if ( RepairedUnit == targetCell.Unit )
+                    return;
+
+                if ( RepairedUnit != null )
+                    RepairedUnit.TriggerDeath -= OnRepairedUnitDeath;
+
+                RepairedUnit = targetCell.Unit;
+                RepairedUnit.TriggerDeath += OnRepairedUnitDeath;
+
+                Cell.Selected = false;
+            }
+        }
+
+        protected override void ModifySelected( bool selected )
+        {
+            base.ModifySelected( selected );
+
+            if ( selected )
+            {
+                FollowMouse = true;
+            }
+            else if ( RepairedUnit != null )
+            {
+                FollowMouse = false;
+                if ( Head )
+                    Head.transform.right = ( RepairedUnit.transform.position - transform.position ).normalized;
+            }
+        }
+
+        private void ResetCooldown()
+        {
+            CanRepair = false;
+            RepairTimer = 0.0f;
+        }
+
+        #region Members
+        protected DelegateTrigger OnRepairedUnitDeath { get; set; }
+
+        protected AUnitController RepairedUnit { get; set; }
 
         protected ParticleSystem ReparatorParticles
         {
@@ -38,12 +81,7 @@ namespace Orbit.Entity.Unit
         [SerializeField]
         private float _repairSpeed;
 
-        public bool CanRepair
-        {
-            get { return _canRepair; }
-            protected set { _canRepair = value; }
-        }
-        private bool _canRepair;
+        public bool CanRepair { get; protected set; }
 
         public float RepairTimer
         {
@@ -55,7 +93,7 @@ namespace Orbit.Entity.Unit
                 if ( _repairTimer >= _repairSpeed )
                 {
                     _repairTimer = 0.0f;
-                    _canRepair = true;
+                    CanRepair = true;
                 }
             }
         }
@@ -96,63 +134,10 @@ namespace Orbit.Entity.Unit
             if ( RepairedUnit )
                 OnRepairedUnitDeath.Invoke();
 
-			if (GameManager.Instance) 
-			{
-				GameManager.Instance.OnAttackMode.RemoveListener (ResetCooldown);
-			}
+            if ( GameManager.Instance )
+                GameManager.Instance.OnAttackMode.RemoveListener( ResetCooldown );
             base.OnDestroy();
         }
         #endregion
-
-        public override void ExecuteOnClick( Vector3 target )
-        {
-            GameCell targetCell = GameGrid.Instance.GetCellFromWorldPoint( target );
-
-            if ( Cell.IsConnectedTo( targetCell ) )
-            {
-                if ( RepairedUnit == targetCell.Unit )
-                    return;
-
-                if ( RepairedUnit != null )
-                    RepairedUnit.TriggerDeath -= OnRepairedUnitDeath;
-
-                RepairedUnit = targetCell.Unit;
-                RepairedUnit.TriggerDeath += OnRepairedUnitDeath;
-
-                Cell.Selected = false;
-            }
-        }
-
-        protected override void ModifySelected( bool selected )
-        {
-            base.ModifySelected( selected );
-
-            if ( selected )
-                FollowMouse = true;
-            else if ( RepairedUnit != null )
-            {
-                FollowMouse = false;
-                if ( Head )
-                    Head.transform.right = ( RepairedUnit.transform.position - transform.position ).normalized;
-            }
-        }
-
-        public void Repair()
-        {
-            if ( RepairedUnit == null || !CanRepair )
-                return;
-
-            RepairedUnit.ReceiveHeal( ( int )Power );
-            if ( ReparatorParticles != null )
-                ReparatorParticles.Play();
-
-            CanRepair = false;
-        }
-
-        private void ResetCooldown()
-        {
-            CanRepair = false;
-            RepairTimer = 0.0f;
-        }
     }
 }

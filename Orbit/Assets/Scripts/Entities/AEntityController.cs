@@ -11,8 +11,6 @@ namespace Orbit.Entity
         #endregion
 
         #region Members
-
-        
         public uint Power
         {
             get { return _basePower + _boostPower; }
@@ -28,7 +26,8 @@ namespace Orbit.Entity
                     PowerChanged( _basePower );
             }
         }
-        [SerializeField, Header("Power")]
+        [SerializeField]
+        [Header( "Power" )]
         private uint _basePower;
 
         public uint BoostPower
@@ -41,9 +40,9 @@ namespace Orbit.Entity
                     BoostPowerChanged( _boostPower );
             }
         }
-        private uint _boostPower = 0;
+        private uint _boostPower;
 
-        private List<KeyValuePair<IBoostingEntity, uint>> _listBoosters =
+        private readonly List<KeyValuePair<IBoostingEntity, uint>> _listBoosters =
             new List<KeyValuePair<IBoostingEntity, uint>>();
         #endregion
 
@@ -63,7 +62,7 @@ namespace Orbit.Entity
         {
             AUnitController unitController = boostingEntity as AUnitController;
 
-            if ( unitController != null && _listBoosters.Exists( x => x.Key == boostingEntity ) == true )
+            if ( unitController != null && _listBoosters.Exists( x => x.Key == boostingEntity ) )
             {
                 KeyValuePair<IBoostingEntity, uint> pair = _listBoosters.Find( x => x.Key == boostingEntity );
 

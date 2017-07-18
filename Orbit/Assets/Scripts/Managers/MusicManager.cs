@@ -1,30 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-
     private static MusicManager _instance;
-
-    public static MusicManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-                _instance = FindObjectOfType<MusicManager>();
-            return _instance;
-        }
-    }
-
-    private enum MusicType
-    {
-        Attack,
-        Build,
-        Pause,
-        GameOver
-    }
 
     [SerializeField]
     private AudioClip _attackClip;
@@ -33,12 +11,32 @@ public class MusicManager : MonoBehaviour
     private AudioClip _buildClip;
 
     [SerializeField]
+    private AudioClip _gameOverClip;
+
+    private AudioClip _lastClip;
+
+    [SerializeField]
+    [Range( 0.0f, 1.0f )]
+    private float _musicVolume = 1.0f;
+
+    [SerializeField]
     private AudioClip _pauseClip;
 
     [SerializeField]
-    private AudioClip _gameOverClip;
+    [Range( 0.0f, 1.0f )]
+    private float _soundVolume = 1.0f;
 
     private AudioSource _source;
+
+    public static MusicManager Instance
+    {
+        get
+        {
+            if ( _instance == null )
+                _instance = FindObjectOfType<MusicManager>();
+            return _instance;
+        }
+    }
 
     public AudioSource Source
     {
@@ -51,64 +49,55 @@ public class MusicManager : MonoBehaviour
             return _source;
         }
     }
-
-    [SerializeField, Range(0.0f, 1.0f)]
-    private float _soundVolume = 1.0f;
     public float SoundVolume
     {
         get { return _soundVolume; }
     }
-
-    [SerializeField, Range(0.0f, 1.0f)]
-    private float _musicVolume = 1.0f;
     public float MusicVolume
     {
         get { return _musicVolume; }
     }
 
-    private AudioClip _lastClip;
-
-    void Awake()
+    private void Awake()
     {
         _soundVolume = PlayerPrefs.GetFloat( "SOUND_VOLUME" );
-        _musicVolume = PlayerPrefs.GetFloat("MUSIC_VOLUME");
+        _musicVolume = PlayerPrefs.GetFloat( "MUSIC_VOLUME" );
         Source.volume = MusicVolume;
     }
 
     // Use this for initialization
-    void Start ()
+    private void Start()
     {
-		GameManager.Instance.OnAttackMode.AddListener( PlayAttackMusic );
-        GameManager.Instance.OnBuildMode.AddListener(PlayBuildMusic);
-        GameManager.Instance.OnGameOver.AddListener(PlayGameOverMusic);
-        GameManager.Instance.OnPlay.AddListener(ResumeMusic);
-        GameManager.Instance.OnPause.AddListener(PlayPauseMusic);
-
+        GameManager.Instance.OnAttackMode.AddListener( PlayAttackMusic );
+        GameManager.Instance.OnBuildMode.AddListener( PlayBuildMusic );
+        GameManager.Instance.OnGameOver.AddListener( PlayGameOverMusic );
+        GameManager.Instance.OnPlay.AddListener( ResumeMusic );
+        GameManager.Instance.OnPause.AddListener( PlayPauseMusic );
     }
 
     public void PlayAttackMusic()
     {
-        Play(MusicType.Attack);
+        Play( MusicType.Attack );
     }
 
     public void PlayBuildMusic()
     {
-        Play(MusicType.Build);
+        Play( MusicType.Build );
     }
 
     public void PlayPauseMusic()
     {
-        Play(MusicType.Pause);
+        Play( MusicType.Pause );
     }
 
     public void PlayGameOverMusic()
     {
-        Play(MusicType.GameOver);
+        Play( MusicType.GameOver );
     }
 
-    void Play( MusicType type )
+    private void Play( MusicType type )
     {
-        AudioClip clip = GetMusic(type);
+        AudioClip clip = GetMusic( type );
         if ( !clip )
             return;
 
@@ -117,7 +106,7 @@ public class MusicManager : MonoBehaviour
         _lastClip = clip;
     }
 
-    AudioClip GetMusic( MusicType type )
+    private AudioClip GetMusic( MusicType type )
     {
         switch ( type )
         {
@@ -136,7 +125,7 @@ public class MusicManager : MonoBehaviour
 
     public void ResumeMusic()
     {
-        switch (GameManager.Instance.CurrentGameMode)
+        switch ( GameManager.Instance.CurrentGameMode )
         {
             case GameManager.GameMode.Attacking:
                 PlayAttackMusic();
@@ -164,5 +153,13 @@ public class MusicManager : MonoBehaviour
     public void Stop()
     {
         Source.Stop();
+    }
+
+    private enum MusicType
+    {
+        Attack
+        , Build
+        , Pause
+        , GameOver
     }
 }

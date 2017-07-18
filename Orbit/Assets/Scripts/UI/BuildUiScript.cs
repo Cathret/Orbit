@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class BuildUiScript : MonoBehaviour
@@ -12,25 +10,25 @@ public class BuildUiScript : MonoBehaviour
     private Text _resourcesText;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         _playButton.onClick.AddListener( OnPlayClicked );
         GameManager.Instance.OnResourcesChange += OnResourceChange;
         OnResourceChange( GameManager.Instance.ResourcesCount );
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
-        if (GameManager.Instance)
+        if ( GameManager.Instance )
             GameManager.Instance.OnResourcesChange -= OnResourceChange;
     }
 
-    void OnPlayClicked()
+    private void OnPlayClicked()
     {
         GameManager.Instance.CurrentGameMode = GameManager.GameMode.Attacking;
     }
 
-    void OnResourceChange( uint count )
+    private void OnResourceChange( uint count )
     {
         _resourcesText.text = count.ToString();
     }

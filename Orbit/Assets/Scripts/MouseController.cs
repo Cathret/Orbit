@@ -1,11 +1,26 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MouseController : MonoBehaviour
 {
     private static MouseController _instance;
+
+    private readonly List<GameCell> _selectedCells = new List<GameCell>();
+
+    private InsertionMenu _currentInsertionMenu;
+
+    private ManagementMenu _currentManageMenu;
+
+    private GameObject _highlight;
+
+    [SerializeField]
+    private GameObject _highlightPrefab;
+
+    [SerializeField]
+    private InsertionMenu _insertionMenu;
+
+    [SerializeField]
+    private ManagementMenu _manageMenu;
 
     public static MouseController Instance
     {
@@ -17,29 +32,12 @@ public class MouseController : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    private GameObject _highlightPrefab;
-
-    private GameObject _highlight;
-
-    [SerializeField]
-    private InsertionMenu _insertionMenu;
-
-    private InsertionMenu _currentInsertionMenu;
-
-    [SerializeField]
-    private ManagementMenu _manageMenu;
-
-    private ManagementMenu _currentManageMenu;
-
-    private readonly List<GameCell> _selectedCells = new List<GameCell>();
-
-    void Awake()
+    private void Awake()
     {
         GameManager.Instance.OnBuildMode.AddListener( SwitchToBuildMode );
     }
 
-    void Start()
+    private void Start()
     {
         _highlight = Instantiate( _highlightPrefab );
 
@@ -48,16 +46,15 @@ public class MouseController : MonoBehaviour
         MiniGestureRecognizer.OnDragStart += HandleDrag;
         MiniGestureRecognizer.OnDrag += HandleDragging;
         MiniGestureRecognizer.OnDrop += HandleDrop;
-
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         HandleMouse();
     }
 
-    void HandleMouse()
+    private void HandleMouse()
     {
         if ( !GameManager.Instance.Playing )
             return;
@@ -68,158 +65,78 @@ public class MouseController : MonoBehaviour
             HandleMouseInBuildMode();
     }
 
-    void HandleClick(Vector2 position)
+    private void HandleClick( Vector2 position )
     {
-        if (!GameManager.Instance.Playing)
+        if ( !GameManager.Instance.Playing )
             return;
 
-        if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Attacking)
-            HandleClickInAttackMode(position);
-        else if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Building)
-            HandleClickInBuildMode(position);
+        if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Attacking )
+            HandleClickInAttackMode( position );
+        else if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Building )
+            HandleClickInBuildMode( position );
     }
 
-    void HandleDrag(Vector2 position)
+    private void HandleDrag( Vector2 position )
     {
-        if (!GameManager.Instance.Playing)
+        if ( !GameManager.Instance.Playing )
             return;
 
-        if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Attacking)
-            HandleDragInAttackMode(position);
-        else if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Building)
-            HandleDragInBuildMode(position);
+        if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Attacking )
+            HandleDragInAttackMode( position );
+        else if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Building )
+            HandleDragInBuildMode( position );
     }
 
-    void HandleDragging(Vector2 position)
+    private void HandleDragging( Vector2 position )
     {
-        if (!GameManager.Instance.Playing)
+        if ( !GameManager.Instance.Playing )
             return;
 
-        if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Attacking)
-            HandleDraggingInAttackMode(position);
-        else if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Building)
-            HandleDraggingInBuildMode(position);
+        if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Attacking )
+            HandleDraggingInAttackMode( position );
+        else if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Building )
+            HandleDraggingInBuildMode( position );
     }
 
-    void HandleDrop(Vector2 position)
+    private void HandleDrop( Vector2 position )
     {
-        if (!GameManager.Instance.Playing)
+        if ( !GameManager.Instance.Playing )
             return;
 
-        if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Attacking)
-            HandleDropInAttackMode(position);
-        else if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Building)
-            HandleDropInBuildMode(position);
+        if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Attacking )
+            HandleDropInAttackMode( position );
+        else if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Building )
+            HandleDropInBuildMode( position );
     }
 
-    void HandleSwipe(MiniGestureRecognizer.SwipeDirection direction)
+    private void HandleSwipe( MiniGestureRecognizer.SwipeDirection direction )
     {
-        if (!GameManager.Instance.Playing)
+        if ( !GameManager.Instance.Playing )
             return;
 
-        if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Attacking)
-            HandleSwipeInAttackMode(direction);
+        if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Attacking )
+            HandleSwipeInAttackMode( direction );
         else if ( GameManager.Instance.CurrentGameMode == GameManager.GameMode.Building )
             HandleSwipeInBuildMode( direction );
     }
 
-    #region Attack
-    void HandleClickInAttackMode(Vector2 position)
+    private void DraggedAction( Vector2 mousePos )
     {
-        GameCell cell = PickCell(position);
-        if (cell == null)
-            UnselectCells();
-        else
-            SelectCell(cell);
-    }
-    void HandleDragInAttackMode(Vector2 position)
-    {
-        GameCell cell = PickCell(position);
-        if ( cell )
-            if ( !_selectedCells.Contains( cell ) )
-            {
-                UnselectCells();
-                SelectCell( cell );
-            }
-    }
-    void HandleDraggingInAttackMode(Vector2 position)
-    {
-        DraggedAction( position );
-    }
-    void HandleDropInAttackMode(Vector2 position)
-    {
-        Action(position);
-    }
-    void HandleSwipeInAttackMode(MiniGestureRecognizer.SwipeDirection direction)
-    {
-        if ( direction == MiniGestureRecognizer.SwipeDirection.Right)
-            GameGrid.Instance.RotateClockwise();
-        else if (direction == MiniGestureRecognizer.SwipeDirection.Left)
-            GameGrid.Instance.RotateReverseClockwise();
-    }
-    void HandleMouseInAttackMode()
-    {
-        HighlightCellSelection();
-    }
-    #endregion
-
-    #region Build
-    void HandleClickInBuildMode(Vector2 position)
-    {
-        if (_currentInsertionMenu || _currentManageMenu)
-            return;
-
-        Vector3 pos = MouseWorldPosition();
-
-        GameCell cell = GameGrid.Instance.GetCellFromWorldPoint(pos);
-
-        if (cell)
-            ManageCell(cell);
-        else
-            AddCell(pos);
-    }
-    void HandleDragInBuildMode(Vector2 position)
-    {
-    }
-    void HandleDraggingInBuildMode(Vector2 position)
-    {
-    }
-    void HandleDropInBuildMode(Vector2 position)
-    {
-    }
-    void HandleSwipeInBuildMode(MiniGestureRecognizer.SwipeDirection direction)
-    {
-    }
-    void HandleMouseInBuildMode()
-    {
-        if ( _currentInsertionMenu || _currentManageMenu )
-            return;
-
-        HighlightBuildMode();
-    }
-#endregion
-
-    void DraggedAction(Vector2 mousePos)
-    {
-        Vector3 pos = MouseWorldPosition(mousePos);
-        foreach (GameCell cell in _selectedCells)
-        {
-            if (cell && cell.Connected)
-                cell.LaunchDraggedAction(pos);
-        }
-    }
-
-    void Action(Vector2 mousePos)
-    {
-        Vector3 pos = MouseWorldPosition(mousePos);
+        Vector3 pos = MouseWorldPosition( mousePos );
         foreach ( GameCell cell in _selectedCells )
-        {
-            if (cell && cell.Connected)
-                cell.LaunchAction(pos);
-        }
+            if ( cell && cell.Connected )
+                cell.LaunchDraggedAction( pos );
     }
 
-    void ManageCell( GameCell cell )
+    private void Action( Vector2 mousePos )
+    {
+        Vector3 pos = MouseWorldPosition( mousePos );
+        foreach ( GameCell cell in _selectedCells )
+            if ( cell && cell.Connected )
+                cell.LaunchAction( pos );
+    }
+
+    private void ManageCell( GameCell cell )
     {
         if ( cell )
         {
@@ -231,7 +148,7 @@ public class MouseController : MonoBehaviour
         }
     }
 
-    void AddCell( Vector3 mouseWorldPos )
+    private void AddCell( Vector3 mouseWorldPos )
     {
         int x, y;
         if ( GameGrid.Instance.GetPositionFromWorldPoint( mouseWorldPos, out x, out y ) )
@@ -248,7 +165,7 @@ public class MouseController : MonoBehaviour
         }
     }
 
-    void HighlightBuildMode()
+    private void HighlightBuildMode()
     {
         if ( !_highlight )
             return;
@@ -272,7 +189,7 @@ public class MouseController : MonoBehaviour
                                                      gameGrid.FixedZ );
     }
 
-    void HighlightCellSelection()
+    private void HighlightCellSelection()
     {
         if ( !_highlight )
             return;
@@ -295,55 +212,137 @@ public class MouseController : MonoBehaviour
         }
     }
 
-    Vector3 MouseWorldPosition( Vector2 mousePos )
+    private Vector3 MouseWorldPosition( Vector2 mousePos )
     {
-        return Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y
-                                                          , -Camera.main.transform.position.z));
+        return Camera.main.ScreenToWorldPoint( new Vector3( mousePos.x, mousePos.y
+                                                            , -Camera.main.transform.position.z ) );
     }
 
-    Vector3 MouseWorldPosition()
+    private Vector3 MouseWorldPosition()
     {
         Vector3 mousePos = Input.mousePosition;
-        return Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y
-                                                       , -Camera.main.transform.position.z));
+        return Camera.main.ScreenToWorldPoint( new Vector3( mousePos.x, mousePos.y
+                                                            , -Camera.main.transform.position.z ) );
     }
 
-    GameCell PickCell()
+    private GameCell PickCell()
     {
         Vector3 pos = MouseWorldPosition();
-        return GameGrid.Instance.GetCellFromWorldPoint(pos);
+        return GameGrid.Instance.GetCellFromWorldPoint( pos );
     }
 
-    GameCell PickCell( Vector2 mousePos )
+    private GameCell PickCell( Vector2 mousePos )
     {
-        Vector3 pos = MouseWorldPosition(mousePos);
-        return GameGrid.Instance.GetCellFromWorldPoint(pos);
+        Vector3 pos = MouseWorldPosition( mousePos );
+        return GameGrid.Instance.GetCellFromWorldPoint( pos );
     }
 
-    void SwitchToBuildMode()
+    private void SwitchToBuildMode()
     {
         UnselectCells();
     }
 
-    void SelectCell(GameCell cell)
+    private void SelectCell( GameCell cell )
     {
-        if (cell && _selectedCells.Contains(cell) == false)
+        if ( cell && _selectedCells.Contains( cell ) == false )
         {
             if ( _selectedCells.Count > 0 && cell.Unit.GetType() != _selectedCells[0].Unit.GetType() )
-            {
                 UnselectCells();
-            }
             cell.Selected = true;
-            _selectedCells.Add(cell);
+            _selectedCells.Add( cell );
         }
     }
 
-    void UnselectCells()
+    private void UnselectCells()
     {
         foreach ( GameCell cell in _selectedCells )
-        {
             cell.Selected = false;
-        }
         _selectedCells.Clear();
     }
+
+    #region Attack
+    private void HandleClickInAttackMode( Vector2 position )
+    {
+        GameCell cell = PickCell( position );
+        if ( cell == null )
+            UnselectCells();
+        else
+            SelectCell( cell );
+    }
+
+    private void HandleDragInAttackMode( Vector2 position )
+    {
+        GameCell cell = PickCell( position );
+        if ( cell )
+            if ( !_selectedCells.Contains( cell ) )
+            {
+                UnselectCells();
+                SelectCell( cell );
+            }
+    }
+
+    private void HandleDraggingInAttackMode( Vector2 position )
+    {
+        DraggedAction( position );
+    }
+
+    private void HandleDropInAttackMode( Vector2 position )
+    {
+        Action( position );
+    }
+
+    private void HandleSwipeInAttackMode( MiniGestureRecognizer.SwipeDirection direction )
+    {
+        if ( direction == MiniGestureRecognizer.SwipeDirection.Right )
+            GameGrid.Instance.RotateClockwise();
+        else if ( direction == MiniGestureRecognizer.SwipeDirection.Left )
+            GameGrid.Instance.RotateReverseClockwise();
+    }
+
+    private void HandleMouseInAttackMode()
+    {
+        HighlightCellSelection();
+    }
+    #endregion
+
+    #region Build
+    private void HandleClickInBuildMode( Vector2 position )
+    {
+        if ( _currentInsertionMenu || _currentManageMenu )
+            return;
+
+        Vector3 pos = MouseWorldPosition();
+
+        GameCell cell = GameGrid.Instance.GetCellFromWorldPoint( pos );
+
+        if ( cell )
+            ManageCell( cell );
+        else
+            AddCell( pos );
+    }
+
+    private void HandleDragInBuildMode( Vector2 position )
+    {
+    }
+
+    private void HandleDraggingInBuildMode( Vector2 position )
+    {
+    }
+
+    private void HandleDropInBuildMode( Vector2 position )
+    {
+    }
+
+    private void HandleSwipeInBuildMode( MiniGestureRecognizer.SwipeDirection direction )
+    {
+    }
+
+    private void HandleMouseInBuildMode()
+    {
+        if ( _currentInsertionMenu || _currentManageMenu )
+            return;
+
+        HighlightBuildMode();
+    }
+    #endregion
 }

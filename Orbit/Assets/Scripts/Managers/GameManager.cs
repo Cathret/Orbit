@@ -1,13 +1,43 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public delegate void CountDelegate( uint count );
+
+    public enum GameMode
+    {
+        Attacking
+        , Building
+        , None
+    }
+
+    public enum GameState
+    {
+        Play
+        , Pause
+        , GameOver
+        , None
+    }
+
     private static GameManager _instance;
+
+    private GameMode _currentGameMode = GameMode.None;
+
+    private GameState _currentGameState = GameState.None;
+
+    private uint _resourcesCount;
+
+    public UnityEvent OnAttackMode = new UnityEvent();
+    public UnityEvent OnBuildMode = new UnityEvent();
+    public UnityEvent OnGameOver = new UnityEvent();
+    public UnityEvent OnNone = new UnityEvent();
+    public UnityEvent OnNoneMode = new UnityEvent();
+    public UnityEvent OnPause = new UnityEvent();
+
+    public UnityEvent OnPlay = new UnityEvent();
 
     public static GameManager Instance
     {
@@ -18,35 +48,13 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
-
-    public enum GameState
-    {
-        Play,
-        Pause,
-        GameOver,
-        None
-    }
-
-    public enum GameMode
-    {
-        Attacking,
-        Building,
-        None
-    }
-
-    public UnityEvent OnPlay = new UnityEvent();
-    public UnityEvent OnPause = new UnityEvent();
-    public UnityEvent OnGameOver = new UnityEvent();
-    public UnityEvent OnNone = new UnityEvent();
-
-    private GameState _currentGameState = GameState.None;
     public GameState CurrentGameState
     {
         get { return _currentGameState; }
         set
         {
-			if (value == _currentGameState)
-				return;
+            if ( value == _currentGameState )
+                return;
             switch ( value )
             {
                 case GameState.Play:
@@ -76,19 +84,13 @@ public class GameManager : MonoBehaviour
     {
         get { return _currentGameState == GameState.Play; }
     }
-
-    public UnityEvent OnAttackMode = new UnityEvent();
-    public UnityEvent OnBuildMode = new UnityEvent();
-    public UnityEvent OnNoneMode = new UnityEvent();
-
-    private GameMode _currentGameMode = GameMode.None;
     public GameMode CurrentGameMode
     {
         get { return _currentGameMode; }
         set
         {
-			if (value == _currentGameMode)
-				return;
+            if ( value == _currentGameMode )
+                return;
             switch ( value )
             {
                 case GameMode.Attacking:
@@ -112,12 +114,6 @@ public class GameManager : MonoBehaviour
 
     public float CurrentTime { get; private set; }
 
-    private uint _resourcesCount = 0;
-
-    public delegate void CountDelegate( uint count );
-
-    public event CountDelegate OnResourcesChange;
-
     public uint ResourcesCount
     {
         get { return _resourcesCount; }
@@ -129,18 +125,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public event CountDelegate OnResourcesChange;
+
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         CurrentTime = Time.time;
         CurrentGameMode = GameMode.Building;
         CurrentGameState = GameState.Play;
 
-        GameGrid.Instance.OnGridEmpty.AddListener(GameOver);
+        GameGrid.Instance.OnGridEmpty.AddListener( GameOver );
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if ( CurrentGameState == GameState.Play )
             CurrentTime += Time.deltaTime;
@@ -156,19 +154,19 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex );
     }
 
-    void GameOver()
+    private void GameOver()
     {
         CurrentGameState = GameState.GameOver;
     }
 
-	void OnApplicationFocus(bool hasFocus)
-	{
-		if ( !hasFocus)
-			CurrentGameState = GameState.Pause;
-	}
+    private void OnApplicationFocus( bool hasFocus )
+    {
+        if ( !hasFocus )
+            CurrentGameState = GameState.Pause;
+    }
 
-	void OnApplicationPause(bool pauseStatus)
-	{
-		CurrentGameState = pauseStatus ? GameState.Pause : GameState.Play;
-	}
+    private void OnApplicationPause( bool pauseStatus )
+    {
+        CurrentGameState = pauseStatus ? GameState.Pause : GameState.Play;
+    }
 }

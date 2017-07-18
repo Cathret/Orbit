@@ -1,11 +1,46 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Orbit.Entity.Unit
 {
-    public class ShieldGenerator : AUnitController,
-                                   IShieldingEntity
+    public class ShieldGenerator
+        : AUnitController
+          , IShieldingEntity
     {
+        public void CreateShield()
+        {
+            if ( ShieldInstance != null )
+                return;
+
+            ShieldInstance = Instantiate( _shieldPrefab, transform );
+            ShieldInstance.ShieldPower = ( int )Power;
+            ShieldInstance.gameObject.layer = gameObject.layer;
+
+            CanCreateShield = false;
+        }
+
+        public void OnShieldDestroyed()
+        {
+            // Is automaticallty called when Shield is created with a parent
+            ShieldInstance = null;
+        }
+
+        public override void ExecuteOnClick( Vector3 target )
+        {
+            // Automatic, so do nothing
+        }
+
+        private void ChangeMode()
+        {
+            CreateShield();
+            ResetCooldown();
+        }
+
+        private void ResetCooldown()
+        {
+            CanCreateShield = false;
+            ShieldTimer = 0.0f;
+        }
+
         #region Members
         public float RechargeSpeed
         {
@@ -25,28 +60,23 @@ namespace Orbit.Entity.Unit
                 if ( _shieldTimer >= _rechargeSpeed )
                 {
                     _shieldTimer = 0.0f;
-                    _canCreateShield = true;
+                    CanCreateShield = true;
                 }
             }
         }
-        private float _shieldTimer = 0;
+        private float _shieldTimer;
 
-        public bool CanCreateShield
-        {
-            get { return _canCreateShield; }
-            protected set { _canCreateShield = value; }
-        }
-        private bool _canCreateShield;
+        public bool CanCreateShield { get; protected set; }
 
-        protected Shield ShieldInstance
-        {
-            get { return _shieldInstance; }
-            set { _shieldInstance = value; }
-        }
-        private Shield _shieldInstance = null;
+        protected Shield ShieldInstance { get; set; }
 
         [SerializeField]
-        private Shield _shieldPrefab = null;
+        private Shield _shieldPrefab;
+
+        public ShieldGenerator()
+        {
+            ShieldInstance = null;
+        }
         #endregion
 
         #region Protected functions
@@ -73,58 +103,21 @@ namespace Orbit.Entity.Unit
             base.UpdateAttackMode();
 
             if ( ShieldInstance == null )
-            {
                 if ( CanCreateShield )
                     CreateShield();
                 else
                     ShieldTimer += Time.deltaTime;
-            }
         }
 
         protected override void OnDestroy()
         {
-			if (GameManager.Instance) 
-			{
-				GameManager.Instance.OnAttackMode.RemoveListener (ChangeMode);
-				GameManager.Instance.OnBuildMode.RemoveListener (ChangeMode);
-			}
+            if ( GameManager.Instance )
+            {
+                GameManager.Instance.OnAttackMode.RemoveListener( ChangeMode );
+                GameManager.Instance.OnBuildMode.RemoveListener( ChangeMode );
+            }
             base.OnDestroy();
         }
         #endregion
-
-        public override void ExecuteOnClick( Vector3 target )
-        {
-            // Automatic, so do nothing
-        }
-
-        public void CreateShield()
-        {
-            if ( ShieldInstance != null )
-                return;
-
-            ShieldInstance = Instantiate( _shieldPrefab, transform );
-            ShieldInstance.ShieldPower = (int)Power;
-            ShieldInstance.gameObject.layer = gameObject.layer;
-
-            CanCreateShield = false;
-        }
-
-        public void OnShieldDestroyed()
-        {
-            // Is automaticallty called when Shield is created with a parent
-            ShieldInstance = null;
-        }
-
-        private void ChangeMode()
-        {
-            CreateShield();
-            ResetCooldown();
-        }
-
-        private void ResetCooldown()
-        {
-            CanCreateShield = false;
-            ShieldTimer = 0.0f;
-        }
     }
 }

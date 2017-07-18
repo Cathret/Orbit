@@ -2,9 +2,30 @@
 
 namespace Orbit.Entity.Opponent
 {
-    public class ShootingOpponent : AOpponentController,
-                                    IShootingEntity
+    public class ShootingOpponent
+        : AOpponentController
+          , IShootingEntity
     {
+        #region Public functions
+        public void Shoot( Vector3 direction )
+        {
+            if ( currentWayPoint > 0 )
+                return;
+            direction.Normalize();
+            Projectile bullet = Instantiate( _projectileType, transform.position, transform.rotation );
+            bullet.transform.up = direction;
+            bullet.Power = Power;
+            bullet.IsFriend = false;
+        }
+        #endregion
+
+        #region Private functions
+        private void SelfUpdate()
+        {
+            CooldownTimer += Time.deltaTime;
+        }
+        #endregion
+
         #region Members
         [SerializeField]
         private float _shootCooldown = 2.0f;
@@ -24,25 +45,12 @@ namespace Orbit.Entity.Opponent
                 }
             }
         }
-        private float _cooldownTimer = 0.0f;
+        private float _cooldownTimer;
 
         [SerializeField]
-        private Projectile _projectileType = null;
+        private Projectile _projectileType;
 
         private event DelegateUpdate OnSelfUpdate = () => { };
-        #endregion
-
-        #region Public functions
-        public void Shoot( Vector3 direction )
-        {
-            if ( currentWayPoint > 0 )
-                return;
-            direction.Normalize();
-            Projectile bullet = Instantiate( _projectileType, transform.position, transform.rotation );
-            bullet.transform.up = direction;
-            bullet.Power = Power;
-            bullet.IsFriend = false;
-        }
         #endregion
 
         #region Protected functions
@@ -57,7 +65,7 @@ namespace Orbit.Entity.Opponent
         protected override void Start()
         {
             base.Start();
-            
+
             Vector3 center = GameGrid.Instance.RealCenter;
             float distance = ( transform.position - center ).magnitude - GameGrid.Instance.RealEfficientSide;
 
@@ -83,13 +91,6 @@ namespace Orbit.Entity.Opponent
             CooldownTimer = _shootCooldown - _timeBeforeFirstShot;
 
             OnSelfUpdate = SelfUpdate;
-        }
-        #endregion
-
-        #region Private functions
-        private void SelfUpdate()
-        {
-            CooldownTimer += Time.deltaTime;
         }
         #endregion
     }

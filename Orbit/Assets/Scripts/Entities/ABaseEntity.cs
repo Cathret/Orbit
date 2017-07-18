@@ -10,17 +10,17 @@ namespace Orbit.Entity
         {
             get
             {
-                if (_source == null)
+                if ( _source == null )
                     _source = GetComponent<AudioSource>();
-                if (_source == null)
+                if ( _source == null )
                     _source = gameObject.AddComponent<AudioSource>();
                 return _source;
             }
         }
 
-        protected void PlaySound(AudioClip clip)
+        protected void PlaySound( AudioClip clip )
         {
-            if (clip)
+            if ( clip )
             {
                 Source.clip = clip;
                 Source.Play();
@@ -30,9 +30,11 @@ namespace Orbit.Entity
 
         #region Events
         protected delegate void DelegateUpdate();
+
         protected event DelegateUpdate OnUpdate = () => { };
 
         public delegate void DelegateTrigger();
+
         public event DelegateTrigger TriggerDestroy;
         #endregion
 
@@ -57,13 +59,13 @@ namespace Orbit.Entity
             if ( TriggerDestroy != null )
                 TriggerDestroy();
 
-            if (GameManager.Instance) 
-			{
-				GameManager.Instance.OnAttackMode.RemoveListener (OnAttackMode);
-				GameManager.Instance.OnBuildMode.RemoveListener (OnBuildMode);
-				GameManager.Instance.OnPause.RemoveListener (OnPause);
-				GameManager.Instance.OnPlay.RemoveListener (OnPlay);
-			}
+            if ( GameManager.Instance )
+            {
+                GameManager.Instance.OnAttackMode.RemoveListener( OnAttackMode );
+                GameManager.Instance.OnBuildMode.RemoveListener( OnBuildMode );
+                GameManager.Instance.OnPause.RemoveListener( OnPause );
+                GameManager.Instance.OnPlay.RemoveListener( OnPlay );
+            }
         }
 
         protected void Update()
@@ -107,7 +109,6 @@ namespace Orbit.Entity
                 Debug.LogWarning( "ABaseEntity.OnPlay() - CurrentGameMode is None." );
         }
         #endregion
-
         #endregion
     }
 }

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using Orbit.Entity;
-using Random = UnityEngine.Random;
+using UnityEngine;
 
 public class OpponentManager : MonoBehaviour
 {
+    private static OpponentManager _instance;
     public static OpponentManager Instance
     {
         get
@@ -16,22 +15,6 @@ public class OpponentManager : MonoBehaviour
             return _instance;
         }
     }
-    private static OpponentManager _instance;
-
-    #region Members
-    public CameraController CameraController
-    {
-        get { return _cameraController; }
-        protected set { _cameraController = value; }
-    }
-    private CameraController _cameraController;
-
-    [SerializeField]
-    private uint _spawnPaddingFromScreen = 5;
-
-    private List<AOpponentController> _listOpponentsAlive = new List<AOpponentController>();
-    private List<AOpponentController> _listOpponentsVisible = new List<AOpponentController>();
-    #endregion
 
     #region Unity functions
     private void Start()
@@ -42,14 +25,24 @@ public class OpponentManager : MonoBehaviour
     }
     #endregion
 
+    #region Members
+    public CameraController CameraController { get; protected set; }
+
+    [SerializeField]
+    private uint _spawnPaddingFromScreen = 5;
+
+    private readonly List<AOpponentController> _listOpponentsAlive = new List<AOpponentController>();
+    private readonly List<AOpponentController> _listOpponentsVisible = new List<AOpponentController>();
+    #endregion
+
     #region Public functions
     public void SpawnOpponent( AOpponentController opponentPrefab )
     {
         Vector3 distance = Random.insideUnitCircle.normalized;
         uint padding = GameGrid.Instance.EfficientSide;
 
-        if ( _cameraController )
-            padding = _cameraController.Padding;
+        if ( CameraController )
+            padding = CameraController.Padding;
 
         distance *= GameGrid.Instance.CellSize * ( padding + _spawnPaddingFromScreen );
 
@@ -69,26 +62,26 @@ public class OpponentManager : MonoBehaviour
 
     public void SpawnOpponent( AOpponentController opponentPrefab, float radius )
     {
-        Vector3 distance = new Vector3(Mathf.Cos( radius ), Mathf.Sin( radius ));
+        Vector3 distance = new Vector3( Mathf.Cos( radius ), Mathf.Sin( radius ) );
         uint padding = GameGrid.Instance.EfficientSide;
 
-        if (_cameraController)
-            padding = _cameraController.Padding;
+        if ( CameraController )
+            padding = CameraController.Padding;
 
-        distance *= GameGrid.Instance.CellSize * (padding + _spawnPaddingFromScreen);
+        distance *= GameGrid.Instance.CellSize * ( padding + _spawnPaddingFromScreen );
 
         Vector3 position = GameGrid.Instance.RealCenter + distance;
 
-        AOpponentController opponentInstance = Instantiate(opponentPrefab, position, Quaternion.identity);
+        AOpponentController opponentInstance = Instantiate( opponentPrefab, position, Quaternion.identity );
         // TODO: change every event with sender as first parameter
         opponentInstance.TriggerDestroy += () =>
         {
-            _listOpponentsAlive.Remove(opponentInstance);
-            if (_listOpponentsVisible.Contains(opponentInstance))
-                _listOpponentsVisible.Remove(opponentInstance);
+            _listOpponentsAlive.Remove( opponentInstance );
+            if ( _listOpponentsVisible.Contains( opponentInstance ) )
+                _listOpponentsVisible.Remove( opponentInstance );
         };
 
-        _listOpponentsAlive.Add(opponentInstance);
+        _listOpponentsAlive.Add( opponentInstance );
     }
 
     public void RegisterOpponent( AOpponentController opponent )
@@ -128,7 +121,8 @@ public class OpponentManager : MonoBehaviour
         return false;
     }
 
-    public bool FindClosestOpponentInList( IEnumerable<AOpponentController> listOpponents, Transform cell, out AOpponentController target )
+    public bool FindClosestOpponentInList( IEnumerable<AOpponentController> listOpponents, Transform cell
+                                           , out AOpponentController target )
     {
         Transform tMin = null;
         AOpponentController bestOpponent = null;
@@ -151,10 +145,11 @@ public class OpponentManager : MonoBehaviour
         return tMin;
     }
 
-    public List<AOpponentController> GetOpponentsInQuarter(GameCell.Quarter quarter)
+    public List<AOpponentController> GetOpponentsInQuarter( GameCell.Quarter quarter )
     {
         // TODO: need to be optimized (maybe have four lists?)
-        return _listOpponentsVisible.Where( opponentController => opponentController.QuarterPosition == quarter ).ToList();
+        return _listOpponentsVisible.Where( opponentController => opponentController.QuarterPosition == quarter )
+                                    .ToList();
     }
     #endregion
 }
