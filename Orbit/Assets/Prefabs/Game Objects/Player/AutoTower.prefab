@@ -237,9 +237,10 @@ MonoBehaviour:
   _hitColorTime: 0.2
   _basePower: 2
   _unitName: Auto Tower
-  _price: 0
+  _price: 30
   _level: 1
-  _awakeParSysPrefab: {fileID: 0}
+  _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
+    type: 2}
   _icon: {fileID: 21300000, guid: 476c6abb3acfcf74eaa7dc192a3a85a9, type: 3}
   Head: {fileID: 1635128533510208}
   _shootCooldown: 2

@@ -259,7 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d16ef43174b3040810230a72505821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultCell1: {fileID: 0}
+  _defaultCell1: {fileID: 114198844858926180, guid: fac847d2124b2cf46a5de76fbc0beaef,
+    type: 2}
   _defaultCell2: {fileID: 114226747854461056, guid: 1c9b0e3fe8b9ad8448b27f2459f4bd3e,
     type: 2}
   _defaultCell3: {fileID: 114895828495101278, guid: 77e7eb657f7d23f43998642e45828eb5,
