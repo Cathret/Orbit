@@ -1,20 +1,20 @@
-﻿using Orbit.Entity.Unit;
-using UnityEngine;
-
-namespace Orbit.Entity
+﻿namespace Orbit.Entity
 {
     public class Shield : ALivingEntity
     {
+        #region Private functions
+        private void FillHp()
+        {
+            MaxHP = ( uint )ShieldPower;
+            Hp = ( int )MaxHP;
+        }
+        #endregion
+
         #region Members
         public event DelegateTrigger TriggerShieldDestroyed;
-        private IShieldingEntity _selfGenerator = null;
+        private IShieldingEntity _selfGenerator;
 
-        public int ShieldPower
-        {
-            get { return _shieldPower; }
-            set { _shieldPower = value; }
-        }
-        private int _shieldPower;
+        public int ShieldPower { get; set; }
         #endregion
 
         #region Protected functions
@@ -45,18 +45,10 @@ namespace Orbit.Entity
 
         protected override void OnDestroy()
         {
-			if ( GameManager.Instance )
-            	GameManager.Instance.OnAttackMode.RemoveListener( FillHp );
+            if ( GameManager.Instance )
+                GameManager.Instance.OnAttackMode.RemoveListener( FillHp );
 
             base.OnDestroy();
-        }
-        #endregion
-
-        #region Private functions
-        private void FillHp()
-        {
-            MaxHP = ( uint )ShieldPower;
-            Hp = ( int )MaxHP;
         }
         #endregion
     }

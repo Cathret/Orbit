@@ -1,50 +1,20 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Orbit.Entity.Unit
 {
-    public class Booster : AUnitController,
-                           IBoostingEntity
+    public class Booster
+        : AUnitController
+          , IBoostingEntity
     {
-        #region Members
-        protected DelegateTrigger OnBoostedUnitDeath
+        public void Boost()
         {
-            get { return _onBoostedUnitDeath; }
-            set { _onBoostedUnitDeath = value; }
-        }
-        private DelegateTrigger _onBoostedUnitDeath;
-
-        protected AUnitController BoostedUnit
-        {
-            get { return _boostedUnit; }
-            set { _boostedUnit = value; }
-        }
-        private AUnitController _boostedUnit;
-        #endregion
-
-        #region Protected functions
-        protected override void Awake()
-        {
-            base.Awake();
-
-            OnBoostedUnitDeath = () =>
-            {
-                BoostedUnit.CancelBoost( this );
-                BoostedUnit.TriggerDeath -= OnBoostedUnitDeath;
-                BoostedUnit = null;
-            };
-
-            BoostPowerChanged += UpdateBoost;
+            BoostedUnit.ReceiveBoost( this );
         }
 
-        protected override void OnDestroy()
+        public void UnBoost()
         {
-            if ( BoostedUnit )
-                OnBoostedUnitDeath.Invoke();
-
-            base.OnDestroy();
+            BoostedUnit.CancelBoost( this );
         }
-        #endregion
 
         #region Private functions
         private void UpdateBoost( uint boostPower )
@@ -85,7 +55,9 @@ namespace Orbit.Entity.Unit
             base.ModifySelected( selected );
 
             if ( selected )
+            {
                 FollowMouse = true;
+            }
             else if ( BoostedUnit != null )
             {
                 FollowMouse = false;
@@ -94,14 +66,34 @@ namespace Orbit.Entity.Unit
             }
         }
 
-        public void Boost()
+        #region Members
+        protected DelegateTrigger OnBoostedUnitDeath { get; set; }
+
+        protected AUnitController BoostedUnit { get; set; }
+        #endregion
+
+        #region Protected functions
+        protected override void Awake()
         {
-            BoostedUnit.ReceiveBoost( this );
+            base.Awake();
+
+            OnBoostedUnitDeath = () =>
+            {
+                BoostedUnit.CancelBoost( this );
+                BoostedUnit.TriggerDeath -= OnBoostedUnitDeath;
+                BoostedUnit = null;
+            };
+
+            BoostPowerChanged += UpdateBoost;
         }
 
-        public void UnBoost()
+        protected override void OnDestroy()
         {
-            BoostedUnit.CancelBoost( this );
+            if ( BoostedUnit )
+                OnBoostedUnitDeath.Invoke();
+
+            base.OnDestroy();
         }
+        #endregion
     }
 }

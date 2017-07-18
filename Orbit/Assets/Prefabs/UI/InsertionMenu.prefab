@@ -105,18 +105,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabCells:
-  - {fileID: 114411803141743710, guid: fac847d2124b2cf46a5de76fbc0beaef, type: 2}
+  - {fileID: 114941707580948234, guid: fac847d2124b2cf46a5de76fbc0beaef, type: 2}
   - {fileID: 114738208870311602, guid: 8f6e54fd16051444085424954d6c5905, type: 2}
   - {fileID: 114677457375124628, guid: d7de2620235205544b8311ceaa3b3966, type: 2}
   - {fileID: 114909476553060966, guid: 1c9b0e3fe8b9ad8448b27f2459f4bd3e, type: 2}
-  - {fileID: 114859124475220470, guid: 7964e19dd9b589c459d62f8821296d70, type: 2}
   - {fileID: 114704603470933182, guid: 77e7eb657f7d23f43998642e45828eb5, type: 2}
   _itemPrefab: {fileID: 114236630792097292, guid: 0627e2a25e61f974cbc2c7ff7a831436,
     type: 2}
   _container: {fileID: 1245064285282068}
   _nameLabel: {fileID: 114284774129861496}
-  X: 0
-  Y: 0
 --- !u!114 &114839080487198700
 MonoBehaviour:
   m_ObjectHideFlags: 1

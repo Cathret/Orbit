@@ -1,11 +1,18 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Orbit.Entity
 {
-    public class Asteroid : Projectile,
-                            IDropResources
+    public class Asteroid
+        : Projectile
+          , IDropResources
     {
+        #region Public functions
+        public void DropResources()
+        {
+            GameManager.Instance.ResourcesCount += ResourcesToDrop;
+        }
+        #endregion
+
         #region Members
         public uint ResourcesToDrop
         {
@@ -14,13 +21,6 @@ namespace Orbit.Entity
         }
         [SerializeField]
         private uint _resourcesToDrop;
-        #endregion
-
-        #region Public functions
-        public void DropResources()
-        {
-            GameManager.Instance.ResourcesCount += ResourcesToDrop;
-        }
         #endregion
 
         #region Protected functions

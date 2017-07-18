@@ -211,7 +211,7 @@ MonoBehaviour:
   _speed: 1
   _rotateSpeed: 20
   _resourcesToDrop: 1
-  ShootCooldown: 4
+  _shootCooldown: 4
   _projectileType: {fileID: 114138961153841684, guid: 86fab22d6140724438145025fc3a42c6,
     type: 2}
 --- !u!212 &212614665259321516

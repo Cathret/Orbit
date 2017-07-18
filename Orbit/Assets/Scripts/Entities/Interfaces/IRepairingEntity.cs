@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace Orbit.Entity
+﻿namespace Orbit.Entity
 {
     public interface IRepairingEntity
     {

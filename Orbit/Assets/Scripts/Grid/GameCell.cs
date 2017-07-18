@@ -1,36 +1,37 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using Orbit.Entity;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class GameCell : MonoBehaviour
 {
-    private static GameCell _lastSelected;
-
-    public static GameCell SelectedCell
-    {
-        get { return _lastSelected; }
-    }
-
-    public uint X { get; private set; }
-    public uint Y { get; private set; }
-
-    private Vector3 _targetPosition;
-
     public delegate void DelegateBool( bool value );
-
-    public event DelegateBool OnSelection;
 
     public delegate void DelegateVector3( Vector3 value );
 
+    public enum Quarter
+    {
+        TopRight
+        , BottomRight
+        , BottomLeft
+        , TopLeft
+    }
+
+    private bool _connected;
+
+    private readonly string _frameName = "Frame_Cell";
+    private bool _selected;
+
+    private SpriteRenderer _spriteRenderer;
+
+    private Vector3 _targetPosition;
+
+    private AUnitController _unit;
+
     public DelegateVector3 OnActionLaunched;
+    public DelegateVector3 OnDraggedActionLaunched;
 
-    private bool _connected = false;
-    private bool _selected = false;
-
-    private SpriteRenderer spriteRenderer;
+    public uint X { get; private set; }
+    public uint Y { get; private set; }
 
     public bool Selected
     {
@@ -55,34 +56,44 @@ public class GameCell : MonoBehaviour
         get { return _connected; }
         set { SetConnected( value ); }
     }
-
-    private AUnitController _unit;
     public AUnitController Unit
     {
         get
         {
-            if (_unit == null)
+            if ( _unit == null )
                 _unit = GetComponent<AUnitController>();
             return _unit;
         }
     }
 
-    void Awake()
+    public Quarter QuarterPosition
+    {
+        get
+        {
+            GameGrid gameGrid = GameGrid.Instance;
+            if ( Y >= gameGrid.CenterY )
+                return X >= gameGrid.CenterX ? Quarter.TopRight : Quarter.TopLeft;
+            return X >= gameGrid.CenterX ? Quarter.BottomRight : Quarter.BottomLeft;
+        }
+    }
+
+    public event DelegateBool OnSelection;
+
+    private void Awake()
     {
         _targetPosition = transform.position;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-
+        _spriteRenderer = transform.Find( _frameName ).gameObject.GetComponent<SpriteRenderer>();
         Unit.TriggerDeath += Delete;
     }
 
-    void Start()
+    private void Start()
     {
-        if ( spriteRenderer )
-            spriteRenderer.color = _connected ? Color.white : Color.grey;
+        SetColorByConnection();
+        OnSelection += SetColorBySelection;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         transform.position = Vector3.Lerp( transform.position, _targetPosition,
                                            Time.deltaTime * GameGrid.Instance.RotationSpeed );
@@ -96,9 +107,9 @@ public class GameCell : MonoBehaviour
         GameGrid gameGrid = GameGrid.Instance;
         Vector3 position = new Vector3
             {
-                x = ( X + 0.5f ) * gameGrid.CellSize,
-                y = ( Y + 0.5f ) * gameGrid.CellSize,
-                z = gameGrid.FixedZ
+                x = ( X + 0.5f ) * gameGrid.CellSize
+                , y = ( Y + 0.5f ) * gameGrid.CellSize
+                , z = gameGrid.FixedZ
             };
         transform.position = position;
         _targetPosition = position;
@@ -115,46 +126,53 @@ public class GameCell : MonoBehaviour
         _targetPosition.z = gameGrid.FixedZ;
     }
 
-    void SetConnected( bool value )
+    private void SetConnected( bool value )
     {
         if ( _connected == value )
             return;
         _connected = value;
 
-        if ( spriteRenderer )
-            spriteRenderer.color = _connected ? Color.white : Color.grey;
+        SetColorByConnection();
     }
 
-    void SelectCallback()
+    private void SetColorByConnection()
+    {
+        if ( !_spriteRenderer || Selected )
+            return;
+
+        _spriteRenderer.color = Connected ? Color.white : Color.grey;
+    }
+
+    private void SetColorBySelection( bool value )
+    {
+        if ( !_spriteRenderer )
+            return;
+
+        if ( value )
+            _spriteRenderer.color = Color.green;
+        else
+            SetColorByConnection();
+    }
+
+    private void SelectCallback()
     {
         if ( _selected )
             return;
 
         _selected = true;
-        if ( _lastSelected )
-            _lastSelected.Selected = false;
-
-        _lastSelected = this;
         if ( OnSelection != null )
             OnSelection.Invoke( true );
     }
 
-    void UnselectCallback()
+    private void UnselectCallback()
     {
         if ( !_selected )
             return;
 
         _selected = false;
-        _lastSelected = null;
 
         if ( OnSelection != null )
             OnSelection.Invoke( false );
-    }
-
-    public static void Unselect()
-    {
-        if ( _lastSelected )
-            _lastSelected.Selected = false;
     }
 
     public bool IsConnectedTo( GameCell cell )
@@ -162,11 +180,11 @@ public class GameCell : MonoBehaviour
         if ( cell == null || cell == this )
             return false;
 
-        int x1 = (int)X;
-        int x2 = (int)cell.X;
+        int x1 = ( int )X;
+        int x2 = ( int )cell.X;
 
-        int y1 = (int)Y;
-        int y2 = (int)cell.Y;
+        int y1 = ( int )Y;
+        int y2 = ( int )cell.Y;
 
         if ( X == cell.X )
         {
@@ -187,7 +205,13 @@ public class GameCell : MonoBehaviour
             OnActionLaunched.Invoke( target );
     }
 
-    void Delete()
+    public void LaunchDraggedAction( Vector3 target )
+    {
+        if ( OnDraggedActionLaunched != null )
+            OnDraggedActionLaunched.Invoke( target );
+    }
+
+    private void Delete()
     {
         GameGrid.Instance.RemoveCase( X, Y );
     }

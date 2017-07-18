@@ -2,33 +2,10 @@
 
 namespace Orbit.Entity.Opponent
 {
-    public class ShootingOpponent : AOpponentController,
-                                    IShootingEntity
+    public class ShootingOpponent
+        : AOpponentController
+          , IShootingEntity
     {
-        #region Members
-        [SerializeField]
-        protected float ShootCooldown = 0.7f;
-
-        private float _cooldownTimer = 0.0f;
-
-        public float CooldownTimer
-        {
-            get { return _cooldownTimer; }
-            private set
-            {
-                _cooldownTimer = value;
-                if ( _cooldownTimer > ShootCooldown )
-                {
-                    _cooldownTimer = 0.0f;
-                    Shoot( transform.up );
-                }
-            }
-        }
-
-        [SerializeField]
-        private Projectile _projectileType = null;
-        #endregion
-
         #region Public functions
         public void Shoot( Vector3 direction )
         {
@@ -40,6 +17,40 @@ namespace Orbit.Entity.Opponent
             bullet.Power = Power;
             bullet.IsFriend = false;
         }
+        #endregion
+
+        #region Private functions
+        private void SelfUpdate()
+        {
+            CooldownTimer += Time.deltaTime;
+        }
+        #endregion
+
+        #region Members
+        [SerializeField]
+        private float _shootCooldown = 2.0f;
+        [SerializeField]
+        private float _timeBeforeFirstShot = 2.0f;
+
+        public float CooldownTimer
+        {
+            get { return _cooldownTimer; }
+            private set
+            {
+                _cooldownTimer = value;
+                if ( _cooldownTimer > _shootCooldown )
+                {
+                    _cooldownTimer = 0.0f;
+                    Shoot( transform.up );
+                }
+            }
+        }
+        private float _cooldownTimer;
+
+        [SerializeField]
+        private Projectile _projectileType;
+
+        private event DelegateUpdate OnSelfUpdate = () => { };
         #endregion
 
         #region Protected functions
@@ -54,7 +65,7 @@ namespace Orbit.Entity.Opponent
         protected override void Start()
         {
             base.Start();
-            ;
+
             Vector3 center = GameGrid.Instance.RealCenter;
             float distance = ( transform.position - center ).magnitude - GameGrid.Instance.RealEfficientSide;
 
@@ -70,14 +81,16 @@ namespace Orbit.Entity.Opponent
         {
             base.UpdateAttackMode();
 
-            CooldownTimer += Time.deltaTime;
+            OnSelfUpdate();
         }
 
         protected override void OnBecameVisible()
         {
             base.OnBecameVisible();
 
-            CooldownTimer = ShootCooldown - 1.0f;
+            CooldownTimer = _shootCooldown - _timeBeforeFirstShot;
+
+            OnSelfUpdate = SelfUpdate;
         }
         #endregion
     }

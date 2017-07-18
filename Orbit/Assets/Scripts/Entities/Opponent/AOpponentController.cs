@@ -4,16 +4,50 @@ using UnityEngine;
 
 namespace Orbit.Entity
 {
-    public abstract class AOpponentController : AEntityController,
-                                                IMovingEntity,
-                                                IDropResources
+    public abstract class AOpponentController
+        : AEntityController
+          , IMovingEntity
+          , IDropResources
     {
-        protected List<Vector3> WayPoints = new List<Vector3>();
-
-        protected int currentWayPoint = 0;
-
         [SerializeField]
         private float _secondsBeforeRegister = 1.5f;
+
+        protected int currentWayPoint;
+        protected List<Vector3> WayPoints = new List<Vector3>();
+
+        protected bool HasBeenRegistered { get; private set; }
+
+        public void DropResources()
+        {
+            GameManager.Instance.ResourcesCount += ResourcesToDrop;
+        }
+
+        private void OnBecameInvisible()
+        {
+            Destroy( gameObject );
+        }
+
+        private IEnumerator RegisterToOpponentManager()
+        {
+            yield return new WaitForSeconds( _secondsBeforeRegister );
+
+            OpponentManager.Instance.RegisterOpponent( this );
+
+            HasBeenRegistered = true;
+        }
+
+        private void CalcPositionInQuarter()
+        {
+            GameGrid gameGrid = GameGrid.Instance;
+            float x = transform.position.x;
+            float y = transform.position.y;
+            if ( y >= gameGrid.RealCenter.y )
+                QuarterPosition = x >= gameGrid.RealCenter.x ? GameCell.Quarter.TopRight : GameCell.Quarter.TopLeft;
+            else
+                QuarterPosition = x >= gameGrid.RealCenter.x
+                    ? GameCell.Quarter.BottomRight
+                    : GameCell.Quarter.BottomLeft;
+        }
 
         #region Members
         public float Speed
@@ -21,7 +55,8 @@ namespace Orbit.Entity
             get { return _speed; }
             protected set { _speed = value; }
         }
-        [SerializeField, Range(0, 50)]
+        [SerializeField]
+        [Range( 0, 50 )]
         protected float _speed = 2;
 
         public float RotateSpeed
@@ -29,7 +64,8 @@ namespace Orbit.Entity
             get { return _rotateSpeed; }
             protected set { _rotateSpeed = value; }
         }
-        [SerializeField, Range(0, 100)]
+        [SerializeField]
+        [Range( 0, 100 )]
         protected float _rotateSpeed = 20;
 
         public uint ResourcesToDrop
@@ -39,9 +75,22 @@ namespace Orbit.Entity
         }
         [SerializeField]
         private uint _resourcesToDrop;
+
+        public AOpponentController()
+        {
+            HasBeenRegistered = false;
+        }
+
+        public GameCell.Quarter QuarterPosition { get; private set; }
         #endregion
 
         #region Protected functions
+        protected override void Start()
+        {
+            base.Start();
+            CalcPositionInQuarter();
+        }
+
         protected override void UpdateAttackMode()
         {
             // Do not override UpdateBuildMode, because should never have an active opponent when in building mode
@@ -61,7 +110,7 @@ namespace Orbit.Entity
                     Vector3 delta = target - transform.position;
                     delta.Normalize();
                     float moveSpeed = _speed * Time.deltaTime;
-                    transform.position = transform.position + ( delta * moveSpeed );
+                    transform.position = transform.position + delta * moveSpeed;
                     //Rotate Towards
                     Vector3 direction = ( target - transform.position ).normalized;
                     transform.up = Vector3.Slerp( transform.up, direction, Time.deltaTime * _rotateSpeed );
@@ -85,22 +134,5 @@ namespace Orbit.Entity
             StartCoroutine( RegisterToOpponentManager() );
         }
         #endregion
-
-        private void OnBecameInvisible()
-        {
-            Destroy( gameObject );
-        }
-
-        public void DropResources()
-        {
-            GameManager.Instance.ResourcesCount += ResourcesToDrop;
-        }
-
-        private IEnumerator RegisterToOpponentManager()
-        {
-            yield return new WaitForSeconds( _secondsBeforeRegister );
-
-            OpponentManager.Instance.RegisterOpponent( this );
-        }
     }
 }
