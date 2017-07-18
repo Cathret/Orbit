@@ -226,7 +226,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1819283257326886}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b132fb56e194c1468335fc3318130ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 4029164527724ea49a7cbf7938098e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _hitClip: {fileID: 0}
@@ -237,15 +237,15 @@ MonoBehaviour:
   _hitColorTime: 0.2
   _basePower: 2
   _unitName: Auto Tower
-  _price: 30
-  Head: {fileID: 1027661704479118}
+  _price: 0
   _level: 1
   _awakeParSysPrefab: {fileID: 0}
   _icon: {fileID: 21300000, guid: 476c6abb3acfcf74eaa7dc192a3a85a9, type: 3}
-  _shootClip: {fileID: 0}
-  _shootCooldown: 4
+  Head: {fileID: 1027661704479118}
+  _shootCooldown: 2
   _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,
     type: 2}
+  _shootClip: {fileID: 0}
   _projectileStartPositions:
   - {fileID: 4398351425582624}
   - {fileID: 4911043037961786}
