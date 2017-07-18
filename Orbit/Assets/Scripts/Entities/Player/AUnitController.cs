@@ -14,7 +14,7 @@ namespace Orbit.Entity
 		{
 			get { return _unitName; }
 		}
-		[SerializeField]
+		[SerializeField, Header("Unit Stats")]
 		private string _unitName;
 
         public uint Price
@@ -28,11 +28,6 @@ namespace Orbit.Entity
         {
             get { return (uint)( Hp / MaxHP * Price ); }
         }
-
-        [SerializeField]
-        protected GameObject Head;
-
-        protected bool FollowMouse = true;
 
         public uint Level
         {
@@ -58,7 +53,8 @@ namespace Orbit.Entity
         }
         private GameCell _gameCell = null;
 
-        [SerializeField]
+        
+        [SerializeField, Header("Unit Visual Feedbacks")]
         private ParticleSystem _awakeParSysPrefab;
 
         public Sprite Icon
@@ -72,6 +68,11 @@ namespace Orbit.Entity
         }
         [SerializeField]
         private Sprite _icon;
+
+        [SerializeField]
+        protected GameObject Head;
+
+        protected bool FollowMouse = true;
         #endregion
 
         #region Public functions

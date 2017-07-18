@@ -20,6 +20,8 @@ namespace Orbit.Entity
 
         #region Music
 
+        [Header("Sounds")]
+
         [SerializeField]
         private AudioClip _hitClip;
 
@@ -71,6 +73,9 @@ namespace Orbit.Entity
                     MaxHpChanged( _maxHealthPoints );
             }
         }
+
+        [Header("HP")]
+
         [SerializeField]
         private uint _maxHealthPoints = 1;
 
@@ -85,6 +90,8 @@ namespace Orbit.Entity
                 return _spriteRenderer;
             }
         }
+
+        [Header("Visual feedbacks")]
 
         [SerializeField]
         private ParticleSystem _deathParSysPrefab;

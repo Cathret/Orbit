@@ -11,6 +11,8 @@ namespace Orbit.Entity
         #endregion
 
         #region Members
+
+        
         public uint Power
         {
             get { return _basePower + _boostPower; }
@@ -26,7 +28,7 @@ namespace Orbit.Entity
                     PowerChanged( _basePower );
             }
         }
-        [SerializeField]
+        [SerializeField, Header("Power")]
         private uint _basePower;
 
         public uint BoostPower
