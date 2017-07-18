@@ -12,10 +12,17 @@ namespace Orbit.Entity.Unit
                 return;
 
             RepairedUnit.ReceiveHeal( ( int )Power );
+            RepairedUnit.Cell.OnPositionChange += OrientHead;
+
             if ( ReparatorParticles != null )
                 ReparatorParticles.Play();
 
             CanRepair = false;
+        }
+
+        public void UnRepair()
+        {
+            RepairedUnit.Cell.OnPositionChange -= OrientHead;
         }
 
         public override void ExecuteOnClick( Vector3 target )
@@ -28,10 +35,15 @@ namespace Orbit.Entity.Unit
                     return;
 
                 if ( RepairedUnit != null )
+                {
+                    UnRepair();
                     RepairedUnit.TriggerDeath -= OnRepairedUnitDeath;
+                }
 
                 RepairedUnit = targetCell.Unit;
                 RepairedUnit.TriggerDeath += OnRepairedUnitDeath;
+
+                OrientHead();
 
                 Cell.Selected = false;
             }
@@ -57,6 +69,12 @@ namespace Orbit.Entity.Unit
         {
             CanRepair = false;
             RepairTimer = 0.0f;
+        }
+
+        private void OrientHead()
+        {
+            if (Head && RepairedUnit && FollowMouse == false)
+                Head.transform.right = (RepairedUnit.Cell.TruePosition - Cell.TruePosition).normalized;
         }
 
         #region Members
@@ -105,6 +123,8 @@ namespace Orbit.Entity.Unit
         {
             base.Awake();
 
+            Cell.OnPositionChange += OrientHead;
+
             OnRepairedUnitDeath = () =>
             {
                 RepairedUnit.TriggerDeath -= OnRepairedUnitDeath;
@@ -131,6 +151,9 @@ namespace Orbit.Entity.Unit
 
         protected override void OnDestroy()
         {
+            if (Cell)
+                Cell.OnPositionChange -= OrientHead;
+
             if ( RepairedUnit )
                 OnRepairedUnitDeath.Invoke();
 

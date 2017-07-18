@@ -23,12 +23,18 @@ public class GameCell : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
 
+    public Vector3 TruePosition
+    {
+        get { return _targetPosition; }
+    }
     private Vector3 _targetPosition;
 
     private AUnitController _unit;
 
     public DelegateVector3 OnActionLaunched;
     public DelegateVector3 OnDraggedActionLaunched;
+
+    public event Action OnPositionChange;
 
     public uint X { get; private set; }
     public uint Y { get; private set; }
@@ -124,6 +130,9 @@ public class GameCell : MonoBehaviour
         _targetPosition.x = ( X + 0.5f ) * gameGrid.CellSize;
         _targetPosition.y = ( Y + 0.5f ) * gameGrid.CellSize;
         _targetPosition.z = gameGrid.FixedZ;
+
+        if ( OnPositionChange != null )
+            OnPositionChange();
     }
 
     private void SetConnected( bool value )

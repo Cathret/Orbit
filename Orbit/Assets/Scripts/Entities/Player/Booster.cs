@@ -9,11 +9,13 @@ namespace Orbit.Entity.Unit
         public void Boost()
         {
             BoostedUnit.ReceiveBoost( this );
+            BoostedUnit.Cell.OnPositionChange += OrientHead;
         }
 
         public void UnBoost()
         {
             BoostedUnit.CancelBoost( this );
+            BoostedUnit.Cell.OnPositionChange -= OrientHead;
         }
 
         #region Private functions
@@ -24,6 +26,12 @@ namespace Orbit.Entity.Unit
                 UnBoost();
                 Boost();
             }
+        }
+
+        private void OrientHead()
+        {
+            if (Head && BoostedUnit && FollowMouse == false)
+                Head.transform.right = (BoostedUnit.Cell.TruePosition - Cell.TruePosition).normalized;
         }
         #endregion
 
@@ -61,8 +69,7 @@ namespace Orbit.Entity.Unit
             else if ( BoostedUnit != null )
             {
                 FollowMouse = false;
-                if ( Head )
-                    Head.transform.right = ( BoostedUnit.transform.position - transform.position ).normalized;
+                OrientHead();
             }
         }
 
@@ -77,6 +84,8 @@ namespace Orbit.Entity.Unit
         {
             base.Awake();
 
+            Cell.OnPositionChange += OrientHead;
+
             OnBoostedUnitDeath = () =>
             {
                 BoostedUnit.CancelBoost( this );
@@ -89,6 +98,9 @@ namespace Orbit.Entity.Unit
 
         protected override void OnDestroy()
         {
+            if ( Cell )
+                Cell.OnPositionChange -= OrientHead;
+
             if ( BoostedUnit )
                 OnBoostedUnitDeath.Invoke();
 
