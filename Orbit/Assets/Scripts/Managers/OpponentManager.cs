@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Orbit.Entity;
 
@@ -77,7 +78,6 @@ public class OpponentManager : MonoBehaviour
 
     public bool FindClosestOpponent( Transform cell, out Vector3 target )
     {
-        // TODO: need to do this using the "quarters"
         Transform tMin = null;
         float minDist = Mathf.Infinity;
         Vector3 currentPos = cell.position;
@@ -102,15 +102,33 @@ public class OpponentManager : MonoBehaviour
         return false;
     }
 
+    public bool FindClosestOpponentInList( IEnumerable<AOpponentController> listOpponents, Transform cell, out AOpponentController target )
+    {
+        Transform tMin = null;
+        AOpponentController bestOpponent = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = cell.position;
+
+        foreach ( AOpponentController opponentController in listOpponents )
+        {
+            float dist = Vector3.Distance( opponentController.transform.position, currentPos );
+            if ( dist < minDist )
+            {
+                bestOpponent = opponentController;
+                tMin = opponentController.transform;
+                minDist = dist;
+            }
+        }
+
+        target = bestOpponent;
+
+        return tMin;
+    }
+
     public List<AOpponentController> GetOpponentsInQuarter(GameCell.Quarter quarter)
     {
-        List < AOpponentController > result = new List<AOpponentController>();
-        foreach (AOpponentController opponentController in _listOpponentsVisible)
-        {
-            if ( opponentController.QuarterPosition == quarter)
-                result.Add( opponentController );
-        }
-        return result;
+        // TODO: need to be optimized (maybe have four lists?)
+        return _listOpponentsVisible.Where( opponentController => opponentController.QuarterPosition == quarter ).ToList();
     }
     #endregion
 }

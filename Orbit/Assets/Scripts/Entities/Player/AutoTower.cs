@@ -29,6 +29,9 @@ namespace Orbit.Entity.Unit
 
         protected bool _canShoot = true;
 
+        // TODO: used to set "target" for one bullet, need to find a way to remove this
+        private TowerAIManager.OpponentTarget _lastOpponentTarget = null;
+
         [SerializeField]
         private Projectile _projectileType = null;
 
@@ -57,6 +60,10 @@ namespace Orbit.Entity.Unit
                 bullet.transform.up = direction;
                 bullet.Power = Power;
                 bullet.IsFriend = true;
+
+                // TODO: this will have to be checked after cleaning and optimizing
+                if ( _lastOpponentTarget != null )
+                    _lastOpponentTarget.SetAsTargetFor( bullet );
             }
 
             _canShoot = false;
@@ -101,13 +108,17 @@ namespace Orbit.Entity.Unit
 
             if ( Cell.Connected )
             {
-                Vector3 target;
-                if ( OpponentManager.Instance.FindClosestOpponent( Cell.transform, out target ) )
+                TowerAIManager.OpponentTarget target;
+
+                if ( TowerAIManager.Instance.FindBestOpponent( Cell, out target ) )
                 {
-                    Shoot( target - transform.position );
-                    PlaySound(_shootClip);
+                    _lastOpponentTarget = target;
+                    Vector3 enemyPosition = _lastOpponentTarget.OpponentController.transform.position;
+
+                    Shoot( enemyPosition - transform.position );
+                    PlaySound( _shootClip );
                     if ( Head )
-                        Head.transform.right = ( target - transform.position ).normalized;
+                        Head.transform.right = enemyPosition.normalized;
                 }
             }
         }

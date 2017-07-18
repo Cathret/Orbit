@@ -124,13 +124,13 @@ namespace Orbit.Entity
             GameGrid gameGrid = GameGrid.Instance;
             float x = transform.position.x;
             float y = transform.position.y;
-            if (y >= gameGrid.CenterY)
+            if (y >= gameGrid.RealCenter.y)
             {
                 QuarterPosition = x >= gameGrid.RealCenter.x ? GameCell.Quarter.TopRight : GameCell.Quarter.TopLeft;
             }
             else
             {
-                QuarterPosition = x >= gameGrid.RealCenter.y ? GameCell.Quarter.BottomRight : GameCell.Quarter.BottomLeft;
+                QuarterPosition = x >= gameGrid.RealCenter.x ? GameCell.Quarter.BottomRight : GameCell.Quarter.BottomLeft;
             }
         }
     }

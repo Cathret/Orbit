@@ -4,9 +4,7 @@ namespace Orbit.Entity
 {
     public class ABaseEntity : MonoBehaviour
     {
-
         #region  Sound
-
         private AudioSource _source;
         public AudioSource Source
         {
@@ -28,11 +26,14 @@ namespace Orbit.Entity
                 Source.Play();
             }
         }
-
         #endregion
-        #region Member
+
+        #region Events
         protected delegate void DelegateUpdate();
         protected event DelegateUpdate OnUpdate = () => { };
+
+        public delegate void DelegateTrigger();
+        public event DelegateTrigger TriggerDestroy;
         #endregion
 
         #region Protected functions
@@ -53,7 +54,10 @@ namespace Orbit.Entity
 
         protected virtual void OnDestroy()
         {
-			if (GameManager.Instance) 
+            if ( TriggerDestroy != null )
+                TriggerDestroy();
+
+            if (GameManager.Instance) 
 			{
 				GameManager.Instance.OnAttackMode.RemoveListener (OnAttackMode);
 				GameManager.Instance.OnBuildMode.RemoveListener (OnBuildMode);
