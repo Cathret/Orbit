@@ -237,13 +237,13 @@ MonoBehaviour:
   _hitColorTime: 0.2
   _basePower: 2
   _unitName: Auto Tower
-  _price: 30
+  _price: 15
   _level: 1
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
     type: 2}
   _icon: {fileID: 21300000, guid: 476c6abb3acfcf74eaa7dc192a3a85a9, type: 3}
   Head: {fileID: 1635128533510208}
-  _shootCooldown: 2
+  _shootCooldown: 1
   _projectileType: {fileID: 114382628231532226, guid: e890115af7db7c8458fe1ed9820dd0f8,
     type: 2}
   _shootClip: {fileID: 0}
@@ -290,7 +290,6 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212173235044879254
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -331,7 +330,6 @@ SpriteRenderer:
   m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212391176692442040
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -372,4 +370,3 @@ SpriteRenderer:
   m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
