@@ -114,11 +114,12 @@ namespace Orbit.Entity.Unit
                 {
                     _lastOpponentTarget = target;
                     Vector3 enemyPosition = _lastOpponentTarget.OpponentController.transform.position;
+                    Vector3 direction = enemyPosition - transform.position;
 
-                    Shoot( enemyPosition - transform.position );
+                    Shoot( direction );
                     PlaySound( _shootClip );
                     if ( Head )
-                        Head.transform.right = enemyPosition.normalized;
+                        Head.transform.right = direction.normalized;
                 }
             }
         }
