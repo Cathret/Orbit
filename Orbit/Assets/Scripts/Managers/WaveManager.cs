@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Orbit.Entity;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class WaveManager : MonoBehaviour
 {
@@ -106,6 +108,8 @@ public class WaveManager : MonoBehaviour
 
     public event DelegateRound RoundChanged;
 
+    public event Action<GameCell.Quarter> OnNewWave;
+
     public delegate void DelegateUpdate();
 
     public event DelegateUpdate OnUpdate = () => { };
@@ -180,11 +184,16 @@ public class WaveManager : MonoBehaviour
         uint nbOpponents = (uint)Mathf.FloorToInt( SpawningSeed * Mathf.Pow( MultiplicatorPerRound, CurrentRound ) );
         CurrentWave++;
 
-        for ( uint i = nbOpponents; i != 0; --i )
-            SpawnEnemy();
+        Array values = Enum.GetValues(typeof(GameCell.Quarter));
+        GameCell.Quarter randomQuarter = (GameCell.Quarter)values.GetValue(Random.Range( 0, values.Length));
+
+        SpawnEnemies( nbOpponents, randomQuarter );
+
+        if ( OnNewWave != null )
+            OnNewWave( randomQuarter );
     }
 
-    private void SpawnEnemy()
+    private void SpawnEnemy( float radius )
     {
         int enemiesLength = _enemies.Length;
         if ( enemiesLength == 0 )
@@ -192,6 +201,36 @@ public class WaveManager : MonoBehaviour
 
         AOpponentController prefab = _enemies[Random.Range( 0, enemiesLength )];
 
-        _opponentManager.SpawnOpponent( prefab );
+        _opponentManager.SpawnOpponent( prefab, radius );
+    }
+
+    private void SpawnEnemies( uint count, GameCell.Quarter quarter)
+    {
+        float rotation = 0.0f;
+        float halfPI = Mathf.PI / 2;
+
+        switch (quarter)
+        {
+            case GameCell.Quarter.TopRight:
+                rotation = 0.0f;
+                break;
+            case GameCell.Quarter.BottomRight:
+                rotation = halfPI * 3;
+                break;
+            case GameCell.Quarter.BottomLeft:
+                rotation = halfPI * 2;
+                break;
+            case GameCell.Quarter.TopLeft:
+                rotation = halfPI;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException("quarter", quarter, null);
+        }
+
+        for ( uint i = count; i != 0; --i )
+        {
+            float radius = Random.Range( 0, halfPI ) + rotation;
+            SpawnEnemy(radius);
+        }
     }
 }

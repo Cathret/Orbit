@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Orbit.Entity;
+using Random = UnityEngine.Random;
 
 public class OpponentManager : MonoBehaviour
 {
@@ -63,6 +65,30 @@ public class OpponentManager : MonoBehaviour
         };
 
         _listOpponentsAlive.Add( opponentInstance );
+    }
+
+    public void SpawnOpponent( AOpponentController opponentPrefab, float radius )
+    {
+        Vector3 distance = new Vector3(Mathf.Cos( radius ), Mathf.Sin( radius ));
+        uint padding = GameGrid.Instance.EfficientSide;
+
+        if (_cameraController)
+            padding = _cameraController.Padding;
+
+        distance *= GameGrid.Instance.CellSize * (padding + _spawnPaddingFromScreen);
+
+        Vector3 position = GameGrid.Instance.RealCenter + distance;
+
+        AOpponentController opponentInstance = Instantiate(opponentPrefab, position, Quaternion.identity);
+        // TODO: change every event with sender as first parameter
+        opponentInstance.TriggerDestroy += () =>
+        {
+            _listOpponentsAlive.Remove(opponentInstance);
+            if (_listOpponentsVisible.Contains(opponentInstance))
+                _listOpponentsVisible.Remove(opponentInstance);
+        };
+
+        _listOpponentsAlive.Add(opponentInstance);
     }
 
     public void RegisterOpponent( AOpponentController opponent )
