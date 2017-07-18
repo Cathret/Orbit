@@ -8,10 +8,8 @@ namespace Orbit.Entity.Unit
                              IShootingEntity
     {
         #region Members
-        [SerializeField]
-        private AudioClip _shootClip;
-        
-        [SerializeField]
+         
+        [SerializeField, Header("Shoot Params")]
         private float _shootCooldown = 0.5f;
 
         public float ShootTimer
@@ -36,6 +34,9 @@ namespace Orbit.Entity.Unit
 
         [SerializeField]
         private Projectile _projectileType = null;
+
+        [SerializeField]
+        private AudioClip _shootClip;
 
         [SerializeField]
         private Transform[] _projectileStartPositions = null;

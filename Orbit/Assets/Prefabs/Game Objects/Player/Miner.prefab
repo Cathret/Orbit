@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4672494104491958}
   - component: {fileID: 212891199541429014}
   m_Layer: 0
-  m_Name: Builder_Piston4
+  m_Name: Miner_Piston4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4570573955459538}
   - component: {fileID: 212179522690013758}
   m_Layer: 8
-  m_Name: Cadre_Cell
+  m_Name: Frame_Cell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 4607315620269278}
   - component: {fileID: 212936807880621870}
   m_Layer: 0
-  m_Name: Builder_Piston2
+  m_Name: Miner_Piston2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 4700307046194742}
   - component: {fileID: 212058875107019640}
   m_Layer: 0
-  m_Name: Builder_Piston1
+  m_Name: Miner_Piston1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 50400338282047690}
   - component: {fileID: 95724801386658170}
   m_Layer: 8
-  m_Name: Builder_fond
+  m_Name: Miner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -298,12 +298,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6152caded1f7fe345b03933d19e811ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitClip: {fileID: 0}
+  _deathClip: {fileID: 0}
   _maxHealthPoints: 10
   _deathParSysPrefab: {fileID: 0}
   _basePower: 1
-  _unitName: Builder
+  _unitName: Miner
   _price: 10
-  Head: {fileID: 1462961921616276}
+  Head: {fileID: 0}
   _level: 1
   _awakeParSysPrefab: {fileID: 198261460983053042, guid: 40032ba8ebd4a174a9273dcb879b9744,
     type: 2}
@@ -361,6 +363,7 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212179522690013758
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -401,6 +404,7 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212592064552684472
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -441,6 +445,7 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212804052790827526
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -481,6 +486,7 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212891199541429014
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -521,6 +527,7 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212934458115897510
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -561,6 +568,7 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212936807880621870
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -601,3 +609,4 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

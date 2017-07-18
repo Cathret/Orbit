@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 4619057475948924}
   - component: {fileID: 212877888611148390}
   m_Layer: 0
-  m_Name: Cadre_Cell
+  m_Name: Frame_Cell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -171,6 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a3cbcd5bec08441863509bbabd5025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitClip: {fileID: 0}
+  _deathClip: {fileID: 0}
   _maxHealthPoints: 10
   _deathParSysPrefab: {fileID: 0}
   _basePower: 5
@@ -224,6 +226,7 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212648866204891528
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -264,6 +267,7 @@ SpriteRenderer:
   m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212877888611148390
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -304,3 +308,4 @@ SpriteRenderer:
   m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
