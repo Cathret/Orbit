@@ -5,10 +5,7 @@ namespace Orbit.Entity
     public abstract class ALivingEntity : ABaseEntity
     {
         #region Events
-        public delegate void DelegateTrigger();
-
         public event DelegateTrigger TriggerDeath;
-        public event DelegateTrigger TriggerDestroy;
         public event DelegateTrigger TriggerHit;
 
         public delegate void DelegateUint( uint value );
@@ -18,14 +15,13 @@ namespace Orbit.Entity
         #endregion
 
         #region Music
-
         [SerializeField]
         private AudioClip _hitClip;
 
         [SerializeField]
         private AudioClip _deathClip;
-
         #endregion
+
         #region Members
         public int Hp
         {
@@ -110,14 +106,6 @@ namespace Orbit.Entity
             }
             PlaySound( _deathClip );
             Destroy( gameObject );
-        }
-
-        protected override void OnDestroy()
-        {
-            if ( TriggerDestroy != null )
-                TriggerDestroy();
-
-            base.OnDestroy();
         }
         #endregion
     }
