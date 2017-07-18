@@ -44,6 +44,18 @@ public class HudScript : MonoBehaviour
             _rotateIInvClockWise.onClick.AddListener( GameGrid.Instance.RotateReverseClockwise );     
     }
 
+    void OnDestroy()
+    {
+        if (GameManager.Instance)
+            GameManager.Instance.OnResourcesChange -= UpdateResourcesText;
+
+        if ( WaveManager.Instance )
+        {
+            WaveManager.Instance.RoundChanged -= UpdateRoundText;
+            WaveManager.Instance.OnNewWave -= ShowWarning;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
