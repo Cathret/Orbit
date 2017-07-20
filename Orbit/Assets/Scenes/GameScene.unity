@@ -137,12 +137,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6beb6cc4a8e2bf42828e7b461dc7d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnPlay:
+  OnAttackMode:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  OnPause:
+  OnBuildMode:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
@@ -157,17 +157,17 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  OnAttackMode:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnBuildMode:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
   OnNoneMode:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnPause:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnPlay:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
@@ -259,6 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d16ef43174b3040810230a72505821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cellSize: 0.75
   _defaultCell1: {fileID: 114198844858926180, guid: fac847d2124b2cf46a5de76fbc0beaef,
     type: 2}
   _defaultCell2: {fileID: 114226747854461056, guid: 1c9b0e3fe8b9ad8448b27f2459f4bd3e,
@@ -267,15 +268,14 @@ MonoBehaviour:
     type: 2}
   _defaultCell4: {fileID: 114226747854461056, guid: 1c9b0e3fe8b9ad8448b27f2459f4bd3e,
     type: 2}
-  _side: 500
-  _cellSize: 0.75
   _rotationSpeed: 20
-  OnLayoutChanged:
+  _side: 500
+  OnGridEmpty:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  OnGridEmpty:
+  OnLayoutChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
@@ -493,9 +493,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bf73fb14d2a7f489ff620b4d0d0ca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shakeDuration: 0.3
-  defaultShakeAmount: 0.2
   decreaseFactor: 1
+  defaultShakeAmount: 0.2
+  shakeDuration: 0.3
 --- !u!114 &869216536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -507,13 +507,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d901da9b698fa4489358dc5f68f93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  show: 1
   gridSizeX: 0
   gridSizeY: 0
-  step: 1
+  mainColor: {r: 0, g: 1, b: 0, a: 1}
+  show: 1
   startX: 0
   startY: 0
-  mainColor: {r: 0, g: 1, b: 0, a: 1}
+  step: 1
 --- !u!114 &869216537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,13 +525,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d901da9b698fa4489358dc5f68f93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  show: 0
   gridSizeX: 0
   gridSizeY: 0
-  step: 1
+  mainColor: {r: 0.010488763, g: 0.5969185, b: 0.71323526, a: 1}
+  show: 0
   startX: 0
   startY: 0
-  mainColor: {r: 0.010488763, g: 0.5969185, b: 0.71323526, a: 1}
+  step: 1
 --- !u!1 &1196225948
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,10 +561,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackClip: {fileID: 0}
   _buildClip: {fileID: 0}
-  _pauseClip: {fileID: 0}
   _gameOverClip: {fileID: 0}
-  _soundVolume: 1
   _musicVolume: 1
+  _pauseClip: {fileID: 0}
+  _soundVolume: 1
 --- !u!4 &1196225950
 Transform:
   m_ObjectHideFlags: 0
@@ -808,12 +808,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02cb502c04addb49bca397a1e671c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hudPrefab: {fileID: 1509041421721634, guid: 3a0f95a3884961a48b75676ee3262771, type: 2}
   _buildUiPrefab: {fileID: 1528792064208680, guid: 927ebedacaf913f43be800020801e22c,
     type: 2}
-  _pauseUiPrefab: {fileID: 1886245450777322, guid: 64c509eb4c5f24c4ba540cf03daae7e1,
-    type: 2}
   _gameOverUiPrefab: {fileID: 1020326827632742, guid: eb401d6ea0acc66418f447173854c681,
+    type: 2}
+  _hudPrefab: {fileID: 1509041421721634, guid: 3a0f95a3884961a48b75676ee3262771, type: 2}
+  _pauseUiPrefab: {fileID: 1886245450777322, guid: 64c509eb4c5f24c4ba540cf03daae7e1,
     type: 2}
 --- !u!114 &1737687344
 MonoBehaviour:

@@ -1249,7 +1249,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
 --- !u!1 &880250957
 GameObject:
   m_ObjectHideFlags: 0
@@ -1887,8 +1886,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bloomToggle: {fileID: 2098687790}
-  _soundSlider: {fileID: 1216689863}
   _musicSlider: {fileID: 854033183}
+  _soundSlider: {fileID: 1216689863}
 --- !u!1 &1166149570
 GameObject:
   m_ObjectHideFlags: 0
@@ -3077,10 +3076,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d003159a21cdcbc43b5b68e4cfa11034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainMenuGameObject: {fileID: 2025896875}
-  _optionGameObject: {fileID: 1156010963}
   _creditsGameObject: {fileID: 2064203703}
   _mainMenuButton: {fileID: 854397624}
+  _mainMenuGameObject: {fileID: 2025896875}
+  _optionGameObject: {fileID: 1156010963}
 --- !u!114 &2041803435
 MonoBehaviour:
   m_ObjectHideFlags: 0
